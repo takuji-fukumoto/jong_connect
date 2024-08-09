@@ -36,6 +36,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   envied: ^0.5.4+1
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +51,9 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   build_runner: ^2.4.12
   envied_generator: ^0.5.4+1
+  riverpod_generator: ^2.4.2
+  custom_lint: ^0.6.4
+  riverpod_lint: ^2.3.12
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
