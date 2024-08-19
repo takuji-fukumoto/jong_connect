@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:go_router/go_router.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -33,11 +32,7 @@ class _SignInFormState extends ConsumerState<SignInPage> {
           .signInWithPassword(_formKey.currentState!.value["email"],
               _formKey.currentState!.value["password"]);
       if (authState.session != null && !authState.session!.isExpired) {
-        // TODO: ログイン成功。ホーム画面へ遷移
         print('ログイン成功');
-        // TODO: ここでホーム画面にリダイレクトするようにする
-        // TODO: go_routerのlistenableが反応してない？要確認
-        // context.go("/");
       } else {
         context.showErrorSnackBar(message: unexpectedErrorMessage);
       }
