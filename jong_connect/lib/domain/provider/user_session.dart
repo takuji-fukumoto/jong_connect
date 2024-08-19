@@ -7,6 +7,7 @@ import '../../util/constants.dart';
 
 part 'user_session.g.dart';
 
+// TODO: 不要であればgファイルと一緒に削除する
 @Riverpod(keepAlive: true)
 class UserSession extends _$UserSession {
   late final StreamSubscription<AuthState> _authStateSubscription;
@@ -25,7 +26,8 @@ class UserSession extends _$UserSession {
   }
 
   Future<AuthResponse> loginWithPassword(String email, String password) async {
-    return await supabase.auth.signInWithPassword(password: password, email: email);
+    return await supabase.auth
+        .signInWithPassword(password: password, email: email);
   }
 
   logout() async {

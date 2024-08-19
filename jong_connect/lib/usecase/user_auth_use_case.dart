@@ -20,6 +20,10 @@ class UserAuthUseCase {
     return await supabase.auth.signInAnonymously();
   }
 
+  Future<AuthResponse> signUp(String email, String password) async {
+    return await supabase.auth.signUp(password: password);
+  }
+
   void signOut() async {
     await supabase.auth.signOut();
   }

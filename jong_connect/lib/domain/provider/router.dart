@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:go_router/go_router.dart';
-import 'package:jong_connect/domain/provider/user_session.dart';
 
 import '../../presentation/pages/home_page.dart';
 import '../../presentation/pages/sign_in/sign_in_page.dart';
@@ -15,14 +14,12 @@ final routerProvider = Provider(
     routes: [
       GoRoute(
         path: '/',
-        name: 'home',
         builder: (context, state) =>
             const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
       GoRoute(
         path: '/sign_in',
-        name: 'sign_in',
-        builder: (context, state) => const SignInForm(),
+        builder: (context, state) => const SignInPage(),
       ),
     ],
     errorPageBuilder: (context, state) => MaterialPage(
@@ -35,15 +32,15 @@ final routerProvider = Provider(
     ),
     redirect: (BuildContext context, GoRouterState state) {
       print('リダイレクト発生。fullPath: ${state.fullPath}');
-
-      final session = ref.read(userSessionProvider);
+      final session = ref.read(authStateNotifier).authState?.session;
       print('session user id: ${session?.user.id}');
       if (session == null) {
         return state.fullPath == '/sign_in' ? null : '/sign_in';
       }
 
-      return null;
+      // セッションが存在する & ログインページにいる場合はホームに遷移
+      return state.fullPath == '/sign_in' ? '/' : null;
     },
-    refreshListenable: authStateNotifier,
+    refreshListenable: ref.watch(authStateNotifier),
   ),
 );

@@ -6,7 +6,7 @@ final supabase = Supabase.instance.client;
 
 /// Simple preloader inside a Center widget
 const preloader =
-Center(child: CircularProgressIndicator(color: Colors.orange));
+    Center(child: CircularProgressIndicator(color: Colors.orange));
 
 /// Simple sized box to space out form elements
 const formSpacer = SizedBox(width: 16, height: 16);
@@ -15,7 +15,7 @@ const formSpacer = SizedBox(width: 16, height: 16);
 const formPadding = EdgeInsets.symmetric(vertical: 20, horizontal: 16);
 
 /// Error message to display the user when unexpected error occurs.
-const unexpectedErrorMessage = 'Unexpected error occured.';
+const unexpectedErrorMessage = '不明なエラーが発生しました';
 
 /// Set of extension methods to easily display a snackbar
 extension ShowSnackBar on BuildContext {

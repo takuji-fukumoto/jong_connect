@@ -4,17 +4,21 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../util/constants.dart';
 
+final authStateNotifier = Provider((ref) {
+  return AuthStateNotifier();
+});
 
-class _AuthStateNotifier extends ValueNotifier<AuthState?> {
-  _AuthStateNotifier() : super(null);
-  void change(AuthState? v) => value = v;
+// MEMO: go_routerのrefreshListenableに対応するためやむなくChangeNotifierを利用
+class AuthStateNotifier extends ChangeNotifier {
+  AuthState? authState;
+
+  AuthStateNotifier() {
+    supabase.auth.onAuthStateChange.listen(_updateState);
+  }
+
+  void _updateState(AuthState state) {
+    print('state更新: ${state.session?.user.id}');
+    authState = state;
+    notifyListeners();
+  }
 }
-
-final authStateNotifier = _AuthStateNotifier();
-
-final authProvider = StreamProvider<AuthState>(
-      (ref) {
-    ref.listenSelf((_, v) => authStateNotifier.change(v.value));
-    return supabase.auth.onAuthStateChange;
-  },
-);
