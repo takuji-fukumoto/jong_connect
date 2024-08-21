@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
 import 'package:jong_connect/presentation/pages/sign_up/sign_up_page.dart';
+import 'package:jong_connect/util/routing_path.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:go_router/go_router.dart';
@@ -13,23 +14,23 @@ import 'auth_state.dart';
 
 final routerProvider = Provider(
   (ref) => GoRouter(
-    initialLocation: '/',
+    initialLocation: RoutingPath.home,
     routes: [
       GoRoute(
-        path: '/',
+        path: RoutingPath.home,
         builder: (context, state) =>
             const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
       GoRoute(
-        path: '/sign_in',
+        path: RoutingPath.signIn,
         builder: (context, state) => const SignInPage(),
       ),
       GoRoute(
-        path: '/sign_up',
+        path: RoutingPath.signUp,
         builder: (context, state) => const SignUpPage(),
       ),
       GoRoute(
-        path: '/edit_profile',
+        path: RoutingPath.editProfile,
         builder: (context, state) => const EditProfilePage(),
       ),
     ],
@@ -47,18 +48,19 @@ final routerProvider = Provider(
       print('session user id: ${session?.user.id}');
 
       if (session == null) {
-        return state.fullPath == '/sign_in' || state.fullPath == '/sign_up'
+        return state.fullPath == RoutingPath.signIn ||
+                state.fullPath == RoutingPath.signUp
             ? null
-            : '/sign_in';
+            : RoutingPath.signIn;
       }
       // フレンドIDが設定されていない場合はユーザー設定画面へリダイレクト
       final user = await ref.read(currentUserProvider.future);
       if (user?.friendId == null) {
-        return '/edit_profile';
+        return RoutingPath.editProfile;
       }
 
       // セッションが存在する & ログインページにいる場合はホームに遷移
-      return state.fullPath == '/sign_in' ? '/' : null;
+      return state.fullPath == RoutingPath.signIn ? RoutingPath.home : null;
     },
     refreshListenable: ref.watch(authStateNotifier),
   ),

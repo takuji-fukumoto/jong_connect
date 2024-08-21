@@ -9,6 +9,7 @@ import 'package:jong_connect/domain/provider/current_avatars.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/usecase/register_user_use_case.dart';
 import 'package:jong_connect/util/constants.dart';
+import 'package:jong_connect/util/routing_path.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -47,7 +48,7 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
         return;
       }
 
-      context.go('/');
+      context.go(RoutingPath.home);
     } on AuthException catch (error) {
       context.showErrorSnackBar(message: error.message);
     } catch (error) {

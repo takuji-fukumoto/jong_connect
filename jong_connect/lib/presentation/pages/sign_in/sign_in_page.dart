@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jong_connect/util/constants.dart';
+import 'package:jong_connect/util/routing_path.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -92,7 +93,7 @@ class _SignInFormState extends ConsumerState<SignInPage> {
             ),
             formSpacer,
             TextButton(
-              onPressed: () => context.go('/sign_up'),
+              onPressed: () => context.go(RoutingPath.signUp),
               child: const Text('ユーザー登録'),
             ),
           ],
