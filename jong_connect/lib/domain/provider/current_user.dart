@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:jong_connect/data/app_user_repository_impl.dart';
 import 'package:jong_connect/domain/provider/auth_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../util/constants.dart';
 import '../model/app_user.dart';
 
 part 'current_user.g.dart';
@@ -16,15 +16,5 @@ Future<AppUser?> currentUser(CurrentUserRef ref) async {
     return null;
   }
 
-  final user = await supabase
-      .from('users')
-      .select('id,name,profile,avatar_url')
-      .eq('id', session.user.id)
-      .limit(1);
-
-  if (user.isEmpty) {
-    return null;
-  }
-
-  return AppUser.fromJson(user.first);
+  return await ref.read(appUserRepositoryImplProvider).get(session.user.id);
 }

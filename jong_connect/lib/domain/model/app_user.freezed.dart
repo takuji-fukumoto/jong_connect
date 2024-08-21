@@ -25,6 +25,8 @@ mixin _$AppUser {
   String get profile => throw _privateConstructorUsedError;
   @JsonKey(name: 'avatar_url')
   String get avatarUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'friend_id')
+  String? get friendId => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
 
   /// Serializes this AppUser to a JSON map.
@@ -46,6 +48,7 @@ abstract class $AppUserCopyWith<$Res> {
       String name,
       String profile,
       @JsonKey(name: 'avatar_url') String avatarUrl,
+      @JsonKey(name: 'friend_id') String? friendId,
       String email});
 }
 
@@ -68,6 +71,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? name = null,
     Object? profile = null,
     Object? avatarUrl = null,
+    Object? friendId = freezed,
     Object? email = null,
   }) {
     return _then(_value.copyWith(
@@ -87,6 +91,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      friendId: freezed == friendId
+          ? _value.friendId
+          : friendId // ignore: cast_nullable_to_non_nullable
+              as String?,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -107,6 +115,7 @@ abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       String name,
       String profile,
       @JsonKey(name: 'avatar_url') String avatarUrl,
+      @JsonKey(name: 'friend_id') String? friendId,
       String email});
 }
 
@@ -127,6 +136,7 @@ class __$$AppUserImplCopyWithImpl<$Res>
     Object? name = null,
     Object? profile = null,
     Object? avatarUrl = null,
+    Object? friendId = freezed,
     Object? email = null,
   }) {
     return _then(_$AppUserImpl(
@@ -146,6 +156,10 @@ class __$$AppUserImplCopyWithImpl<$Res>
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      friendId: freezed == friendId
+          ? _value.friendId
+          : friendId // ignore: cast_nullable_to_non_nullable
+              as String?,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -162,6 +176,7 @@ class _$AppUserImpl implements _AppUser {
       required this.name,
       required this.profile,
       @JsonKey(name: 'avatar_url') required this.avatarUrl,
+      @JsonKey(name: 'friend_id') required this.friendId,
       this.email = ""});
 
   factory _$AppUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -177,12 +192,15 @@ class _$AppUserImpl implements _AppUser {
   @JsonKey(name: 'avatar_url')
   final String avatarUrl;
   @override
+  @JsonKey(name: 'friend_id')
+  final String? friendId;
+  @override
   @JsonKey()
   final String email;
 
   @override
   String toString() {
-    return 'AppUser(id: $id, name: $name, profile: $profile, avatarUrl: $avatarUrl, email: $email)';
+    return 'AppUser(id: $id, name: $name, profile: $profile, avatarUrl: $avatarUrl, friendId: $friendId, email: $email)';
   }
 
   @override
@@ -195,13 +213,15 @@ class _$AppUserImpl implements _AppUser {
             (identical(other.profile, profile) || other.profile == profile) &&
             (identical(other.avatarUrl, avatarUrl) ||
                 other.avatarUrl == avatarUrl) &&
+            (identical(other.friendId, friendId) ||
+                other.friendId == friendId) &&
             (identical(other.email, email) || other.email == email));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, name, profile, avatarUrl, email);
+      Object.hash(runtimeType, id, name, profile, avatarUrl, friendId, email);
 
   /// Create a copy of AppUser
   /// with the given fields replaced by the non-null parameter values.
@@ -225,6 +245,7 @@ abstract class _AppUser implements AppUser {
       required final String name,
       required final String profile,
       @JsonKey(name: 'avatar_url') required final String avatarUrl,
+      @JsonKey(name: 'friend_id') required final String? friendId,
       final String email}) = _$AppUserImpl;
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$AppUserImpl.fromJson;
@@ -238,6 +259,9 @@ abstract class _AppUser implements AppUser {
   @override
   @JsonKey(name: 'avatar_url')
   String get avatarUrl;
+  @override
+  @JsonKey(name: 'friend_id')
+  String? get friendId;
   @override
   String get email;
 
