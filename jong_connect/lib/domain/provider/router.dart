@@ -2,34 +2,92 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
+import 'package:jong_connect/presentation/pages/record/record_page.dart';
+import 'package:jong_connect/presentation/pages/rooms/rooms_page.dart';
+import 'package:jong_connect/presentation/pages/settings/settings_page.dart';
 import 'package:jong_connect/presentation/pages/sign_up/sign_up_page.dart';
+import 'package:jong_connect/util/routing_path.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:go_router/go_router.dart';
 
+import '../../presentation/common_widgets/scaffold_with_navigation_bar.dart';
 import '../../presentation/pages/home_page.dart';
 import '../../presentation/pages/sign_in/sign_in_page.dart';
 import 'auth_state.dart';
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final _sectionNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'section');
+
 final routerProvider = Provider(
   (ref) => GoRouter(
-    initialLocation: '/',
-    routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) =>
-            const MyHomePage(title: 'Flutter Demo Home Page'),
+    navigatorKey: _rootNavigatorKey,
+    initialLocation: RoutingPath.home,
+    routes: <RouteBase>[
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return ScaffoldWithNavbar(navigationShell);
+        },
+        branches: [
+          StatefulShellBranch(
+            navigatorKey: _sectionNavigatorKey,
+            routes: [
+              GoRoute(
+                path: RoutingPath.home,
+                builder: (context, state) => const HomePage(),
+                routes: [],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RoutingPath.rooms,
+                builder: (context, state) => const RoomsPage(),
+                routes: [],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RoutingPath.record,
+                builder: (context, state) => const RecordPage(),
+                routes: [],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: RoutingPath.settings,
+                builder: (context, state) => const SettingsPage(),
+                routes: [
+                  GoRoute(
+                    path: 'edit_profile',
+                    builder: (context, state) {
+                      return const EditProfilePage();
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
       GoRoute(
-        path: '/sign_in',
+        parentNavigatorKey: _rootNavigatorKey,
+        path: RoutingPath.signIn,
         builder: (context, state) => const SignInPage(),
       ),
       GoRoute(
-        path: '/sign_up',
+        parentNavigatorKey: _rootNavigatorKey,
+        path: RoutingPath.signUp,
         builder: (context, state) => const SignUpPage(),
       ),
       GoRoute(
-        path: '/edit_profile',
+        parentNavigatorKey: _rootNavigatorKey,
+        path: RoutingPath.editProfile,
         builder: (context, state) => const EditProfilePage(),
       ),
     ],
@@ -47,18 +105,19 @@ final routerProvider = Provider(
       print('session user id: ${session?.user.id}');
 
       if (session == null) {
-        return state.fullPath == '/sign_in' || state.fullPath == '/sign_up'
+        return state.fullPath == RoutingPath.signIn ||
+                state.fullPath == RoutingPath.signUp
             ? null
-            : '/sign_in';
+            : RoutingPath.signIn;
       }
       // フレンドIDが設定されていない場合はユーザー設定画面へリダイレクト
       final user = await ref.read(currentUserProvider.future);
       if (user?.friendId == null) {
-        return '/edit_profile';
+        return RoutingPath.editProfile;
       }
 
       // セッションが存在する & ログインページにいる場合はホームに遷移
-      return state.fullPath == '/sign_in' ? '/' : null;
+      return state.fullPath == RoutingPath.signIn ? RoutingPath.home : null;
     },
     refreshListenable: ref.watch(authStateNotifier),
   ),
