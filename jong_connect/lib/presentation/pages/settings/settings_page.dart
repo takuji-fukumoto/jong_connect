@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/usecase/user_auth_use_case.dart';
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+class SettingsPage extends ConsumerStatefulWidget {
+  const SettingsPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HomePageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _RoomsPageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class _RoomsPageState extends ConsumerState<SettingsPage> {
   int _counter = 0;
 
   void _incrementCounter() {
@@ -23,7 +23,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Home'),
+        title: Text('Settings'),
       ),
       body: Center(
         child: Column(
