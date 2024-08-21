@@ -12,7 +12,7 @@ _$AppUserImpl _$$AppUserImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       profile: json['profile'] as String,
       avatarUrl: json['avatar_url'] as String,
-      friendId: json['friend_id'] as String,
+      friendId: json['friend_id'] as String?,
       email: json['email'] as String? ?? "",
     );
 

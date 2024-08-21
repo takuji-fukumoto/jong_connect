@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jong_connect/domain/provider/current_user.dart';
+import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
+import 'package:jong_connect/presentation/pages/sign_up/sign_up_page.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:go_router/go_router.dart';
@@ -21,6 +24,14 @@ final routerProvider = Provider(
         path: '/sign_in',
         builder: (context, state) => const SignInPage(),
       ),
+      GoRoute(
+        path: '/sign_up',
+        builder: (context, state) => const SignUpPage(),
+      ),
+      GoRoute(
+        path: '/edit_profile',
+        builder: (context, state) => const EditProfilePage(),
+      ),
     ],
     errorPageBuilder: (context, state) => MaterialPage(
       key: state.pageKey,
@@ -30,12 +41,20 @@ final routerProvider = Provider(
         ),
       ),
     ),
-    redirect: (BuildContext context, GoRouterState state) {
+    redirect: (BuildContext context, GoRouterState state) async {
       print('リダイレクト発生。fullPath: ${state.fullPath}');
       final session = ref.read(authStateNotifier).authState?.session;
       print('session user id: ${session?.user.id}');
+
       if (session == null) {
-        return state.fullPath == '/sign_in' ? null : '/sign_in';
+        return state.fullPath == '/sign_in' || state.fullPath == '/sign_up'
+            ? null
+            : '/sign_in';
+      }
+      // フレンドIDが設定されていない場合はユーザー設定画面へリダイレクト
+      final user = await ref.read(currentUserProvider.future);
+      if (user?.friendId == null) {
+        return '/edit_profile';
       }
 
       // セッションが存在する & ログインページにいる場合はホームに遷移

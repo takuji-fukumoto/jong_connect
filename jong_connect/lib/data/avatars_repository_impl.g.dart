@@ -1,25 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_auth_use_case.dart';
+part of 'avatars_repository_impl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userAuthUseCaseHash() => r'9320c351e2b811db1b5fc0f0204184bc90321bdd';
+String _$avatarsRepositoryImplHash() =>
+    r'b6e40d4e19089cb1d6c454a67dfbe66a7821d8f0';
 
-/// See also [userAuthUseCase].
-@ProviderFor(userAuthUseCase)
-final userAuthUseCaseProvider = AutoDisposeProvider<UserAuthUseCase>.internal(
-  userAuthUseCase,
-  name: r'userAuthUseCaseProvider',
+/// See also [avatarsRepositoryImpl].
+@ProviderFor(avatarsRepositoryImpl)
+final avatarsRepositoryImplProvider =
+    AutoDisposeProvider<AvatarsRepositoryImpl>.internal(
+  avatarsRepositoryImpl,
+  name: r'avatarsRepositoryImplProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$userAuthUseCaseHash,
+      : _$avatarsRepositoryImplHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef UserAuthUseCaseRef = AutoDisposeProviderRef<UserAuthUseCase>;
+typedef AvatarsRepositoryImplRef
+    = AutoDisposeProviderRef<AvatarsRepositoryImpl>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

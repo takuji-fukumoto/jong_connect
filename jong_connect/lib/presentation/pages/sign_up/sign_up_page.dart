@@ -2,38 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:go_router/go_router.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../usecase/user_auth_use_case.dart';
 
-class SignInPage extends ConsumerStatefulWidget {
-  const SignInPage({super.key});
+class SignUpPage extends ConsumerStatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SignInFormState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpFormState();
 }
 
-class _SignInFormState extends ConsumerState<SignInPage> {
+class _SignUpFormState extends ConsumerState<SignUpPage> {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
   final _formKey = GlobalKey<FormBuilderState>();
 
-  Future<void> _signIn() async {
+  Future<void> _signUp() async {
     if (!_formKey.currentState!.saveAndValidate()) {
       _btnController.reset();
       return;
     }
 
     try {
-      final authState = await ref
-          .read(userAuthUseCaseProvider)
-          .signInWithPassword(_formKey.currentState!.value["email"],
-              _formKey.currentState!.value["password"]);
+      final authState = await ref.read(userAuthUseCaseProvider).signUp(
+          _formKey.currentState!.value["email"],
+          _formKey.currentState!.value["password"]);
+      // TODO: signUpした瞬間にログインした状態になるのか要確認
       if (authState.session != null && !authState.session!.isExpired) {
-        print('ログイン成功');
+        print('サインアップ成功');
+        // TODO: もしログイン状態にならない場合はここでページ遷移
       } else {
         context.showErrorSnackBar(message: unexpectedErrorMessage);
       }
@@ -51,7 +51,7 @@ class _SignInFormState extends ConsumerState<SignInPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Sign in'),
+        title: const Text('Sign up'),
       ),
       body: FormBuilder(
         key: _formKey,
@@ -87,13 +87,8 @@ class _SignInFormState extends ConsumerState<SignInPage> {
               successIcon: Icons.cloud,
               failedIcon: Icons.cottage,
               controller: _btnController,
-              onPressed: () => _signIn(),
-              child: Text('Sign In', style: TextStyle(color: Colors.white)),
-            ),
-            formSpacer,
-            TextButton(
-              onPressed: () => context.go('/sign_up'),
-              child: const Text('ユーザー登録'),
+              onPressed: _signUp,
+              child: Text('Sign Up', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
