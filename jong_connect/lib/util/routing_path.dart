@@ -1,4 +1,4 @@
-class RoutingPath {
+abstract final class RoutingPath {
   static const String home = '/home';
   static const String signIn = '/sign_in';
   static const String signUp = '/sign_up';

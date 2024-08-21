@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
+abstract final class AppColors {
   static const ivory = Color(0xfff8f4e6);
   static const buckwheat = Color(0xffd4dcd6);
   static const secret = Color(0xffabced8);
