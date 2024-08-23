@@ -1,15 +1,25 @@
 import '../domain/model/app_user.dart';
 
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import 'app_user_repository_impl.dart';
+
+part 'app_user_repository.g.dart';
+
+@riverpod
+AppUserRepository appUserRepository(AppUserRepositoryRef ref) =>
+    AppUserRepositoryImpl();
+
 class AppUserRepository {
-  Future<AppUser?> get(String uuid) async {
+  Future<AppUser?> fetch(String uuid) async {
     throw UnimplementedError();
   }
 
-  Future<void> put(AppUser user) async {
+  Future<AppUser?> fetchFromFriendId(int friendId) async {
     throw UnimplementedError();
   }
 
-  Future<bool> existsFriendId(String friendId) async {
+  Future<void> update(AppUser user) async {
     throw UnimplementedError();
   }
 }

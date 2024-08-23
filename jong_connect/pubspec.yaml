@@ -47,6 +47,8 @@ dependencies:
   rounded_loading_button_plus: ^3.0.1
   async_value_group: ^1.0.1
   cached_network_image: ^3.4.1
+  loading_animation_widget: ^1.2.1
+  hashids2: ^2.0.0
 
 dev_dependencies:
   flutter_test:

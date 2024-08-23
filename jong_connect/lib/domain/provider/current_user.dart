@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:jong_connect/data/app_user_repository_impl.dart';
 import 'package:jong_connect/domain/provider/auth_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../data/app_user_repository.dart';
 import '../model/app_user.dart';
 
 part 'current_user.g.dart';
@@ -17,5 +17,6 @@ Future<AppUser?> currentUser(CurrentUserRef ref) async {
   }
 
   print('current_user更新');
-  return await ref.read(appUserRepositoryImplProvider).get(session.user.id);
+
+  return await ref.read(appUserRepositoryProvider).fetch(session.user.id);
 }

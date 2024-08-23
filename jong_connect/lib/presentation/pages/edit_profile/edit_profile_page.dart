@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/provider/current_avatars.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/usecase/register_user_use_case.dart';
+import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:jong_connect/util/routing_path.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
@@ -25,9 +26,8 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
   final _formKey = GlobalKey<FormBuilderState>();
-  String? _friendIdErrorText = '';
 
-  Future<void> register(bool alreadySetFriendId) async {
+  Future<void> register() async {
     if (!_formKey.currentState!.saveAndValidate()) {
       _btnController.reset();
       return;
@@ -35,18 +35,13 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
 
     try {
       await ref.read(registerUserUseCaseProvider).execute(
-            _formKey.currentState!.value["name"],
-            _formKey.currentState!.value["friendId"],
-            _formKey.currentState!.value["profile"],
-            _formKey.currentState!.value["avatarUrl"],
-          );
+          _formKey.currentState!.value["name"],
+          _formKey.currentState!.value["profile"],
+          _formKey.currentState!.value["avatarUrl"]);
 
       _btnController.success();
-      // ユーザーIDがすでに設定されている場合はpop、新しくユーザーIDが設定された場合はホーム画面に遷移する
-      if (alreadySetFriendId) {
-        context.pop();
-        return;
-      }
+
+      // TODO: 設定画面から変更した場合は一個前の画面に戻る or 設定画面での編集ページは別ページにする
 
       context.go(RoutingPath.home);
     } on AuthException catch (error) {
@@ -82,41 +77,7 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
                   FormBuilderValidators.maxLength(30),
                 ]),
               ),
-              formSpacer,
-              // MEMO: ユーザーIDが設定されていない場合、ユーザーIDの項目を入力できるようにする
-              FormBuilderTextField(
-                name: "friendId",
-                initialValue: t.$1?.friendId,
-                enabled: t.$1?.friendId?.isEmpty ?? true,
-                autovalidateMode: AutovalidateMode.onUnfocus,
-                decoration: InputDecoration(
-                  labelText: 'ユーザーID',
-                  errorText: _friendIdErrorText,
-                ),
-                validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.required(),
-                  FormBuilderValidators.maxLength(30),
-                  // 一意となるようにカスタムバリデーション
-                  (val) {
-                    if (val == null) {
-                      return null;
-                    }
-
-                    ref
-                        .read(registerUserUseCaseProvider)
-                        .existsFriendId(val)
-                        .then(
-                      (exists) {
-                        setState(() {
-                          _friendIdErrorText = exists ? '既に使われているIDです' : null;
-                        });
-                      },
-                    );
-                    return null;
-                  },
-                ]),
-              ),
-              formSpacer,
+              gapH16,
               FormBuilderTextField(
                 name: "profile",
                 initialValue: t.$1?.profile,
@@ -127,7 +88,7 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
                   FormBuilderValidators.maxLength(300),
                 ]),
               ),
-              formSpacer,
+              gapH16,
               FormBuilderChoiceChip<String>(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(labelText: 'アバター'),
@@ -165,13 +126,12 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
                     ),
                 ],
               ),
-              formSpacer,
+              gapH16,
               RoundedLoadingButton(
                 successIcon: Icons.cloud,
                 failedIcon: Icons.cottage,
                 controller: _btnController,
-                onPressed: () async =>
-                    register(t.$1?.friendId?.isNotEmpty ?? false),
+                onPressed: register,
                 child: Text('登録', style: TextStyle(color: Colors.white)),
               ),
             ],

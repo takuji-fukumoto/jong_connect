@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
 import 'package:jong_connect/presentation/pages/record/record_page.dart';
 import 'package:jong_connect/presentation/pages/rooms/rooms_page.dart';
@@ -109,11 +108,6 @@ final routerProvider = Provider(
                 state.fullPath == RoutingPath.signUp
             ? null
             : RoutingPath.signIn;
-      }
-      // フレンドIDが設定されていない場合はユーザー設定画面へリダイレクト
-      final user = await ref.read(currentUserProvider.future);
-      if (user?.friendId == null) {
-        return RoutingPath.editProfile;
       }
 
       // セッションが存在する & ログインページにいる場合はホームに遷移
