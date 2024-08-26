@@ -7,9 +7,9 @@ final supabase = Supabase.instance.client;
 
 /// ハッシュ化用のクライアント
 final hashids = HashIds(
-  salt: 'this is my salt',
+  salt: 'mahjong connects salt',
   minHashLength: 8,
-  alphabet: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
+  alphabet: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789',
 );
 
 /// Simple preloader inside a Center widget
