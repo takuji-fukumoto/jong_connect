@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
+import 'package:jong_connect/presentation/pages/invite_friend/invite_friend_page.dart';
 import 'package:jong_connect/presentation/pages/record/record_page.dart';
 import 'package:jong_connect/presentation/pages/rooms/rooms_page.dart';
 import 'package:jong_connect/presentation/pages/settings/settings_page.dart';
@@ -30,11 +31,18 @@ final routerProvider = Provider(
         branches: [
           StatefulShellBranch(
             navigatorKey: _sectionNavigatorKey,
+            initialLocation: RoutingPath.home,
             routes: [
               GoRoute(
                 path: RoutingPath.home,
-                builder: (context, state) => const HomePage(),
-                routes: [],
+                builder: (context, state) => HomePage(fullPath: state.fullPath),
+                routes: [
+                  GoRoute(
+                    path: RoutingPath.inviteFriend,
+                    builder: (context, state) => const InviteFriendPage(),
+                    routes: [],
+                  ),
+                ],
               ),
             ],
           ),

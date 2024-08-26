@@ -6,4 +6,5 @@ abstract final class RoutingPath {
   static const String rooms = '/rooms';
   static const String record = '/record';
   static const String settings = '/settings';
+  static const String inviteFriend = 'invite_friend';
 }

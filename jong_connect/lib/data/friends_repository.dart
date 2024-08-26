@@ -16,12 +16,15 @@ class FriendsRepository {
     throw UnimplementedError();
   }
 
-  Future<void> sendFriendRequestsFromFriendId(String friendId) async {
+  Future<void> makeFriend(AppUser targetUser) async {
     throw UnimplementedError();
   }
 
-  @override
-  Future<void> makeFriends(AppUser requestedUser, AppUser targetUser) async {
+  Future<void> sendFriendRequestsFromFriendId(int friendId) async {
+    throw UnimplementedError();
+  }
+
+  Future<void> acceptFriendRequest(AppUser requestedUser) async {
     throw UnimplementedError();
   }
 }

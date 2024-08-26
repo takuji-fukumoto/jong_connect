@@ -3,7 +3,9 @@ import 'package:jong_connect/presentation/pages/home/friends_list_section.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, this.fullPath});
+
+  final String? fullPath;
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +15,9 @@ class HomePage extends StatelessWidget {
           title: const Text('ホーム'),
         ),
         body: ListView(
-          children: const [
-            Text('aaaaa'),
-            gapH16,
-            FriendsListSection(),
-            gapH16,
-            Text('bbbb'),
+          padding: paddingV20H16,
+          children: [
+            FriendsListSection(fullPath: fullPath),
           ],
         ));
   }

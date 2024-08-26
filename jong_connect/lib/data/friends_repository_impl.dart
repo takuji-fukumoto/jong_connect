@@ -17,17 +17,29 @@ class FriendsRepositoryImpl implements FriendsRepository {
   }
 
   @override
-  Future<void> sendFriendRequestsFromFriendId(String friendId) async {
-    // TODO: rpcでリクエスト送信
+  Future<void> makeFriend(AppUser targetUser) async {
+    await supabase.rpc('make_friend', params: {
+      'requested_user_id': targetUser.id,
+      'requested_user_friend_id': targetUser.friendId,
+    });
   }
 
   @override
-  Future<void> makeFriends(AppUser requestedUser, AppUser targetUser) async {
-    // TODO: rpcでフレンド関係構築する
-    await supabase.from('user_friend_requests').upsert({
-      'user_id': requestedUser.id,
-      'target_user_id': targetUser.id,
-      'status': 'pending',
+  Future<void> sendFriendRequestsFromFriendId(int friendId) async {
+    final response = await supabase.rpc('send_friend_request', params: {
+      'target_friend_id': friendId,
     });
+
+    print('send friend request response: $response');
+  }
+
+  @override
+  Future<void> acceptFriendRequest(AppUser requestedUser) async {
+    final response = await supabase.rpc('accept_friend_request', params: {
+      'requested_user_id': requestedUser.id,
+      'requested_user_friend_id': requestedUser.friendId,
+    });
+
+    print('accept friend request response: $response');
   }
 }
