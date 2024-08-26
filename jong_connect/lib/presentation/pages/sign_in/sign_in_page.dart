@@ -9,6 +9,7 @@ import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../usecase/user_auth_use_case.dart';
+import '../../../util/app_sizes.dart';
 
 class SignInPage extends ConsumerStatefulWidget {
   const SignInPage({super.key});
@@ -68,7 +69,7 @@ class _SignInFormState extends ConsumerState<SignInPage> {
                 FormBuilderValidators.email(),
               ]),
             ),
-            formSpacer,
+            gapH16,
             FormBuilderTextField(
               name: "password",
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -83,7 +84,7 @@ class _SignInFormState extends ConsumerState<SignInPage> {
                 ),
               ]),
             ),
-            formSpacer,
+            gapH16,
             RoundedLoadingButton(
               successIcon: Icons.cloud,
               failedIcon: Icons.cottage,
@@ -91,7 +92,7 @@ class _SignInFormState extends ConsumerState<SignInPage> {
               onPressed: () => _signIn(),
               child: Text('Sign In', style: TextStyle(color: Colors.white)),
             ),
-            formSpacer,
+            gapH16,
             TextButton(
               onPressed: () => context.go(RoutingPath.signUp),
               child: const Text('ユーザー登録'),

@@ -35,7 +35,7 @@ class UserAuthUseCase {
 
   void deleteUser() async {
     throw UnimplementedError();
-    final user = _ref.read(authStateNotifier).authState?.session?.user;
+    final user = _ref.read(authStateNotifierProvider).authState?.session?.user;
     if (user == null) {
       throw Exception('ユーザー情報の取得に失敗しました');
     }

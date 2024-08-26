@@ -4,7 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../util/constants.dart';
 
-final authStateNotifier = Provider((ref) {
+final authStateNotifierProvider = Provider((ref) {
   return AuthStateNotifier();
 });
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
+import 'package:jong_connect/presentation/pages/invite_friend/invite_friend_page.dart';
 import 'package:jong_connect/presentation/pages/record/record_page.dart';
 import 'package:jong_connect/presentation/pages/rooms/rooms_page.dart';
 import 'package:jong_connect/presentation/pages/settings/settings_page.dart';
@@ -12,7 +12,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../presentation/common_widgets/scaffold_with_navigation_bar.dart';
-import '../../presentation/pages/home_page.dart';
+import '../../presentation/pages/home/home_page.dart';
 import '../../presentation/pages/sign_in/sign_in_page.dart';
 import 'auth_state.dart';
 
@@ -31,11 +31,18 @@ final routerProvider = Provider(
         branches: [
           StatefulShellBranch(
             navigatorKey: _sectionNavigatorKey,
+            initialLocation: RoutingPath.home,
             routes: [
               GoRoute(
                 path: RoutingPath.home,
-                builder: (context, state) => const HomePage(),
-                routes: [],
+                builder: (context, state) => HomePage(fullPath: state.fullPath),
+                routes: [
+                  GoRoute(
+                    path: RoutingPath.inviteFriend,
+                    builder: (context, state) => const InviteFriendPage(),
+                    routes: [],
+                  ),
+                ],
               ),
             ],
           ),
@@ -101,7 +108,7 @@ final routerProvider = Provider(
     ),
     redirect: (BuildContext context, GoRouterState state) async {
       print('リダイレクト発生。fullPath: ${state.fullPath}');
-      final session = ref.read(authStateNotifier).authState?.session;
+      final session = ref.read(authStateNotifierProvider).authState?.session;
       print('session user id: ${session?.user.id}');
 
       if (session == null) {
@@ -110,15 +117,10 @@ final routerProvider = Provider(
             ? null
             : RoutingPath.signIn;
       }
-      // フレンドIDが設定されていない場合はユーザー設定画面へリダイレクト
-      final user = await ref.read(currentUserProvider.future);
-      if (user?.friendId == null) {
-        return RoutingPath.editProfile;
-      }
 
       // セッションが存在する & ログインページにいる場合はホームに遷移
       return state.fullPath == RoutingPath.signIn ? RoutingPath.home : null;
     },
-    refreshListenable: ref.watch(authStateNotifier),
+    refreshListenable: ref.watch(authStateNotifierProvider),
   ),
 );
