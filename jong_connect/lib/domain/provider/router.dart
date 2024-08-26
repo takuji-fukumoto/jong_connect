@@ -11,7 +11,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../presentation/common_widgets/scaffold_with_navigation_bar.dart';
-import '../../presentation/pages/home_page.dart';
+import '../../presentation/pages/home/home_page.dart';
 import '../../presentation/pages/sign_in/sign_in_page.dart';
 import 'auth_state.dart';
 
@@ -100,7 +100,7 @@ final routerProvider = Provider(
     ),
     redirect: (BuildContext context, GoRouterState state) async {
       print('リダイレクト発生。fullPath: ${state.fullPath}');
-      final session = ref.read(authStateNotifier).authState?.session;
+      final session = ref.read(authStateNotifierProvider).authState?.session;
       print('session user id: ${session?.user.id}');
 
       if (session == null) {
@@ -113,6 +113,6 @@ final routerProvider = Provider(
       // セッションが存在する & ログインページにいる場合はホームに遷移
       return state.fullPath == RoutingPath.signIn ? RoutingPath.home : null;
     },
-    refreshListenable: ref.watch(authStateNotifier),
+    refreshListenable: ref.watch(authStateNotifierProvider),
   ),
 );

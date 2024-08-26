@@ -5,18 +5,25 @@ import '../util/constants.dart';
 
 class FriendsRepositoryImpl implements FriendsRepository {
   @override
-  Future<void> sendFriendRequests(
-      AppUser requestedUser, AppUser targetUser) async {
-    await supabase.from('user_friend_requests').upsert({
-      'user_id': requestedUser.id,
-      'target_user_id': targetUser.id,
-      'status': 'pending',
-    });
+  Future<List<AppUser>> fetch() async {
+    final friends = await supabase.rpc('fetch_friends');
+
+    print('friends: $friends');
+    if (friends == null) {
+      return [];
+    }
+
+    return friends.map<AppUser>((json) => AppUser.fromJson(json)).toList();
+  }
+
+  @override
+  Future<void> sendFriendRequestsFromFriendId(String friendId) async {
+    // TODO: rpcでリクエスト送信
   }
 
   @override
   Future<void> makeFriends(AppUser requestedUser, AppUser targetUser) async {
-    // TODO: rgcでフレンド関係構築する
+    // TODO: rpcでフレンド関係構築する
     await supabase.from('user_friend_requests').upsert({
       'user_id': requestedUser.id,
       'target_user_id': targetUser.id,

@@ -18,6 +18,8 @@ class RequestFriendUseCase {
   RequestFriendUseCase(this._ref);
 
   Future<void> sendRequest(String hashedFriendId) async {
+    // TODO: 既にフレンド関係の場合例外吐く
+
     // TODO: ハッシュでコード
     final friendId = hashids.decode(hashedFriendId);
     // TODO: フレンドIDでユーザー検索

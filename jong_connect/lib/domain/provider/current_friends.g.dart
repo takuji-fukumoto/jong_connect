@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'current_avatars.dart';
+part of 'current_friends.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentAvatarsHash() => r'90f5003ee8be7ee932cfee6cb36d13d2c1008acd';
+String _$currentFriendsHash() => r'e392bf9842b34ff3ba3c68b2e5fdaa506259cc6b';
 
-/// See also [currentAvatars].
-@ProviderFor(currentAvatars)
-final currentAvatarsProvider = FutureProvider<List<Avatar>>.internal(
-  currentAvatars,
-  name: r'currentAvatarsProvider',
+/// See also [currentFriends].
+@ProviderFor(currentFriends)
+final currentFriendsProvider = FutureProvider<List<AppUser>>.internal(
+  currentFriends,
+  name: r'currentFriendsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$currentAvatarsHash,
+      : _$currentFriendsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef CurrentAvatarsRef = FutureProviderRef<List<Avatar>>;
+typedef CurrentFriendsRef = FutureProviderRef<List<AppUser>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

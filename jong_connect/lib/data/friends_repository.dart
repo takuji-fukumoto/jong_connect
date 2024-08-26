@@ -1,3 +1,4 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jong_connect/domain/model/app_user.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,8 +12,11 @@ FriendsRepository friendsRepository(FriendsRepositoryRef ref) =>
     FriendsRepositoryImpl();
 
 class FriendsRepository {
-  Future<void> sendFriendRequests(
-      AppUser requestedUser, AppUser targetUser) async {
+  Future<List<AppUser>> fetch() async {
+    throw UnimplementedError();
+  }
+
+  Future<void> sendFriendRequestsFromFriendId(String friendId) async {
     throw UnimplementedError();
   }
 

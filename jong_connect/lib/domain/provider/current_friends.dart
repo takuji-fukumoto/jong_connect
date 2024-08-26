@@ -1,21 +1,22 @@
 import 'dart:async';
 
+import 'package:jong_connect/data/friends_repository.dart';
 import 'package:jong_connect/domain/provider/user_session.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../data/app_user_repository.dart';
 import '../model/app_user.dart';
 
-part 'current_user.g.dart';
+part 'current_friends.g.dart';
 
 @Riverpod(keepAlive: true)
-Future<AppUser?> currentUser(CurrentUserRef ref) async {
+Future<List<AppUser>> currentFriends(CurrentFriendsRef ref) async {
   final session = ref.watch(userSessionProvider);
   if (session == null) {
-    return null;
+    return [];
   }
 
-  print('current_user更新');
+  print('current_friends更新');
+  final friends = await ref.read(friendsRepositoryProvider).fetch();
 
-  return await ref.read(appUserRepositoryProvider).fetch(session.user.id);
+  return friends;
 }
