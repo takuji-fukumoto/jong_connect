@@ -1,3 +1,4 @@
+import 'package:jong_connect/domain/model/app_user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/model/group.dart';
@@ -10,7 +11,11 @@ GroupsRepository groupsRepository(GroupsRepositoryRef ref) =>
     GroupsRepositoryImpl();
 
 class GroupsRepository {
-  Future<List<Group>> index() async {
+  Future<List<Group>> getGroups() async {
+    throw UnimplementedError();
+  }
+
+  Stream<List<Group>> getGroupsStream() async* {
     throw UnimplementedError();
   }
 
@@ -18,7 +23,8 @@ class GroupsRepository {
     throw UnimplementedError();
   }
 
-  Future<int> create(String name, String description) async {
+  Future<int> create(
+      String name, String description, List<AppUser> joinUsers) async {
     throw UnimplementedError();
   }
 

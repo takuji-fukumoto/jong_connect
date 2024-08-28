@@ -23,6 +23,8 @@ mixin _$Group {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_joinned_groups')
+  List<UserJoinedGroup>? get joinedUsers => throw _privateConstructorUsedError;
 
   /// Serializes this Group to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +40,12 @@ abstract class $GroupCopyWith<$Res> {
   factory $GroupCopyWith(Group value, $Res Function(Group) then) =
       _$GroupCopyWithImpl<$Res, Group>;
   @useResult
-  $Res call({int id, String name, String description});
+  $Res call(
+      {int id,
+      String name,
+      String description,
+      @JsonKey(name: 'user_joinned_groups')
+      List<UserJoinedGroup>? joinedUsers});
 }
 
 /// @nodoc
@@ -59,6 +66,7 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
     Object? id = null,
     Object? name = null,
     Object? description = null,
+    Object? joinedUsers = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -73,6 +81,10 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      joinedUsers: freezed == joinedUsers
+          ? _value.joinedUsers
+          : joinedUsers // ignore: cast_nullable_to_non_nullable
+              as List<UserJoinedGroup>?,
     ) as $Val);
   }
 }
@@ -84,7 +96,12 @@ abstract class _$$GroupImplCopyWith<$Res> implements $GroupCopyWith<$Res> {
       __$$GroupImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, String description});
+  $Res call(
+      {int id,
+      String name,
+      String description,
+      @JsonKey(name: 'user_joinned_groups')
+      List<UserJoinedGroup>? joinedUsers});
 }
 
 /// @nodoc
@@ -103,6 +120,7 @@ class __$$GroupImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? description = null,
+    Object? joinedUsers = freezed,
   }) {
     return _then(_$GroupImpl(
       id: null == id
@@ -117,15 +135,25 @@ class __$$GroupImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      joinedUsers: freezed == joinedUsers
+          ? _value._joinedUsers
+          : joinedUsers // ignore: cast_nullable_to_non_nullable
+              as List<UserJoinedGroup>?,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$GroupImpl implements _Group {
   const _$GroupImpl(
-      {required this.id, required this.name, required this.description});
+      {required this.id,
+      required this.name,
+      required this.description,
+      @JsonKey(name: 'user_joinned_groups')
+      final List<UserJoinedGroup>? joinedUsers})
+      : _joinedUsers = joinedUsers;
 
   factory _$GroupImpl.fromJson(Map<String, dynamic> json) =>
       _$$GroupImplFromJson(json);
@@ -136,10 +164,20 @@ class _$GroupImpl implements _Group {
   final String name;
   @override
   final String description;
+  final List<UserJoinedGroup>? _joinedUsers;
+  @override
+  @JsonKey(name: 'user_joinned_groups')
+  List<UserJoinedGroup>? get joinedUsers {
+    final value = _joinedUsers;
+    if (value == null) return null;
+    if (_joinedUsers is EqualUnmodifiableListView) return _joinedUsers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'Group(id: $id, name: $name, description: $description)';
+    return 'Group(id: $id, name: $name, description: $description, joinedUsers: $joinedUsers)';
   }
 
   @override
@@ -150,12 +188,15 @@ class _$GroupImpl implements _Group {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            const DeepCollectionEquality()
+                .equals(other._joinedUsers, _joinedUsers));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, description);
+  int get hashCode => Object.hash(runtimeType, id, name, description,
+      const DeepCollectionEquality().hash(_joinedUsers));
 
   /// Create a copy of Group
   /// with the given fields replaced by the non-null parameter values.
@@ -177,7 +218,9 @@ abstract class _Group implements Group {
   const factory _Group(
       {required final int id,
       required final String name,
-      required final String description}) = _$GroupImpl;
+      required final String description,
+      @JsonKey(name: 'user_joinned_groups')
+      final List<UserJoinedGroup>? joinedUsers}) = _$GroupImpl;
 
   factory _Group.fromJson(Map<String, dynamic> json) = _$GroupImpl.fromJson;
 
@@ -187,6 +230,9 @@ abstract class _Group implements Group {
   String get name;
   @override
   String get description;
+  @override
+  @JsonKey(name: 'user_joinned_groups')
+  List<UserJoinedGroup>? get joinedUsers;
 
   /// Create a copy of Group
   /// with the given fields replaced by the non-null parameter values.

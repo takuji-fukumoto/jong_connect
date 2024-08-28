@@ -8,6 +8,7 @@ import '../model/app_user.dart';
 
 part 'current_friends.g.dart';
 
+// TODO: stream providerにしてリアルタイム取得する
 @Riverpod(keepAlive: true)
 Future<List<AppUser>> currentFriends(CurrentFriendsRef ref) async {
   final session = ref.watch(userSessionProvider);
