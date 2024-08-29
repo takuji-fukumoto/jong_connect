@@ -86,7 +86,7 @@ class _SignInFormState extends ConsumerState<SignInPage> {
             ),
             gapH16,
             RoundedLoadingButton(
-              successIcon: Icons.cloud,
+              successIcon: Icons.check,
               failedIcon: Icons.cottage,
               controller: _btnController,
               onPressed: () => _signIn(),

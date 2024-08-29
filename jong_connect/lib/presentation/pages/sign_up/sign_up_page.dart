@@ -89,7 +89,7 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
             ),
             gapH16,
             RoundedLoadingButton(
-              successIcon: Icons.cloud,
+              successIcon: Icons.check,
               failedIcon: Icons.cottage,
               controller: _btnController,
               onPressed: _signUp,

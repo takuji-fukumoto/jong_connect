@@ -104,10 +104,11 @@ class _CreateGroupFormState extends ConsumerState<CreateGroupPage> {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(labelText: 'グループ説明'),
                 validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.maxLength(300),
+                  FormBuilderValidators.maxLength(300, checkNullOrEmpty: false),
                 ]),
               ),
               gapH16,
+              // TODO: グループのアバターを選択できるようにする
               // FormBuilderChoiceChip<String>(
               //   autovalidateMode: AutovalidateMode.onUserInteraction,
               //   decoration: const InputDecoration(labelText: 'アバター'),
@@ -164,7 +165,7 @@ class _CreateGroupFormState extends ConsumerState<CreateGroupPage> {
               ),
               gapH16,
               RoundedLoadingButton(
-                successIcon: Icons.cloud,
+                successIcon: Icons.check,
                 failedIcon: Icons.cottage,
                 controller: _btnController,
                 onPressed: createGroup,
