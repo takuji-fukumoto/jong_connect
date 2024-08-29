@@ -22,6 +22,9 @@ const formPadding = EdgeInsets.symmetric(vertical: 20, horizontal: 16);
 /// Error message to display the user when unexpected error occurs.
 const unexpectedErrorMessage = '不明なエラーが発生しました';
 
+const unknownUserIcon = Icon(Icons.account_circle);
+const unknownGroupIcon = Icon(Icons.groups);
+
 /// Set of extension methods to easily display a snackbar
 extension ShowSnackBar on BuildContext {
   /// Displays a basic snackbar

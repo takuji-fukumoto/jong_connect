@@ -8,7 +8,6 @@ class FriendsRepositoryImpl implements FriendsRepository {
   Future<List<AppUser>> fetch() async {
     final friends = await supabase.rpc('fetch_friends');
 
-    print('friends: $friends');
     if (friends == null) {
       return [];
     }

@@ -11,7 +11,7 @@ GroupsRepository groupsRepository(GroupsRepositoryRef ref) =>
     GroupsRepositoryImpl();
 
 class GroupsRepository {
-  Future<List<Group>> getGroups() async {
+  Future<List<Group>> getGroupDetail(int groupId) async {
     throw UnimplementedError();
   }
 

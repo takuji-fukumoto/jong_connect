@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jong_connect/presentation/pages/create_group/create_group_page.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
 import 'package:jong_connect/presentation/pages/invite_friend/invite_friend_page.dart';
 import 'package:jong_connect/presentation/pages/record/record_page.dart';
@@ -50,8 +51,15 @@ final routerProvider = Provider(
             routes: [
               GoRoute(
                 path: RoutingPath.rooms,
-                builder: (context, state) => const RoomsPage(),
-                routes: [],
+                builder: (context, state) =>
+                    RoomsPage(fullPath: state.fullPath),
+                routes: [
+                  GoRoute(
+                    path: RoutingPath.createGroup,
+                    builder: (context, state) => const CreateGroupPage(),
+                    routes: [],
+                  ),
+                ],
               ),
             ],
           ),

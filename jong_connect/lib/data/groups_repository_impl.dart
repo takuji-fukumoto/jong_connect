@@ -5,7 +5,7 @@ import 'groups_repository.dart';
 
 class GroupsRepositoryImpl implements GroupsRepository {
   @override
-  Future<List<Group>> getGroups() async {
+  Future<List<Group>> getGroupDetail(int groupId) async {
     final json = await supabase.from('groups').select('''
       id, 
       name, 
@@ -21,7 +21,6 @@ class GroupsRepositoryImpl implements GroupsRepository {
       )
     ''');
 
-    print('group: $json');
     if (json.isEmpty) {
       return [];
     }
@@ -32,30 +31,41 @@ class GroupsRepositoryImpl implements GroupsRepository {
   @override
   Stream<List<Group>> getGroupsStream() {
     // TODO: グループの更新が新しい順に並べる
-    return supabase
-        .from('chat_messages')
-        // .select('''
-        //   id,
-        //   name,
-        //   description,
-        //   user_joinned_groups (
-        //     users (
-        //       id,
-        //       name,
-        //       profile,
-        //       avatar_url,
-        //       friend_id
-        //     )
-        //   )
-        // ''')
-        .stream(primaryKey: ['id'])
+    return supabase.from('groups').stream(primaryKey: ['id'])
         // .order('updated_at', ascending: true)
         .map((events) {
       for (var i = 0; i < events.length; i++) {
+        print('$i番目のevent');
         print(events[i]);
       }
       return events.map<Group>((json) => Group.fromJson(json)).toList();
     });
+
+    //FIXME: 現状selectとstreamは組み合わせできず、streamの場合は単一テーブルしか取得できない。今後もしかしたら対応してくれるかも？
+    // return supabase
+    //     .from('groups')
+    //     // .select('''
+    //     //   id,
+    //     //   name,
+    //     //   description,
+    //     //   user_joinned_groups (
+    //     //     users (
+    //     //       id,
+    //     //       name,
+    //     //       profile,
+    //     //       avatar_url,
+    //     //       friend_id
+    //     //     )
+    //     //   )
+    //     // ''')
+    //     .asStream()
+    //     // .order('updated_at', ascending: true)
+    //     .map((events) {
+    //   for (var i = 0; i < events.length; i++) {
+    //     print(events[i]);
+    //   }
+    //   return events.map<Group>((json) => Group.fromJson(json)).toList();
+    // });
   }
 
   @override

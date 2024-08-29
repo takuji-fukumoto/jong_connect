@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../usecase/user_auth_use_case.dart';
+import '../../../util/routing_path.dart';
 
 class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({super.key});
@@ -34,7 +36,9 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
       // TODO: signUpした瞬間にログインした状態になるのか要確認
       if (authState.session != null && !authState.session!.isExpired) {
         print('サインアップ成功');
-        // TODO: もしログイン状態にならない場合はここでページ遷移
+        _btnController.success();
+        await Future.delayed(const Duration(seconds: 1));
+        context.go(RoutingPath.editProfile);
       } else {
         context.showErrorSnackBar(message: unexpectedErrorMessage);
       }
