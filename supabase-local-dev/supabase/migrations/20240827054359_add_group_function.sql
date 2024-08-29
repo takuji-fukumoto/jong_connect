@@ -1,7 +1,7 @@
-create trigger on_auth_user_created
+create or replace trigger on_auth_user_created
     after insert on auth.users
     for each row
-    execute function handle_new_user();
+    execute function "public"."handle_new_user"();
 
 ALTER TABLE ONLY "public"."user_joinned_groups"
   ADD CONSTRAINT "user_joinned_groups_user_id_and_group_id_key" UNIQUE ("user_id", "group_id");

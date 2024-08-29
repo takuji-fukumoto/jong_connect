@@ -56,14 +56,6 @@ SET
 where
   id = '123e4567-e89b-12d3-a456-426614174003';
 
-
--- INSERT INTO "public"."users" ("id", "name", "profile", "friend_id", "avatar_url") 
--- VALUES 
---   ('123e4567-e89b-12d3-a456-426614174000', 'test user001', 'hello', 101, 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/01.png'),
---   ('123e4567-e89b-12d3-a456-426614174001', 'test user002', 'onaka suita', 102, 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/02.png'),
---   ('123e4567-e89b-12d3-a456-426614174002', 'test user003', 'osushi', 103, 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/03.png'),
---   ('123e4567-e89b-12d3-a456-426614174003', 'test user004', 'aaaaaaaaaaaaaa', 104, 'aaaaa');
-
 INSERT INTO "public"."friends" ("user_id", "friend_id") 
 VALUES 
   ('123e4567-e89b-12d3-a456-426614174000', 102),
