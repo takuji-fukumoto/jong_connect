@@ -81,7 +81,7 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
               RoundedLoadingButton(
                 height: 40,
                 width: 50,
-                successIcon: Icons.cloud,
+                successIcon: Icons.check,
                 failedIcon: Icons.cottage,
                 controller: _btnController,
                 onPressed: () => _addFriend(),

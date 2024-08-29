@@ -14,18 +14,47 @@ create_user AS (
 INSERT INTO auth.identities (id, provider_id, user_id, identity_data, provider, last_sign_in_at, created_at, updated_at)
   SELECT gen_random_uuid(), id, id, json_build_object('sub', id), 'email', NOW(), NOW(), NOW() FROM create_user;
 
-INSERT INTO "public"."users" ("id", "name", "profile", "friend_id") 
-VALUES 
-  ('123e4567-e89b-12d3-a456-426614174000', 'test user001', 'hello', 1),
-  ('123e4567-e89b-12d3-a456-426614174001', 'test user002', 'onaka suita', 2),
-  ('123e4567-e89b-12d3-a456-426614174002', 'test user003', 'osushi', 3),
-  ('123e4567-e89b-12d3-a456-426614174003', 'test user004', 'aaaaaaaaaaaaaa', 4);
-
-INSERT INTO "public"."avatars" ("id", "created_at", "url")
+INSERT INTO "public"."avatars" ("created_at", "url")
 VALUES
-    ('1', '2024-08-20 07:02:20.378184+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/01.png'), 
-    ('2', '2024-08-20 07:02:46.171755+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/02.png'), 
-    ('3', '2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/03.png');
+    ('2024-08-20 07:02:20.378184+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/01.png'), 
+    ('2024-08-20 07:02:46.171755+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/02.png'), 
+    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/03.png');
+
+UPDATE "public"."users"
+SET
+  "name" = 'user001',
+  "profile" = 'hello',
+  "friend_id" = 1,
+  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/01.png'
+where
+  id = '123e4567-e89b-12d3-a456-426614174000';
+
+UPDATE "public"."users"
+SET
+  "name" = 'user002',
+  "profile" = 'onakasuita',
+  "friend_id" = 2,
+  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/02.png'
+where
+  id = '123e4567-e89b-12d3-a456-426614174001';
+
+UPDATE "public"."users"
+SET
+  "name" = 'user003',
+  "profile" = 'osushi',
+  "friend_id" = 3,
+  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/03.png'
+where
+  id = '123e4567-e89b-12d3-a456-426614174002';
+
+UPDATE "public"."users"
+SET
+  "name" = 'user004',
+  "profile" = 'aaaaa',
+  "friend_id" = 4,
+  "avatar_url" = 'aaaaa'
+where
+  id = '123e4567-e89b-12d3-a456-426614174003';
 
 INSERT INTO "public"."friends" ("user_id", "friend_id") 
 VALUES 
@@ -35,3 +64,15 @@ VALUES
   ('123e4567-e89b-12d3-a456-426614174001', 1),
   ('123e4567-e89b-12d3-a456-426614174002', 1),
   ('123e4567-e89b-12d3-a456-426614174003', 1);
+
+INSERT INTO "public"."groups" ("id", "name", "description") 
+VALUES 
+  (101, '雀魂サー', 'いつものやつです');
+
+INSERT INTO "public"."user_joinned_groups" ("user_id", "group_id") 
+VALUES 
+  ('123e4567-e89b-12d3-a456-426614174000', 101),
+  ('123e4567-e89b-12d3-a456-426614174001', 101),
+  ('123e4567-e89b-12d3-a456-426614174002', 101),
+  ('123e4567-e89b-12d3-a456-426614174003', 101);
+

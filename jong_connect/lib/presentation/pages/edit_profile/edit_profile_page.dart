@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:async_value_group/async_value_group.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -40,9 +41,20 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
           _formKey.currentState!.value["avatarUrl"]);
 
       _btnController.success();
+      Flushbar(
+        message: 'ユーザー情報を更新しました',
+        icon: const Icon(
+          Icons.check_circle,
+          color: Colors.greenAccent,
+        ),
+        duration: const Duration(seconds: 1),
+        margin: const EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(8),
+      ).show(context);
+
+      await Future.delayed(const Duration(seconds: 1));
 
       // TODO: 設定画面から変更した場合は一個前の画面に戻る or 設定画面での編集ページは別ページにする
-
       context.go(RoutingPath.home);
     } on AuthException catch (error) {
       context.showErrorSnackBar(message: error.message);
@@ -128,7 +140,7 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
               ),
               gapH16,
               RoundedLoadingButton(
-                successIcon: Icons.cloud,
+                successIcon: Icons.check,
                 failedIcon: Icons.cottage,
                 controller: _btnController,
                 onPressed: register,
