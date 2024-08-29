@@ -147,7 +147,7 @@ class _CreateGroupFormState extends ConsumerState<CreateGroupPage> {
               //   ],
               // ),
               // gapH16,
-              FormBuilderCheckboxGroup<AppUser>(
+              FormBuilderFilterChip<AppUser>(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(labelText: '参加者'),
                 name: 'joinUsers',
@@ -155,12 +155,17 @@ class _CreateGroupFormState extends ConsumerState<CreateGroupPage> {
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                 ]),
+                showCheckmark: false,
                 options: [
-                  FormBuilderFieldOption(
-                      value: t.$1!, child: UserSectionItem(user: t.$1!)),
+                  FormBuilderChipOption(
+                    value: t.$1!,
+                    child: UserSectionItem(user: t.$1!),
+                  ),
                   for (final friend in t.$2)
-                    FormBuilderFieldOption(
-                        value: friend, child: UserSectionItem(user: friend)),
+                    FormBuilderChipOption(
+                      value: friend,
+                      child: UserSectionItem(user: friend),
+                    ),
                 ],
               ),
               gapH16,
