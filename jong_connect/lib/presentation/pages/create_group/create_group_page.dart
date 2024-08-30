@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:async_value_group/async_value_group.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,6 +40,7 @@ class _CreateGroupFormState extends ConsumerState<CreateGroupPage> {
       await ref.read(createGroupUseCaseProvider).execute(
           name: _formKey.currentState!.value["name"],
           description: _formKey.currentState!.value["description"] ?? '',
+          imageUrl: _formKey.currentState!.value["imageUrl"],
           joinUsers: _formKey.currentState!.value["joinUsers"]);
 
       _btnController.success();
@@ -109,44 +111,41 @@ class _CreateGroupFormState extends ConsumerState<CreateGroupPage> {
               ),
               gapH16,
               // TODO: グループのアバターを選択できるようにする
-              // FormBuilderChoiceChip<String>(
-              //   autovalidateMode: AutovalidateMode.onUserInteraction,
-              //   decoration: const InputDecoration(labelText: 'アバター'),
-              //   name: 'avatarUrl',
-              //   initialValue: '',
-              //   validator: FormBuilderValidators.compose([
-              //     FormBuilderValidators.required(),
-              //   ]),
-              //   options: [
-              //     for (final avatar in t.$2)
-              //       FormBuilderChipOption(
-              //         value: avatar.url,
-              //         avatar: CircleAvatar(
-              //           minRadius: 20,
-              //           maxRadius: 40,
-              //           child: CachedNetworkImage(
-              //             imageUrl: avatar.url,
-              //             imageBuilder: (context, imageProvider) => Container(
-              //               decoration: BoxDecoration(
-              //                 image: DecorationImage(
-              //                   image: imageProvider,
-              //                   fit: BoxFit.cover,
-              //                 ),
-              //               ),
-              //             ),
-              //             placeholder: (context, url) =>
-              //                 const CircularProgressIndicator(),
-              //             errorWidget: (context, url, error) =>
-              //                 const Icon(Icons.error),
-              //           ),
-              //         ),
-              //         child: const SizedBox(
-              //           height: 60,
-              //         ),
-              //       ),
-              //   ],
-              // ),
-              // gapH16,
+              FormBuilderRadioGroup<String>(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: const InputDecoration(labelText: 'イメージ画像'),
+                name: 'imageUrl',
+                initialValue: t.$3.first.url,
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(),
+                ]),
+                options: [
+                  for (final avatar in t.$3)
+                    FormBuilderChipOption(
+                      value: avatar.url,
+                      child: CircleAvatar(
+                        minRadius: 20,
+                        maxRadius: 40,
+                        child: CachedNetworkImage(
+                          imageUrl: avatar.url,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              gapH16,
               FormBuilderFilterChip<AppUser>(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(labelText: '参加者'),

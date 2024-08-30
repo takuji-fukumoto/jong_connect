@@ -8,4 +8,5 @@ abstract final class RoutingPath {
   static const String settings = '/settings';
   static const String inviteFriend = 'invite_friend';
   static const String createGroup = 'create_group';
+  static const String groupDetails = 'group/details';
 }

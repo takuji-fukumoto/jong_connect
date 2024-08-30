@@ -13,8 +13,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../presentation/common_widgets/scaffold_with_navigation_bar.dart';
+import '../../presentation/pages/group_details/group_details_page.dart';
 import '../../presentation/pages/home/home_page.dart';
 import '../../presentation/pages/sign_in/sign_in_page.dart';
+import '../model/group.dart';
 import 'auth_state.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -36,9 +38,11 @@ final routerProvider = Provider(
             routes: [
               GoRoute(
                 path: RoutingPath.home,
-                builder: (context, state) => HomePage(fullPath: state.fullPath),
+                builder: (context, state) => const HomePage(),
                 routes: [
                   GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    name: RoutingPath.inviteFriend,
                     path: RoutingPath.inviteFriend,
                     builder: (context, state) => const InviteFriendPage(),
                     routes: [],
@@ -51,12 +55,24 @@ final routerProvider = Provider(
             routes: [
               GoRoute(
                 path: RoutingPath.rooms,
-                builder: (context, state) =>
-                    RoomsPage(fullPath: state.fullPath),
+                builder: (context, state) => const RoomsPage(),
                 routes: [
                   GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    name: RoutingPath.createGroup,
                     path: RoutingPath.createGroup,
                     builder: (context, state) => const CreateGroupPage(),
+                    routes: [],
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    name: RoutingPath.groupDetails,
+                    path: RoutingPath.groupDetails,
+                    builder: (context, state) {
+                      return GroupDetailsPage(
+                        group: state.extra! as Group,
+                      );
+                    },
                     routes: [],
                   ),
                 ],

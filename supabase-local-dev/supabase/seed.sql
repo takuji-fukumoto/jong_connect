@@ -18,7 +18,10 @@ INSERT INTO "public"."avatars" ("created_at", "url")
 VALUES
     ('2024-08-20 07:02:20.378184+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/01.png'), 
     ('2024-08-20 07:02:46.171755+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/02.png'), 
-    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/03.png');
+    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/03.png'),
+    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/bear.png'),
+    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/raccoon_dog.png'),
+    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/rabbit.png');
 
 UPDATE "public"."users"
 SET
@@ -65,9 +68,9 @@ VALUES
   ('123e4567-e89b-12d3-a456-426614174002', 1),
   ('123e4567-e89b-12d3-a456-426614174003', 1);
 
-INSERT INTO "public"."groups" ("id", "name", "description") 
+INSERT INTO "public"."groups" ("id", "name", "description", "image_url") 
 VALUES 
-  (101, '雀魂サー', 'いつものやつです');
+  (101, '雀魂サー', 'いつものやつです', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/bear.png');
 
 INSERT INTO "public"."user_joinned_groups" ("user_id", "group_id") 
 VALUES 

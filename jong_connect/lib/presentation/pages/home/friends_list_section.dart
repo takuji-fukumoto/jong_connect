@@ -7,9 +7,8 @@ import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/routing_path.dart';
 
 class FriendsListSection extends ConsumerWidget {
-  const FriendsListSection({super.key, this.fullPath});
+  const FriendsListSection({super.key});
 
-  final String? fullPath;
   final int maxDispCount = 10; // 最大表示件数
 
   @override
@@ -20,7 +19,7 @@ class FriendsListSection extends ConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _TitleSection(fullPath: fullPath),
+            _TitleSection(),
             gapH16,
             if (friends.isEmpty) ...[
               const Text('ともだちがいません'),
@@ -37,9 +36,7 @@ class FriendsListSection extends ConsumerWidget {
 }
 
 class _TitleSection extends StatelessWidget {
-  const _TitleSection({super.key, this.fullPath});
-
-  final String? fullPath;
+  const _TitleSection();
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +48,7 @@ class _TitleSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-              onPressed: () =>
-                  context.go('$fullPath/${RoutingPath.inviteFriend}'),
+              onPressed: () => context.goNamed(RoutingPath.inviteFriend),
               icon: const Icon(Icons.group_add),
             ),
             gapW8,
