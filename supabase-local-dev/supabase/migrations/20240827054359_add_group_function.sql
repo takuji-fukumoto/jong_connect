@@ -3,10 +3,12 @@ create or replace trigger on_auth_user_created
     for each row
     execute function "public"."handle_new_user"();
 
+ALTER TABLE "public"."groups" ADD COLUMN image_url text DEFAULT '' NOT NULL;
+
 ALTER TABLE ONLY "public"."user_joinned_groups"
   ADD CONSTRAINT "user_joinned_groups_user_id_and_group_id_key" UNIQUE ("user_id", "group_id");
 
-CREATE OR REPLACE FUNCTION "public"."create_group"(join_user_ids uuid[], group_name text, group_description text) RETURNS bigint
+CREATE OR REPLACE FUNCTION "public"."create_group"(join_user_ids uuid[], group_name text, group_description text, image_url text) RETURNS bigint
   LANGUAGE "plpgsql" SECURITY DEFINER
   AS $$
 DECLARE	
@@ -16,9 +18,9 @@ begin
     raise exception 'join_user_ids should not be Empty';
   end if;
 
-  insert into public.groups("name", "description")
+  insert into public.groups("name", "description", "image_url")
   values 
-    (create_group.group_name, create_group.group_description)
+    (create_group.group_name, create_group.group_description, create_group.image_url)
   returning id into out_group_id;
 
   insert into public.user_joinned_groups (user_id, group_id)

@@ -10,6 +10,7 @@ class GroupsRepositoryImpl implements GroupsRepository {
       id, 
       name, 
       description, 
+      image_url,
       user_joinned_groups (
         users (
           id,
@@ -99,6 +100,14 @@ class GroupsRepositoryImpl implements GroupsRepository {
 
   @override
   Future<void> update(Group group) async {
-    throw UnimplementedError();
+    final joinedUserIds =
+        group.joinedUsers!.map<String>((joined) => joined.user!.id).toList();
+    return await supabase.rpc('edit_group', params: {
+      'id': group.id,
+      'join_user_ids': joinedUserIds,
+      'group_name': group.name,
+      'group_description': group.description,
+      'image_url': group.imageUrl,
+    });
   }
 }

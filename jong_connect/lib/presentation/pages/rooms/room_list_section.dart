@@ -48,7 +48,9 @@ class RoomListSection extends ConsumerWidget {
                 subtitle: Text(group.description),
                 onTap: () => context.goNamed(
                   RoutingPath.groupDetails,
-                  extra: group,
+                  pathParameters: <String, String>{
+                    'groupId': group.id.toString(),
+                  },
                 ),
               ),
           ],
