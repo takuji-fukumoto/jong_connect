@@ -8,12 +8,13 @@ part 'group.g.dart';
 @freezed
 class Group with _$Group {
   @JsonSerializable(explicitToJson: true)
-  const factory Group(
-      {required int id,
-      required String name,
-      required String description,
-      @JsonKey(name: 'user_joinned_groups')
-      List<UserJoinedGroup>? joinedUsers}) = _Group;
+  const factory Group({
+    required int id,
+    required String name,
+    required String description,
+    @JsonKey(name: 'image_url') required String imageUrl,
+    @JsonKey(name: 'user_joinned_groups') List<UserJoinedGroup>? joinedUsers,
+  }) = _Group;
 
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
 }

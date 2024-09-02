@@ -5,11 +5,12 @@ import 'groups_repository.dart';
 
 class GroupsRepositoryImpl implements GroupsRepository {
   @override
-  Future<List<Group>> getGroupDetail(int groupId) async {
+  Future<Group> getGroupDetails(int groupId) async {
     final json = await supabase.from('groups').select('''
       id, 
       name, 
       description, 
+      image_url,
       user_joinned_groups (
         users (
           id,
@@ -19,13 +20,13 @@ class GroupsRepositoryImpl implements GroupsRepository {
           friend_id
         )
       )
-    ''');
+    ''').eq('id', groupId).limit(1);
 
     if (json.isEmpty) {
-      return [];
+      throw Exception('グループが見つかりません。');
     }
 
-    return json.map<Group>((json) => Group.fromJson(json)).toList();
+    return Group.fromJson(json.first);
   }
 
   @override
@@ -85,19 +86,28 @@ class GroupsRepositoryImpl implements GroupsRepository {
   }
 
   @override
-  Future<int> create(
-      String name, String description, List<AppUser> joinUsers) async {
+  Future<int> create(String name, String description, String imageUrl,
+      List<AppUser> joinUsers) async {
     final joinUserIds = joinUsers.map<String>((user) => user.id).toList();
 
     return await supabase.rpc('create_group', params: {
       'join_user_ids': joinUserIds,
       'group_name': name,
       'group_description': description,
+      'image_url': imageUrl,
     });
   }
 
   @override
   Future<void> update(Group group) async {
-    throw UnimplementedError();
+    final joinedUserIds =
+        group.joinedUsers!.map<String>((joined) => joined.user!.id).toList();
+    return await supabase.rpc('edit_group', params: {
+      'id': group.id,
+      'join_user_ids': joinedUserIds,
+      'group_name': group.name,
+      'group_description': group.description,
+      'image_url': group.imageUrl,
+    });
   }
 }

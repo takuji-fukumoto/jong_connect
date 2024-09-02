@@ -18,9 +18,10 @@ class CreateGroupUseCase {
   Future<int> execute(
       {required String name,
       required String description,
+      required String imageUrl,
       required List<AppUser> joinUsers}) async {
     return await _ref
         .read(groupsRepositoryProvider)
-        .create(name, description, joinUsers);
+        .create(name, description, imageUrl, joinUsers);
   }
 }
