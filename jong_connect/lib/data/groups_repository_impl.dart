@@ -110,4 +110,11 @@ class GroupsRepositoryImpl implements GroupsRepository {
       'image_url': group.imageUrl,
     });
   }
+
+  @override
+  Future<void> exitFromGroup(int groupId) async {
+    return await supabase.rpc('exit_from_group', params: {
+      'group_id': groupId,
+    });
+  }
 }

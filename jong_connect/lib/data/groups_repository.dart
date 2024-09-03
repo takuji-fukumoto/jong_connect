@@ -31,4 +31,8 @@ class GroupsRepository {
   Future<void> update(Group group) async {
     throw UnimplementedError();
   }
+
+  Future<void> exitFromGroup(int groupId) async {
+    throw UnimplementedError();
+  }
 }
