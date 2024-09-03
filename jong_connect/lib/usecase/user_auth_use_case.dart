@@ -25,6 +25,11 @@ class UserAuthUseCase {
     return await supabase.auth.signInAnonymously();
   }
 
+  Future<UserResponse> linkIdentity(String email, String password) async {
+    return await supabase.auth
+        .updateUser(UserAttributes(email: email, password: password));
+  }
+
   Future<AuthResponse> signUp(String email, String password) async {
     return await supabase.auth.signUp(email: email, password: password);
   }
@@ -35,10 +40,10 @@ class UserAuthUseCase {
 
   void deleteUser() async {
     throw UnimplementedError();
-    final user = _ref.read(authStateNotifierProvider).authState?.session?.user;
-    if (user == null) {
-      throw Exception('ユーザー情報の取得に失敗しました');
-    }
-    await supabase.auth.admin.deleteUser(user.id);
+    // final user = _ref.read(authStateNotifierProvider).authState?.session?.user;
+    // if (user == null) {
+    //   throw Exception('ユーザー情報の取得に失敗しました');
+    // }
+    // await supabase.auth.admin.deleteUser(user.id);
   }
 }

@@ -9,6 +9,7 @@ import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../usecase/user_auth_use_case.dart';
+import '../../../util/app_colors.dart';
 import '../../../util/routing_path.dart';
 
 class SignUpPage extends ConsumerStatefulWidget {
@@ -19,13 +20,34 @@ class SignUpPage extends ConsumerStatefulWidget {
 }
 
 class _SignUpFormState extends ConsumerState<SignUpPage> {
-  final RoundedLoadingButtonController _btnController =
+  final RoundedLoadingButtonController _signUpButtonController =
       RoundedLoadingButtonController();
+  final RoundedLoadingButtonController _signInAnonymouslyButtonController =
+      RoundedLoadingButtonController();
+
   final _formKey = GlobalKey<FormBuilderState>();
+
+  Future<void> _signUpAnonymously() async {
+    try {
+      final authState =
+          await ref.read(userAuthUseCaseProvider).signInAnonymously();
+      if (authState.session != null && !authState.session!.isExpired) {
+        _signInAnonymouslyButtonController.success();
+        await Future.delayed(const Duration(seconds: 1));
+        context.go(RoutingPath.editProfile);
+      }
+    } on AuthException catch (error) {
+      context.showErrorSnackBar(message: error.message);
+    } catch (error) {
+      context.showErrorSnackBar(message: unexpectedErrorMessage);
+    } finally {
+      _signInAnonymouslyButtonController.reset();
+    }
+  }
 
   Future<void> _signUp() async {
     if (!_formKey.currentState!.saveAndValidate()) {
-      _btnController.reset();
+      _signUpButtonController.reset();
       return;
     }
 
@@ -33,10 +55,9 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
       final authState = await ref.read(userAuthUseCaseProvider).signUp(
           _formKey.currentState!.value["email"],
           _formKey.currentState!.value["password"]);
-      // TODO: signUpした瞬間にログインした状態になるのか要確認
+
       if (authState.session != null && !authState.session!.isExpired) {
-        print('サインアップ成功');
-        _btnController.success();
+        _signUpButtonController.success();
         await Future.delayed(const Duration(seconds: 1));
         context.go(RoutingPath.editProfile);
       } else {
@@ -48,7 +69,7 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
       context.showErrorSnackBar(message: unexpectedErrorMessage);
     }
 
-    _btnController.reset();
+    _signUpButtonController.reset();
   }
 
   @override
@@ -91,9 +112,23 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
             RoundedLoadingButton(
               successIcon: Icons.check,
               failedIcon: Icons.cottage,
-              controller: _btnController,
+              controller: _signUpButtonController,
+              color: AppColors.shinbashi,
               onPressed: _signUp,
-              child: Text('Sign Up', style: TextStyle(color: Colors.white)),
+              child:
+                  const Text('Sign Up', style: TextStyle(color: Colors.white)),
+            ),
+            gapH16,
+            RoundedLoadingButton(
+              successIcon: Icons.check,
+              failedIcon: Icons.cottage,
+              controller: _signInAnonymouslyButtonController,
+              onPressed: _signUpAnonymously,
+              color: AppColors.ivory,
+              valueColor: AppColors.shinbashi,
+              elevation: 0,
+              child: const Text('ゲストとして始める',
+                  style: TextStyle(color: AppColors.hanaasagi)),
             ),
           ],
         ),
