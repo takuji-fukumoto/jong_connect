@@ -76,7 +76,6 @@ class _EditGroupFormState extends ConsumerState<EditGroupPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('edit group id: ${widget.groupId}');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
