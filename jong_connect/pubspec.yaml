@@ -50,6 +50,7 @@ dependencies:
   loading_animation_widget: ^1.2.1
   hashids2: ^2.0.0
   another_flushbar: ^1.12.30
+  adaptive_dialog: ^2.2.0
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,11 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jong_connect/usecase/exit_group_use_case.dart';
 
+import '../../../util/constants.dart';
 import '../../../util/routing_path.dart';
 
 class GroupDetailsPage extends StatelessWidget {
@@ -13,20 +18,68 @@ class GroupDetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        actions: [
-          IconButton(
-            onPressed: () => context.goNamed(
-              RoutingPath.editGroup,
-              pathParameters: {
-                'groupId': id.toString(),
-              },
-            ),
-            icon: Icon(Icons.settings),
-          )
-        ],
       ),
+      endDrawer: _DrawerMenu(id),
       body: Center(
         child: Text('ここに戦績が表示されます'),
+      ),
+    );
+  }
+}
+
+class _DrawerMenu extends ConsumerWidget {
+  const _DrawerMenu(this._groupId);
+
+  final int _groupId;
+
+  Future<void> _exitFromGroup(BuildContext context, WidgetRef ref) async {
+    final result = await showOkCancelAlertDialog(
+      context: context,
+      title: 'グループ退会',
+      message: '退会するとこのグループ内で記録がつけられなくなります',
+    );
+    if (result.name != 'ok') {
+      return;
+    }
+
+    try {
+      await ref.read(exitGroupUseCaseProvider).execute(groupId: _groupId);
+
+      context.go(RoutingPath.rooms);
+      SnackBarService.showSnackBar(content: 'グループから退会しました');
+    } catch (error) {
+      Flushbar(
+        message: 'グループの退会に失敗しました。時間を空けて再度お試しください',
+        icon: const Icon(
+          Icons.error,
+          color: Colors.red,
+        ),
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(8),
+      ).show(context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Drawer(
+      child: ListView(
+        children: [
+          ListTile(
+            title: const Text('グループ編集'),
+            onTap: () => context.goNamed(
+              RoutingPath.editGroup,
+              pathParameters: {
+                'groupId': _groupId.toString(),
+              },
+            ),
+          ),
+          ListTile(
+            title: const Text('グループ退会'),
+            onTap: () => _exitFromGroup(context, ref),
+          ),
+        ],
       ),
     );
   }

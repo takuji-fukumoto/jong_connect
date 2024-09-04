@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/domain/provider/router.dart';
+import 'package:jong_connect/util/constants.dart';
 import 'package:jong_connect/util/env.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -39,6 +40,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       routerConfig: ref.watch(routerProvider),
+      scaffoldMessengerKey: SnackBarService.scaffoldKey,
     );
   }
 }

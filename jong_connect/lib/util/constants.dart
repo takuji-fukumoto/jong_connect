@@ -25,6 +25,14 @@ const unexpectedErrorMessage = '不明なエラーが発生しました';
 const unknownUserIcon = Icon(Icons.account_circle);
 const unknownGroupIcon = Icon(Icons.groups);
 
+abstract final class SnackBarService {
+  static final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
+
+  static void showSnackBar({required String content}) {
+    scaffoldKey.currentState?.showSnackBar(SnackBar(content: Text(content)));
+  }
+}
+
 /// Set of extension methods to easily display a snackbar
 extension ShowSnackBar on BuildContext {
   /// Displays a basic snackbar
