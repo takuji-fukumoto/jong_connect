@@ -41,24 +41,24 @@ CREATE OR REPLACE FUNCTION "public"."exit_from_group"(group_id bigint) RETURNS v
 DECLARE	
   left_user_count bigint;
 begin
-  -- 対象に入っていないユーザーはグループから削除
-  delete from user_joinned_groups
-  where group_id = exit_from_group.id and user_id = auth.uid();
 
   select
     count(user_id) into left_user_count
   from
-    user_joinned_groups
+    public.user_joinned_groups
   where
-    group_id = exit_from_group.group_id
-  group by group_id;
+    user_joinned_groups.group_id = exit_from_group.group_id
+  group by user_joinned_groups.group_id;
 
-  -- グループに誰も居なくなった場合グループごと削除
-  if left_user_count = 0 then
-    delete from groups
-    where id = exit_from_group.group_id;
+  if left_user_count <= 1 then
+    -- グループに誰もいない場合グループごと削除
+    delete from public.groups
+    where groups.id = exit_from_group.group_id;
+  else
+    -- 自身をグループから削除
+    delete from public.user_joinned_groups
+    where user_joinned_groups.group_id = exit_from_group.group_id and user_joinned_groups.user_id = auth.uid();
   end if;
-
 end
 $$;
 
