@@ -1,0 +1,123 @@
+CREATE TYPE "public"."match_type" AS ENUM (
+    '4_person',
+    '3_person'
+);
+
+CREATE TABLE IF NOT EXISTS "public"."group_matches" (
+    "id" bigint NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "match_type" "public"."match_type" NOT NULL,
+    "group_id" bigint NOT NULL
+);
+
+ALTER TABLE "public"."group_matches" OWNER TO "postgres";
+
+ALTER TABLE ONLY "public"."group_matches"
+    ADD CONSTRAINT "group_matches_pkey" PRIMARY KEY ("id");
+
+ALTER TABLE ONLY "public"."group_matches"
+    ADD CONSTRAINT "group_matches_group_id_fkey" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE CASCADE;
+
+alter table "public"."group_matches" enable row level security;
+
+CREATE TABLE IF NOT EXISTS "public"."group_match_results" (
+    "id" bigint NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "user_id" "uuid",
+    "group_match_id" bigint NOT NULL,
+    "score" integer NOT NULL,
+    "rank" smallint NOT NULL,
+    "total_points" integer NOT NULL,
+    "match_order" smallint NOT NULL
+);
+
+ALTER TABLE "public"."group_match_results" OWNER TO "postgres";
+
+ALTER TABLE ONLY "public"."group_match_results"
+    ADD CONSTRAINT "group_match_results_pkey" PRIMARY KEY ("id");
+
+ALTER TABLE ONLY "public"."group_match_results"
+    ADD CONSTRAINT "group_match_results_group_match_id_fkey" FOREIGN KEY ("group_match_id") REFERENCES "public"."group_matches"("id") ON DELETE CASCADE;
+
+ALTER TABLE ONLY "public"."group_match_results"
+    ADD CONSTRAINT "group_match_results_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE SET NULL;
+
+alter table "public"."group_match_results" enable row level security;
+
+create or replace function is_joinned_group_from_match(group_match_id bigint) returns boolean 
+  language sql security definer
+as $$
+  select exists(
+    select groups.id
+    from public.groups
+    inner join public.user_joinned_groups 
+        on (groups.id = user_joinned_groups.group_id and user_joinned_groups.user_id = auth.uid())
+    inner join public.group_matches
+        on (groups.id = group_matches.group_id and group_matches.id = is_joinned_group_from_match.group_match_id)
+  );
+$$;
+
+create policy "Users can view group_matches that they have joined"
+  on public.group_matches for select using (is_joinned_group(group_id));
+
+create policy "Users can create group_matches that they have joined"
+  on public.group_matches for insert with check (is_joinned_group(group_id));
+
+create policy "Users can delete group_matches that they have joined"
+  on public.group_matches for delete using (is_joinned_group(group_id));
+
+create policy "Users can view group_match_results that they have joined"
+  on public.group_match_results for select using (is_joinned_group_from_match(group_match_id));
+
+create policy "Users can create group_match_results that they have joined"
+  on public.group_match_results for insert with check  (is_joinned_group_from_match(group_match_id));
+
+create policy "Users can update group_match_results that they have joined"
+  on public.group_match_results for update using (is_joinned_group_from_match(group_match_id)) with check (is_joinned_group_from_match(group_match_id));
+
+create policy "Users can delete group_match_results that they have joined"
+  on public.group_match_results for delete using (is_joinned_group_from_match(group_match_id));
+
+create or replace function public.create_group_match_with_results(
+  group_id bigint, 
+  match_type "match_type", 
+  results group_match_results[]
+) 
+returns void 
+language plpgsql
+security invoker
+as $$
+DECLARE
+  match_id bigint;
+  i int;
+  input_user_id text[] := '{}';
+  input_score integer[] := '{}';
+  input_rank smallint[] := '{}';
+  input_total_points integer[] := '{}';
+  input_match_order smallint[] := '{}';
+BEGIN
+  insert into public.group_matches (group_id, match_type)
+  values (group_id, match_type)
+  returning id into match_id;
+
+  -- results配列をループ処理してデータを抽出
+  for i in array_lower(results, 1)..array_upper(results, 1) loop
+    input_user_id := array_append(input_user_id, results[i].user_id);
+    input_score := array_append(input_score, results[i].score);
+    input_rank := array_append(input_rank, results[i].rank);
+    input_total_points := array_append(input_total_points, results[i].total_points);
+    input_match_order := array_append(input_match_order, results[i].match_order);
+  end loop;
+
+  insert into public.group_match_results (
+    group_match_id, user_id, score, rank, total_points, match_order
+  )
+  select 
+    match_id, 
+    unnest(input_user_id), 
+    unnest(input_score), 
+    unnest(input_rank), 
+    unnest(input_total_points), 
+    unnest(input_match_order);
+END
+$$;
