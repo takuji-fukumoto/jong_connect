@@ -51,6 +51,7 @@ dependencies:
   hashids2: ^2.0.0
   another_flushbar: ^1.12.30
   adaptive_dialog: ^2.2.0
+  data_table_2: ^2.5.15
 
 dev_dependencies:
   flutter_test:

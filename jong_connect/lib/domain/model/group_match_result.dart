@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:jong_connect/domain/model/group_match.dart';
 
 import 'app_user.dart';
 
@@ -14,9 +15,9 @@ class GroupMatchResult with _$GroupMatchResult {
     required int rank,
     @JsonKey(name: 'total_points') required int totalPoints,
     @JsonKey(name: 'match_order') required int matchOrder,
-    @JsonKey(name: 'group_match_id') required int groupMatchId,
     @JsonKey(name: 'created_at') required DateTime createdAt,
     @JsonKey(name: 'user_name') required String userName,
+    @JsonKey(name: 'group_matches') GroupMatch? groupMatch,
     @JsonKey(name: 'user_id') String? userId,
     @JsonKey(name: 'users') AppUser? user,
   }) = _GroupMatchResult;

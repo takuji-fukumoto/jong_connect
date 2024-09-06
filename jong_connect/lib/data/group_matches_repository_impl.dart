@@ -7,8 +7,11 @@ import 'group_matches_repository.dart';
 class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
   @override
   Future<List<GroupMatch>> getWithResults(int groupId, {int limit = 50}) async {
-    final json = await supabase.from('group_matches').select('''
+    final json = await supabase
+        .from('group_matches')
+        .select('''
       id, 
+      group_id,
       created_at, 
       users (
           id,
@@ -35,7 +38,10 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
           friend_id
         )
       )
-    ''').eq('id', groupId).order('created_at', ascending: true).limit(limit);
+    ''')
+        .eq('group_id', groupId)
+        .order('created_at', ascending: true)
+        .limit(limit);
 
     return json.map<GroupMatch>((match) => GroupMatch.fromJson(match)).toList();
   }

@@ -27,12 +27,12 @@ mixin _$GroupMatchResult {
   int get totalPoints => throw _privateConstructorUsedError;
   @JsonKey(name: 'match_order')
   int get matchOrder => throw _privateConstructorUsedError;
-  @JsonKey(name: 'group_match_id')
-  int get groupMatchId => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_name')
   String get userName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'group_matches')
+  GroupMatch? get groupMatch => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
   String? get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'users')
@@ -60,12 +60,13 @@ abstract class $GroupMatchResultCopyWith<$Res> {
       int rank,
       @JsonKey(name: 'total_points') int totalPoints,
       @JsonKey(name: 'match_order') int matchOrder,
-      @JsonKey(name: 'group_match_id') int groupMatchId,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'user_name') String userName,
+      @JsonKey(name: 'group_matches') GroupMatch? groupMatch,
       @JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'users') AppUser? user});
 
+  $GroupMatchCopyWith<$Res>? get groupMatch;
   $AppUserCopyWith<$Res>? get user;
 }
 
@@ -89,9 +90,9 @@ class _$GroupMatchResultCopyWithImpl<$Res, $Val extends GroupMatchResult>
     Object? rank = null,
     Object? totalPoints = null,
     Object? matchOrder = null,
-    Object? groupMatchId = null,
     Object? createdAt = null,
     Object? userName = null,
+    Object? groupMatch = freezed,
     Object? userId = freezed,
     Object? user = freezed,
   }) {
@@ -116,10 +117,6 @@ class _$GroupMatchResultCopyWithImpl<$Res, $Val extends GroupMatchResult>
           ? _value.matchOrder
           : matchOrder // ignore: cast_nullable_to_non_nullable
               as int,
-      groupMatchId: null == groupMatchId
-          ? _value.groupMatchId
-          : groupMatchId // ignore: cast_nullable_to_non_nullable
-              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -128,6 +125,10 @@ class _$GroupMatchResultCopyWithImpl<$Res, $Val extends GroupMatchResult>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
+      groupMatch: freezed == groupMatch
+          ? _value.groupMatch
+          : groupMatch // ignore: cast_nullable_to_non_nullable
+              as GroupMatch?,
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -137,6 +138,20 @@ class _$GroupMatchResultCopyWithImpl<$Res, $Val extends GroupMatchResult>
           : user // ignore: cast_nullable_to_non_nullable
               as AppUser?,
     ) as $Val);
+  }
+
+  /// Create a copy of GroupMatchResult
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GroupMatchCopyWith<$Res>? get groupMatch {
+    if (_value.groupMatch == null) {
+      return null;
+    }
+
+    return $GroupMatchCopyWith<$Res>(_value.groupMatch!, (value) {
+      return _then(_value.copyWith(groupMatch: value) as $Val);
+    });
   }
 
   /// Create a copy of GroupMatchResult
@@ -168,12 +183,14 @@ abstract class _$$GroupMatchResultImplCopyWith<$Res>
       int rank,
       @JsonKey(name: 'total_points') int totalPoints,
       @JsonKey(name: 'match_order') int matchOrder,
-      @JsonKey(name: 'group_match_id') int groupMatchId,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'user_name') String userName,
+      @JsonKey(name: 'group_matches') GroupMatch? groupMatch,
       @JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'users') AppUser? user});
 
+  @override
+  $GroupMatchCopyWith<$Res>? get groupMatch;
   @override
   $AppUserCopyWith<$Res>? get user;
 }
@@ -196,9 +213,9 @@ class __$$GroupMatchResultImplCopyWithImpl<$Res>
     Object? rank = null,
     Object? totalPoints = null,
     Object? matchOrder = null,
-    Object? groupMatchId = null,
     Object? createdAt = null,
     Object? userName = null,
+    Object? groupMatch = freezed,
     Object? userId = freezed,
     Object? user = freezed,
   }) {
@@ -223,10 +240,6 @@ class __$$GroupMatchResultImplCopyWithImpl<$Res>
           ? _value.matchOrder
           : matchOrder // ignore: cast_nullable_to_non_nullable
               as int,
-      groupMatchId: null == groupMatchId
-          ? _value.groupMatchId
-          : groupMatchId // ignore: cast_nullable_to_non_nullable
-              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -235,6 +248,10 @@ class __$$GroupMatchResultImplCopyWithImpl<$Res>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
+      groupMatch: freezed == groupMatch
+          ? _value.groupMatch
+          : groupMatch // ignore: cast_nullable_to_non_nullable
+              as GroupMatch?,
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -256,9 +273,9 @@ class _$GroupMatchResultImpl implements _GroupMatchResult {
       required this.rank,
       @JsonKey(name: 'total_points') required this.totalPoints,
       @JsonKey(name: 'match_order') required this.matchOrder,
-      @JsonKey(name: 'group_match_id') required this.groupMatchId,
       @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'user_name') required this.userName,
+      @JsonKey(name: 'group_matches') this.groupMatch,
       @JsonKey(name: 'user_id') this.userId,
       @JsonKey(name: 'users') this.user});
 
@@ -278,14 +295,14 @@ class _$GroupMatchResultImpl implements _GroupMatchResult {
   @JsonKey(name: 'match_order')
   final int matchOrder;
   @override
-  @JsonKey(name: 'group_match_id')
-  final int groupMatchId;
-  @override
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @override
   @JsonKey(name: 'user_name')
   final String userName;
+  @override
+  @JsonKey(name: 'group_matches')
+  final GroupMatch? groupMatch;
   @override
   @JsonKey(name: 'user_id')
   final String? userId;
@@ -295,7 +312,7 @@ class _$GroupMatchResultImpl implements _GroupMatchResult {
 
   @override
   String toString() {
-    return 'GroupMatchResult(id: $id, score: $score, rank: $rank, totalPoints: $totalPoints, matchOrder: $matchOrder, groupMatchId: $groupMatchId, createdAt: $createdAt, userName: $userName, userId: $userId, user: $user)';
+    return 'GroupMatchResult(id: $id, score: $score, rank: $rank, totalPoints: $totalPoints, matchOrder: $matchOrder, createdAt: $createdAt, userName: $userName, groupMatch: $groupMatch, userId: $userId, user: $user)';
   }
 
   @override
@@ -310,12 +327,12 @@ class _$GroupMatchResultImpl implements _GroupMatchResult {
                 other.totalPoints == totalPoints) &&
             (identical(other.matchOrder, matchOrder) ||
                 other.matchOrder == matchOrder) &&
-            (identical(other.groupMatchId, groupMatchId) ||
-                other.groupMatchId == groupMatchId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
+            (identical(other.groupMatch, groupMatch) ||
+                other.groupMatch == groupMatch) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.user, user) || other.user == user));
   }
@@ -323,7 +340,7 @@ class _$GroupMatchResultImpl implements _GroupMatchResult {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, score, rank, totalPoints,
-      matchOrder, groupMatchId, createdAt, userName, userId, user);
+      matchOrder, createdAt, userName, groupMatch, userId, user);
 
   /// Create a copy of GroupMatchResult
   /// with the given fields replaced by the non-null parameter values.
@@ -349,9 +366,9 @@ abstract class _GroupMatchResult implements GroupMatchResult {
       required final int rank,
       @JsonKey(name: 'total_points') required final int totalPoints,
       @JsonKey(name: 'match_order') required final int matchOrder,
-      @JsonKey(name: 'group_match_id') required final int groupMatchId,
       @JsonKey(name: 'created_at') required final DateTime createdAt,
       @JsonKey(name: 'user_name') required final String userName,
+      @JsonKey(name: 'group_matches') final GroupMatch? groupMatch,
       @JsonKey(name: 'user_id') final String? userId,
       @JsonKey(name: 'users') final AppUser? user}) = _$GroupMatchResultImpl;
 
@@ -371,14 +388,14 @@ abstract class _GroupMatchResult implements GroupMatchResult {
   @JsonKey(name: 'match_order')
   int get matchOrder;
   @override
-  @JsonKey(name: 'group_match_id')
-  int get groupMatchId;
-  @override
   @JsonKey(name: 'created_at')
   DateTime get createdAt;
   @override
   @JsonKey(name: 'user_name')
   String get userName;
+  @override
+  @JsonKey(name: 'group_matches')
+  GroupMatch? get groupMatch;
   @override
   @JsonKey(name: 'user_id')
   String? get userId;

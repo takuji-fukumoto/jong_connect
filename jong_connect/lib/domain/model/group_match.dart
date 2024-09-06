@@ -2,6 +2,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jong_connect/domain/model/app_user.dart';
 
 import '../../util/constants.dart';
+import '../../util/expect.dart';
+import 'group.dart';
 import 'group_match_result.dart';
 
 part 'group_match.freezed.dart';
@@ -17,7 +19,7 @@ class GroupMatch with _$GroupMatch {
     required int id,
     @JsonKey(name: 'match_type') required MatchType matchType,
     @JsonKey(name: 'created_at') required DateTime createdAt,
-    @JsonKey(name: 'group_id') required int groupId,
+    @JsonKey(name: 'groups') Group? group,
     @JsonKey(name: 'users') AppUser? createdBy,
     @JsonKey(name: 'group_match_results') List<GroupMatchResult>? results,
   }) = _GroupMatch;
@@ -25,9 +27,9 @@ class GroupMatch with _$GroupMatch {
   factory GroupMatch.fromJson(Map<String, dynamic> json) =>
       _$GroupMatchFromJson(json);
 
-  // ユーザー名 => トータルスコア
+  /// ユーザー名 => トータルスコア
   Map<String, int>? get totalResultsPerUser {
-    if (results == null) {
+    if (results == null || results!.isEmpty) {
       return null;
     }
     Map<String, int> totalResults = {};
@@ -45,7 +47,7 @@ class GroupMatch with _$GroupMatch {
 
         userName = deactivatedUserNames[result.userName]!;
       } else {
-        userName = result.userName;
+        userName = result.user?.name ?? result.userName;
       }
 
       totalResults[userName] =
@@ -53,5 +55,25 @@ class GroupMatch with _$GroupMatch {
     }
 
     return totalResults;
+  }
+
+  /// 参加ユーザー（重複なし）
+  List<AppUser>? get joinUsers {
+    if (results == null || results!.isEmpty) {
+      return null;
+    }
+
+    // 退会しているユーザーがいる場合仮のユーザーを追加
+    var allUsers = results!
+        .map<AppUser>((result) =>
+            result.user ??
+            AppUser(
+                id: result.userName,
+                name: result.userName,
+                profile: '',
+                avatarUrl: '',
+                friendId: 0))
+        .toList();
+    return expect(allUsers, (AppUser element) => element.id);
   }
 }

@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/provider/current_avatars.dart';
 import 'package:jong_connect/domain/provider/current_friends.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
-import 'package:jong_connect/presentation/common_widgets/user_section_item.dart';
+import 'package:jong_connect/presentation/common_widgets/user_section_item_vertical.dart';
 import 'package:jong_connect/usecase/create_group_use_case.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/constants.dart';
@@ -158,12 +158,12 @@ class _CreateGroupFormState extends ConsumerState<CreateGroupPage> {
                 options: [
                   FormBuilderChipOption(
                     value: t.$1!,
-                    child: UserSectionItem(user: t.$1!),
+                    child: UserSectionItemVertical(user: t.$1!),
                   ),
                   for (final friend in t.$2)
                     FormBuilderChipOption(
                       value: friend,
-                      child: UserSectionItem(user: friend),
+                      child: UserSectionItemVertical(user: friend),
                     ),
                 ],
               ),
