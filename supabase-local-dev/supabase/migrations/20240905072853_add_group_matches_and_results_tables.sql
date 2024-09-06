@@ -6,7 +6,7 @@ CREATE TYPE "public"."match_type" AS ENUM (
 CREATE TABLE IF NOT EXISTS "public"."group_matches" (
     "id" bigint NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "created_by" "uuid",
+    "user_id" "uuid",
     "match_type" "public"."match_type" NOT NULL,
     "group_id" bigint NOT NULL
 );
@@ -29,7 +29,7 @@ ALTER TABLE ONLY "public"."group_matches"
     ADD CONSTRAINT "group_matches_group_id_fkey" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE CASCADE;
 
 ALTER TABLE ONLY "public"."group_matches"
-    ADD CONSTRAINT "group_matches_created_by_fkey" FOREIGN KEY ("created_by") REFERENCES "public"."users"("id") ON DELETE SET NULL;
+    ADD CONSTRAINT "group_matches_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE SET NULL;
 
 alter table "public"."group_matches" enable row level security;
 
@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS "public"."group_match_results" (
     "id" bigint NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "user_id" "uuid",
+    "user_name" "text" DEFAULT ''::"text" NOT NULL,
     "group_match_id" bigint NOT NULL,
     "score" integer NOT NULL,
     "rank" smallint NOT NULL,
@@ -120,7 +121,8 @@ as $$
 DECLARE
   match_id bigint;
   i int;
-  input_user_id text[] := '{}';
+  input_user_id uuid[] := '{}';
+  input_user_name text[] := '{}';
   input_score integer[] := '{}';
   input_rank smallint[] := '{}';
   input_total_points integer[] := '{}';
@@ -133,6 +135,7 @@ BEGIN
   -- results配列をループ処理してデータを抽出
   for i in array_lower(results, 1)..array_upper(results, 1) loop
     input_user_id := array_append(input_user_id, results[i].user_id);
+    input_user_name := array_append(input_user_name, results[i].user_name);
     input_score := array_append(input_score, results[i].score);
     input_rank := array_append(input_rank, results[i].rank);
     input_total_points := array_append(input_total_points, results[i].total_points);
@@ -140,11 +143,12 @@ BEGIN
   end loop;
 
   insert into public.group_match_results (
-    group_match_id, user_id, score, rank, total_points, match_order
+    group_match_id, user_id, user_name, score, rank, total_points, match_order
   )
   select 
     match_id, 
     unnest(input_user_id), 
+    unnest(input_user_name),
     unnest(input_score), 
     unnest(input_rank), 
     unnest(input_total_points), 

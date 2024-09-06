@@ -12,7 +12,9 @@ _$GroupMatchImpl _$$GroupMatchImplFromJson(Map<String, dynamic> json) =>
       matchType: $enumDecode(_$MatchTypeEnumMap, json['match_type']),
       createdAt: DateTime.parse(json['created_at'] as String),
       groupId: (json['group_id'] as num).toInt(),
-      createdBy: json['created_by'] as String,
+      createdBy: json['users'] == null
+          ? null
+          : AppUser.fromJson(json['users'] as Map<String, dynamic>),
       results: (json['group_match_results'] as List<dynamic>?)
           ?.map((e) => GroupMatchResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -24,7 +26,7 @@ Map<String, dynamic> _$$GroupMatchImplToJson(_$GroupMatchImpl instance) =>
       'match_type': _$MatchTypeEnumMap[instance.matchType]!,
       'created_at': instance.createdAt.toIso8601String(),
       'group_id': instance.groupId,
-      'created_by': instance.createdBy,
+      'users': instance.createdBy?.toJson(),
       'group_match_results': instance.results?.map((e) => e.toJson()).toList(),
     };
 

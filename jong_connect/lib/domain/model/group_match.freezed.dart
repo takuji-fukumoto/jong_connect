@@ -27,8 +27,8 @@ mixin _$GroupMatch {
   DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'group_id')
   int get groupId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_by')
-  String get createdBy => throw _privateConstructorUsedError;
+  @JsonKey(name: 'users')
+  AppUser? get createdBy => throw _privateConstructorUsedError;
   @JsonKey(name: 'group_match_results')
   List<GroupMatchResult>? get results => throw _privateConstructorUsedError;
 
@@ -53,8 +53,10 @@ abstract class $GroupMatchCopyWith<$Res> {
       @JsonKey(name: 'match_type') MatchType matchType,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'group_id') int groupId,
-      @JsonKey(name: 'created_by') String createdBy,
+      @JsonKey(name: 'users') AppUser? createdBy,
       @JsonKey(name: 'group_match_results') List<GroupMatchResult>? results});
+
+  $AppUserCopyWith<$Res>? get createdBy;
 }
 
 /// @nodoc
@@ -76,7 +78,7 @@ class _$GroupMatchCopyWithImpl<$Res, $Val extends GroupMatch>
     Object? matchType = null,
     Object? createdAt = null,
     Object? groupId = null,
-    Object? createdBy = null,
+    Object? createdBy = freezed,
     Object? results = freezed,
   }) {
     return _then(_value.copyWith(
@@ -96,15 +98,29 @@ class _$GroupMatchCopyWithImpl<$Res, $Val extends GroupMatch>
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
               as int,
-      createdBy: null == createdBy
+      createdBy: freezed == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
-              as String,
+              as AppUser?,
       results: freezed == results
           ? _value.results
           : results // ignore: cast_nullable_to_non_nullable
               as List<GroupMatchResult>?,
     ) as $Val);
+  }
+
+  /// Create a copy of GroupMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AppUserCopyWith<$Res>? get createdBy {
+    if (_value.createdBy == null) {
+      return null;
+    }
+
+    return $AppUserCopyWith<$Res>(_value.createdBy!, (value) {
+      return _then(_value.copyWith(createdBy: value) as $Val);
+    });
   }
 }
 
@@ -121,8 +137,11 @@ abstract class _$$GroupMatchImplCopyWith<$Res>
       @JsonKey(name: 'match_type') MatchType matchType,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'group_id') int groupId,
-      @JsonKey(name: 'created_by') String createdBy,
+      @JsonKey(name: 'users') AppUser? createdBy,
       @JsonKey(name: 'group_match_results') List<GroupMatchResult>? results});
+
+  @override
+  $AppUserCopyWith<$Res>? get createdBy;
 }
 
 /// @nodoc
@@ -142,7 +161,7 @@ class __$$GroupMatchImplCopyWithImpl<$Res>
     Object? matchType = null,
     Object? createdAt = null,
     Object? groupId = null,
-    Object? createdBy = null,
+    Object? createdBy = freezed,
     Object? results = freezed,
   }) {
     return _then(_$GroupMatchImpl(
@@ -162,10 +181,10 @@ class __$$GroupMatchImplCopyWithImpl<$Res>
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
               as int,
-      createdBy: null == createdBy
+      createdBy: freezed == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
-              as String,
+              as AppUser?,
       results: freezed == results
           ? _value._results
           : results // ignore: cast_nullable_to_non_nullable
@@ -183,7 +202,7 @@ class _$GroupMatchImpl extends _GroupMatch {
       @JsonKey(name: 'match_type') required this.matchType,
       @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'group_id') required this.groupId,
-      @JsonKey(name: 'created_by') required this.createdBy,
+      @JsonKey(name: 'users') this.createdBy,
       @JsonKey(name: 'group_match_results')
       final List<GroupMatchResult>? results})
       : _results = results,
@@ -204,8 +223,8 @@ class _$GroupMatchImpl extends _GroupMatch {
   @JsonKey(name: 'group_id')
   final int groupId;
   @override
-  @JsonKey(name: 'created_by')
-  final String createdBy;
+  @JsonKey(name: 'users')
+  final AppUser? createdBy;
   final List<GroupMatchResult>? _results;
   @override
   @JsonKey(name: 'group_match_results')
@@ -265,7 +284,7 @@ abstract class _GroupMatch extends GroupMatch {
       @JsonKey(name: 'match_type') required final MatchType matchType,
       @JsonKey(name: 'created_at') required final DateTime createdAt,
       @JsonKey(name: 'group_id') required final int groupId,
-      @JsonKey(name: 'created_by') required final String createdBy,
+      @JsonKey(name: 'users') final AppUser? createdBy,
       @JsonKey(name: 'group_match_results')
       final List<GroupMatchResult>? results}) = _$GroupMatchImpl;
   const _GroupMatch._() : super._();
@@ -285,8 +304,8 @@ abstract class _GroupMatch extends GroupMatch {
   @JsonKey(name: 'group_id')
   int get groupId;
   @override
-  @JsonKey(name: 'created_by')
-  String get createdBy;
+  @JsonKey(name: 'users')
+  AppUser? get createdBy;
   @override
   @JsonKey(name: 'group_match_results')
   List<GroupMatchResult>? get results;

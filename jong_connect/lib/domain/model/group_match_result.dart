@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'app_user.dart';
+
 part 'group_match_result.freezed.dart';
 
 part 'group_match_result.g.dart';
@@ -14,7 +16,9 @@ class GroupMatchResult with _$GroupMatchResult {
     @JsonKey(name: 'match_order') required int matchOrder,
     @JsonKey(name: 'group_match_id') required int groupMatchId,
     @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'user_name') required String userName,
     @JsonKey(name: 'user_id') String? userId,
+    @JsonKey(name: 'users') AppUser? user,
   }) = _GroupMatchResult;
 
   factory GroupMatchResult.fromJson(Map<String, dynamic> json) =>

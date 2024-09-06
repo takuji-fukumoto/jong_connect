@@ -31,8 +31,12 @@ mixin _$GroupMatchResult {
   int get groupMatchId => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_name')
+  String get userName => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
   String? get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'users')
+  AppUser? get user => throw _privateConstructorUsedError;
 
   /// Serializes this GroupMatchResult to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -58,7 +62,11 @@ abstract class $GroupMatchResultCopyWith<$Res> {
       @JsonKey(name: 'match_order') int matchOrder,
       @JsonKey(name: 'group_match_id') int groupMatchId,
       @JsonKey(name: 'created_at') DateTime createdAt,
-      @JsonKey(name: 'user_id') String? userId});
+      @JsonKey(name: 'user_name') String userName,
+      @JsonKey(name: 'user_id') String? userId,
+      @JsonKey(name: 'users') AppUser? user});
+
+  $AppUserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -83,7 +91,9 @@ class _$GroupMatchResultCopyWithImpl<$Res, $Val extends GroupMatchResult>
     Object? matchOrder = null,
     Object? groupMatchId = null,
     Object? createdAt = null,
+    Object? userName = null,
     Object? userId = freezed,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -114,11 +124,33 @@ class _$GroupMatchResultCopyWithImpl<$Res, $Val extends GroupMatchResult>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as AppUser?,
     ) as $Val);
+  }
+
+  /// Create a copy of GroupMatchResult
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AppUserCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $AppUserCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
   }
 }
 
@@ -138,7 +170,12 @@ abstract class _$$GroupMatchResultImplCopyWith<$Res>
       @JsonKey(name: 'match_order') int matchOrder,
       @JsonKey(name: 'group_match_id') int groupMatchId,
       @JsonKey(name: 'created_at') DateTime createdAt,
-      @JsonKey(name: 'user_id') String? userId});
+      @JsonKey(name: 'user_name') String userName,
+      @JsonKey(name: 'user_id') String? userId,
+      @JsonKey(name: 'users') AppUser? user});
+
+  @override
+  $AppUserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -161,7 +198,9 @@ class __$$GroupMatchResultImplCopyWithImpl<$Res>
     Object? matchOrder = null,
     Object? groupMatchId = null,
     Object? createdAt = null,
+    Object? userName = null,
     Object? userId = freezed,
+    Object? user = freezed,
   }) {
     return _then(_$GroupMatchResultImpl(
       id: null == id
@@ -192,10 +231,18 @@ class __$$GroupMatchResultImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as AppUser?,
     ));
   }
 }
@@ -211,7 +258,9 @@ class _$GroupMatchResultImpl implements _GroupMatchResult {
       @JsonKey(name: 'match_order') required this.matchOrder,
       @JsonKey(name: 'group_match_id') required this.groupMatchId,
       @JsonKey(name: 'created_at') required this.createdAt,
-      @JsonKey(name: 'user_id') this.userId});
+      @JsonKey(name: 'user_name') required this.userName,
+      @JsonKey(name: 'user_id') this.userId,
+      @JsonKey(name: 'users') this.user});
 
   factory _$GroupMatchResultImpl.fromJson(Map<String, dynamic> json) =>
       _$$GroupMatchResultImplFromJson(json);
@@ -235,12 +284,18 @@ class _$GroupMatchResultImpl implements _GroupMatchResult {
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @override
+  @JsonKey(name: 'user_name')
+  final String userName;
+  @override
   @JsonKey(name: 'user_id')
   final String? userId;
+  @override
+  @JsonKey(name: 'users')
+  final AppUser? user;
 
   @override
   String toString() {
-    return 'GroupMatchResult(id: $id, score: $score, rank: $rank, totalPoints: $totalPoints, matchOrder: $matchOrder, groupMatchId: $groupMatchId, createdAt: $createdAt, userId: $userId)';
+    return 'GroupMatchResult(id: $id, score: $score, rank: $rank, totalPoints: $totalPoints, matchOrder: $matchOrder, groupMatchId: $groupMatchId, createdAt: $createdAt, userName: $userName, userId: $userId, user: $user)';
   }
 
   @override
@@ -259,13 +314,16 @@ class _$GroupMatchResultImpl implements _GroupMatchResult {
                 other.groupMatchId == groupMatchId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.userId, userId) || other.userId == userId));
+            (identical(other.userName, userName) ||
+                other.userName == userName) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, score, rank, totalPoints,
-      matchOrder, groupMatchId, createdAt, userId);
+      matchOrder, groupMatchId, createdAt, userName, userId, user);
 
   /// Create a copy of GroupMatchResult
   /// with the given fields replaced by the non-null parameter values.
@@ -293,7 +351,9 @@ abstract class _GroupMatchResult implements GroupMatchResult {
       @JsonKey(name: 'match_order') required final int matchOrder,
       @JsonKey(name: 'group_match_id') required final int groupMatchId,
       @JsonKey(name: 'created_at') required final DateTime createdAt,
-      @JsonKey(name: 'user_id') final String? userId}) = _$GroupMatchResultImpl;
+      @JsonKey(name: 'user_name') required final String userName,
+      @JsonKey(name: 'user_id') final String? userId,
+      @JsonKey(name: 'users') final AppUser? user}) = _$GroupMatchResultImpl;
 
   factory _GroupMatchResult.fromJson(Map<String, dynamic> json) =
       _$GroupMatchResultImpl.fromJson;
@@ -317,8 +377,14 @@ abstract class _GroupMatchResult implements GroupMatchResult {
   @JsonKey(name: 'created_at')
   DateTime get createdAt;
   @override
+  @JsonKey(name: 'user_name')
+  String get userName;
+  @override
   @JsonKey(name: 'user_id')
   String? get userId;
+  @override
+  @JsonKey(name: 'users')
+  AppUser? get user;
 
   /// Create a copy of GroupMatchResult
   /// with the given fields replaced by the non-null parameter values.
