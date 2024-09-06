@@ -33,6 +33,16 @@ abstract final class SnackBarService {
   }
 }
 
+enum MatchType {
+  four('4麻'),
+  three('3麻'),
+  ;
+
+  const MatchType(this.displayName);
+
+  final String displayName;
+}
+
 /// Set of extension methods to easily display a snackbar
 extension ShowSnackBar on BuildContext {
   /// Displays a basic snackbar
