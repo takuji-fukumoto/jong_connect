@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/provider/current_avatars.dart';
 import 'package:jong_connect/domain/provider/current_friends.dart';
 import 'package:jong_connect/domain/provider/group_details.dart';
-import 'package:jong_connect/presentation/common_widgets/user_section_item.dart';
+import 'package:jong_connect/presentation/common_widgets/user_section_item_vertical.dart';
 import 'package:jong_connect/usecase/edit_group_use_case.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/constants.dart';
@@ -174,7 +174,7 @@ class _EditGroupFormState extends ConsumerState<EditGroupPage> {
                     for (final user in expectedTargetUsers)
                       FormBuilderChipOption(
                         value: user,
-                        child: UserSectionItem(user: user),
+                        child: UserSectionItemVertical(user: user),
                       ),
                   ],
                 ),

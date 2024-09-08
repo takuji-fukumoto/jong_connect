@@ -1,4 +1,3 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jong_connect/domain/model/app_user.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';

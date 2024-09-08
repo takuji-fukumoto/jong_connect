@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../domain/model/app_user.dart';
 import '../../util/constants.dart';
 
-class UserSectionItem extends StatelessWidget {
-  const UserSectionItem({super.key, required this.user});
+class UserSectionItemVertical extends StatelessWidget {
+  const UserSectionItemVertical({super.key, required this.user});
 
   final AppUser user;
 

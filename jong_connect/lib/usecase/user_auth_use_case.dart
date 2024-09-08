@@ -4,18 +4,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../util/constants.dart';
-import '../domain/provider/auth_state.dart';
 
 part 'user_auth_use_case.g.dart';
 
 @riverpod
-UserAuthUseCase userAuthUseCase(UserAuthUseCaseRef ref) => UserAuthUseCase(ref);
+UserAuthUseCase userAuthUseCase(UserAuthUseCaseRef ref) => UserAuthUseCase();
 
 class UserAuthUseCase {
-  final UserAuthUseCaseRef _ref;
-
-  UserAuthUseCase(this._ref);
-
   Future<AuthResponse> signInWithPassword(String email, String password) async {
     return await supabase.auth
         .signInWithPassword(password: password, email: email);
