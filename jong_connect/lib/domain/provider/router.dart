@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/presentation/pages/create_group/create_group_page.dart';
+import 'package:jong_connect/presentation/pages/create_group_match/create_group_match_page.dart';
 import 'package:jong_connect/presentation/pages/edit_group/edit_group_page.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
 import 'package:jong_connect/presentation/pages/invite_friend/invite_friend_page.dart';
@@ -17,6 +18,7 @@ import '../../presentation/common_widgets/scaffold_with_navigation_bar.dart';
 import '../../presentation/pages/group_details/group_details_page.dart';
 import '../../presentation/pages/home/home_page.dart';
 import '../../presentation/pages/sign_in/sign_in_page.dart';
+import '../../util/constants.dart';
 import 'auth_state.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -79,6 +81,23 @@ final routerProvider = Provider(
                       );
                     },
                     routes: [
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        name: RoutingPath.createGroupMatch,
+                        path: RoutingPath.createGroupMatch,
+                        builder: (context, state) {
+                          final groupId =
+                              int.parse(state.pathParameters['groupId']!);
+                          final matchType = MatchType.values
+                              .byName(state.pathParameters['matchType']!);
+
+                          return CreateGroupMatchPage(
+                            groupId: groupId,
+                            type: matchType,
+                          );
+                        },
+                        routes: [],
+                      ),
                       GoRoute(
                         parentNavigatorKey: _rootNavigatorKey,
                         name: RoutingPath.editGroup,

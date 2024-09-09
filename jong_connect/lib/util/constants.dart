@@ -34,13 +34,14 @@ abstract final class SnackBarService {
 }
 
 enum MatchType {
-  four('4麻'),
-  three('3麻'),
+  four('4麻', 4),
+  three('3麻', 3),
   ;
 
-  const MatchType(this.displayName);
+  const MatchType(this.displayName, this.playableNumber);
 
   final String displayName;
+  final int playableNumber;
 }
 
 /// Set of extension methods to easily display a snackbar
