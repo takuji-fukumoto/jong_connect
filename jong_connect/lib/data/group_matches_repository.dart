@@ -1,6 +1,7 @@
 import 'package:jong_connect/domain/model/group_match_result.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../domain/model/app_user.dart';
 import '../domain/model/group_match.dart';
 import '../util/constants.dart';
 import 'group_matches_repository_impl.dart';
@@ -16,8 +17,8 @@ class GroupMatchesRepository {
     throw UnimplementedError();
   }
 
-  Future<void> createWithResults(
-      int groupId, MatchType type, List<GroupMatchResult> results) async {
+  Future<void> createWithResults(int groupId, AppUser createdUser,
+      MatchType type, List<GroupMatchResult> results) async {
     throw UnimplementedError();
   }
 

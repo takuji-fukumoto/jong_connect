@@ -7,7 +7,9 @@ abstract final class RoutingPath {
   static const String record = '/record';
   static const String settings = '/settings';
   static const String inviteFriend = 'invite_friend';
-  static const String createGroup = 'create_group';
-  static const String groupDetails = 'group/:groupId';
+  static const String createGroup = 'new_group';
+  static const String groupDetails = 'groups/:groupId';
   static const String editGroup = 'edit_group';
+  static const String createGroupMatch = 'group_match/new/:matchType';
+  static const String inputGroupMatchScore = 'scores/new';
 }

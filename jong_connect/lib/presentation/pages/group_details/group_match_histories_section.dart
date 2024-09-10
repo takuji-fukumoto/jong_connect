@@ -1,11 +1,13 @@
 import 'dart:collection';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:async_value_group/async_value_group.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
@@ -13,7 +15,9 @@ import 'package:jong_connect/domain/provider/group_matches.dart';
 import 'package:jong_connect/util/app_colors.dart';
 
 import '../../../domain/model/app_user.dart';
+import '../../../util/constants.dart';
 import '../../../util/format_date.dart';
+import '../../../util/routing_path.dart';
 
 class GroupMatchHistoriesSection extends ConsumerWidget {
   const GroupMatchHistoriesSection({super.key, required this.id});
@@ -56,7 +60,31 @@ class GroupMatchHistoriesSection extends ConsumerWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.outerSpace,
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    final result = await showModalActionSheet<String>(
+                      context: context,
+                      message: '対局タイプを選択してください',
+                      actions: [
+                        for (var type in MatchType.values) ...[
+                          SheetAction(
+                            label: type.displayName,
+                            key: type.name,
+                          ),
+                        ],
+                      ],
+                    );
+
+                    if (result == null) {
+                      return;
+                    }
+                    context.goNamed(
+                      RoutingPath.createGroupMatch,
+                      pathParameters: {
+                        'groupId': id.toString(),
+                        'matchType': result,
+                      },
+                    );
+                  },
                   child: const Text(
                     '記録をつける',
                     style: TextStyle(
@@ -158,8 +186,6 @@ class _MatchHistoryItem extends StatelessWidget {
             height: 30,
           ),
           tail: false,
-          trailing: Text('aaaaa'),
-          // trailing: Text(DateFormatter(match.createdAt).formatToHm()),
         ),
         _ResultView(match: match),
       ],
