@@ -1,5 +1,6 @@
 import 'package:jong_connect/domain/model/group_match.dart';
 
+import '../domain/model/app_user.dart';
 import '../domain/model/group_match_result.dart';
 import '../util/constants.dart';
 import 'group_matches_repository.dart';
@@ -7,6 +8,7 @@ import 'group_matches_repository.dart';
 class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
   @override
   Future<List<GroupMatch>> getWithResults(int groupId, {int limit = 50}) async {
+    print('get results');
     final json = await supabase
         .from('group_matches')
         .select('''
@@ -47,21 +49,22 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
   }
 
   @override
-  Future<void> createWithResults(
-      int groupId, MatchType type, List<GroupMatchResult> results) async {
+  Future<void> createWithResults(int groupId, AppUser createdUser,
+      MatchType type, List<GroupMatchResult> results) async {
     var resultsJson =
-        results.map<Map<String, dynamic>>((result) => result.toJson()).toList();
+    results.map<Map<String, dynamic>>((result) => result.toJson()).toList();
 
     return await supabase.rpc('create_group_match_with_results', params: {
       'group_id': groupId,
-      'match_type': type,
+      'created_user_id': createdUser.id,
+      'match_type': type.name,
       'results': resultsJson,
     });
   }
 
   @override
-  Future<void> updateResults(
-      int groupMatchId, List<GroupMatchResult> results) async {
+  Future<void> updateResults(int groupMatchId,
+      List<GroupMatchResult> results) async {
     throw UnimplementedError();
   }
 

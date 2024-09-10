@@ -6,7 +6,7 @@ part of 'group_match_players.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$groupMatchPlayersHash() => r'cd7b1f7dc14d39b970f8be16c093bce72e39f2d8';
+String _$groupMatchPlayersHash() => r'e47877d8648a7063fdf471971be19d4895493c89';
 
 /// Copied from Dart SDK
 class _SystemHash {

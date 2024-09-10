@@ -7,7 +7,7 @@ part of 'create_group_match_results_use_case.dart';
 // **************************************************************************
 
 String _$createGroupMatchResultsUseCaseHash() =>
-    r'5a0a9c7dca6b7436e8217f947e918564b2616e28';
+    r'95b55ee814e849deebb73cc34574cb6814e30e0b';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -33,11 +33,11 @@ class _SystemHash {
 abstract class _$CreateGroupMatchResultsUseCase
     extends BuildlessAutoDisposeNotifier<MatchResultRecords> {
   late final int groupId;
-  late final MatchType type;
+  late final String matchTypeName;
 
   MatchResultRecords build(
     int groupId,
-    MatchType type,
+    String matchTypeName,
   );
 }
 
@@ -54,11 +54,11 @@ class CreateGroupMatchResultsUseCaseFamily extends Family<MatchResultRecords> {
   /// See also [CreateGroupMatchResultsUseCase].
   CreateGroupMatchResultsUseCaseProvider call(
     int groupId,
-    MatchType type,
+    String matchTypeName,
   ) {
     return CreateGroupMatchResultsUseCaseProvider(
       groupId,
-      type,
+      matchTypeName,
     );
   }
 
@@ -68,7 +68,7 @@ class CreateGroupMatchResultsUseCaseFamily extends Family<MatchResultRecords> {
   ) {
     return call(
       provider.groupId,
-      provider.type,
+      provider.matchTypeName,
     );
   }
 
@@ -94,11 +94,11 @@ class CreateGroupMatchResultsUseCaseProvider
   /// See also [CreateGroupMatchResultsUseCase].
   CreateGroupMatchResultsUseCaseProvider(
     int groupId,
-    MatchType type,
+    String matchTypeName,
   ) : this._internal(
           () => CreateGroupMatchResultsUseCase()
             ..groupId = groupId
-            ..type = type,
+            ..matchTypeName = matchTypeName,
           from: createGroupMatchResultsUseCaseProvider,
           name: r'createGroupMatchResultsUseCaseProvider',
           debugGetCreateSourceHash:
@@ -109,7 +109,7 @@ class CreateGroupMatchResultsUseCaseProvider
           allTransitiveDependencies:
               CreateGroupMatchResultsUseCaseFamily._allTransitiveDependencies,
           groupId: groupId,
-          type: type,
+          matchTypeName: matchTypeName,
         );
 
   CreateGroupMatchResultsUseCaseProvider._internal(
@@ -120,11 +120,11 @@ class CreateGroupMatchResultsUseCaseProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.groupId,
-    required this.type,
+    required this.matchTypeName,
   }) : super.internal();
 
   final int groupId;
-  final MatchType type;
+  final String matchTypeName;
 
   @override
   MatchResultRecords runNotifierBuild(
@@ -132,7 +132,7 @@ class CreateGroupMatchResultsUseCaseProvider
   ) {
     return notifier.build(
       groupId,
-      type,
+      matchTypeName,
     );
   }
 
@@ -143,14 +143,14 @@ class CreateGroupMatchResultsUseCaseProvider
       override: CreateGroupMatchResultsUseCaseProvider._internal(
         () => create()
           ..groupId = groupId
-          ..type = type,
+          ..matchTypeName = matchTypeName,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         groupId: groupId,
-        type: type,
+        matchTypeName: matchTypeName,
       ),
     );
   }
@@ -165,14 +165,14 @@ class CreateGroupMatchResultsUseCaseProvider
   bool operator ==(Object other) {
     return other is CreateGroupMatchResultsUseCaseProvider &&
         other.groupId == groupId &&
-        other.type == type;
+        other.matchTypeName == matchTypeName;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, groupId.hashCode);
-    hash = _SystemHash.combine(hash, type.hashCode);
+    hash = _SystemHash.combine(hash, matchTypeName.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -183,8 +183,8 @@ mixin CreateGroupMatchResultsUseCaseRef
   /// The parameter `groupId` of this provider.
   int get groupId;
 
-  /// The parameter `type` of this provider.
-  MatchType get type;
+  /// The parameter `matchTypeName` of this provider.
+  String get matchTypeName;
 }
 
 class _CreateGroupMatchResultsUseCaseProviderElement
@@ -195,7 +195,8 @@ class _CreateGroupMatchResultsUseCaseProviderElement
   @override
   int get groupId => (origin as CreateGroupMatchResultsUseCaseProvider).groupId;
   @override
-  MatchType get type => (origin as CreateGroupMatchResultsUseCaseProvider).type;
+  String get matchTypeName =>
+      (origin as CreateGroupMatchResultsUseCaseProvider).matchTypeName;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

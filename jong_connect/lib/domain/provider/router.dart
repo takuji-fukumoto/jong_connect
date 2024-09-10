@@ -4,6 +4,7 @@ import 'package:jong_connect/presentation/pages/create_group/create_group_page.d
 import 'package:jong_connect/presentation/pages/create_group_match/create_group_match_page.dart';
 import 'package:jong_connect/presentation/pages/edit_group/edit_group_page.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
+import 'package:jong_connect/presentation/pages/input_group_match_score/input_match_score_page.dart';
 import 'package:jong_connect/presentation/pages/invite_friend/invite_friend_page.dart';
 import 'package:jong_connect/presentation/pages/record/record_page.dart';
 import 'package:jong_connect/presentation/pages/rooms/rooms_page.dart';
@@ -96,7 +97,25 @@ final routerProvider = Provider(
                             type: matchType,
                           );
                         },
-                        routes: [],
+                        routes: [
+                          GoRoute(
+                            parentNavigatorKey: _rootNavigatorKey,
+                            name: RoutingPath.inputGroupMatchScore,
+                            path: RoutingPath.inputGroupMatchScore,
+                            builder: (context, state) {
+                              final groupId =
+                                  int.parse(state.pathParameters['groupId']!);
+                              final matchType = MatchType.values
+                                  .byName(state.pathParameters['matchType']!);
+
+                              return InputGroupMatchScorePage(
+                                groupId: groupId,
+                                type: matchType,
+                              );
+                            },
+                            routes: [],
+                          ),
+                        ],
                       ),
                       GoRoute(
                         parentNavigatorKey: _rootNavigatorKey,

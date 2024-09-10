@@ -16,6 +16,11 @@ INSERT INTO auth.identities (id, provider_id, user_id, identity_data, provider, 
 
 INSERT INTO "public"."avatars" ("created_at", "url")
 VALUES
+    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/man_01.png'),
+    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/man_02.png'),
+    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/man_03.png'),
+    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/woman_01.png'),
+    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/woman_02.png'),
     ('2024-08-20 07:02:20.378184+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/01.png'), 
     ('2024-08-20 07:02:46.171755+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/02.png'), 
     ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/03.png'),
