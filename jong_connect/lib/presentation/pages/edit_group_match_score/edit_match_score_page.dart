@@ -15,18 +15,22 @@ import '../../../domain/model/app_user.dart';
 import '../../../domain/provider/group_match_players.dart';
 import '../../common_widgets/async_value_widget.dart';
 
-class InputGroupMatchScorePage extends ConsumerStatefulWidget {
-  const InputGroupMatchScorePage(
-      {super.key, required this.groupId, required this.type});
+class EditGroupMatchScorePage extends ConsumerStatefulWidget {
+  const EditGroupMatchScorePage(
+      {super.key,
+      required this.groupId,
+      required this.type,
+      required this.matchOrder});
 
   final int groupId;
   final MatchType type;
+  final int matchOrder;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _InputScoreFormState();
 }
 
-class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
+class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
   final _formKey = GlobalKey<FormBuilderState>();
@@ -84,10 +88,10 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
           .read(createGroupMatchResultsUseCaseProvider(
                   widget.groupId, widget.type.name)
               .notifier)
-          .addRoundResults(inputScores);
+          .editRoundResults(widget.matchOrder, inputScores);
 
       context.pop();
-      SnackBarService.showSnackBar(content: 'スコアを追加しました');
+      SnackBarService.showSnackBar(content: 'スコアを編集しました');
     } on CalcMatchResultsException catch (error) {
       context.showErrorSnackBar(message: error.message);
     } catch (error) {
@@ -100,16 +104,24 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final groupMatchResults = ref.watch(createGroupMatchResultsUseCaseProvider(
+        widget.groupId, widget.type.name));
+    final targetOrderScores = groupMatchResults.results
+        .where((result) => result.matchOrder == widget.matchOrder)
+        .map<InputUserScore>(
+            (result) => InputUserScore(user: result.user!, score: result.score))
+        .toList();
+    targetPlayers =
+        targetOrderScores.map<AppUser>((score) => score.user).toList();
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('スコア入力'),
+        title: const Text('スコア編集'),
       ),
       body: AsyncValueWidget(
         asyncValue: ref.read(groupMatchPlayersProvider(widget.groupId)),
         data: (players) {
-          targetPlayers ??= players.take(widget.type.playableNumber).toList();
           return FormBuilder(
             key: _formKey,
             child: ListView(
@@ -167,6 +179,7 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                         child: FormBuilderTextField(
                           name: "player$i",
                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                          initialValue: targetOrderScores[i].score.toString(),
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.numeric(
                                 checkNullOrEmpty: false),
