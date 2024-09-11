@@ -23,27 +23,27 @@ class RoomListSection extends ConsumerWidget {
           children: [
             for (final group in groups)
               ListTile(
-                leading: SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: CachedNetworkImage(
-                    imageUrl: group.imageUrl,
-                    imageBuilder: (context, imageProvider) => CircleAvatar(
-                      radius: 40,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => unknownGroupIcon,
-                  ),
-                ),
+                // leading: SizedBox(
+                //   width: 40,
+                //   height: 40,
+                //   child: CachedNetworkImage(
+                //     imageUrl: group.imageUrl,
+                //     imageBuilder: (context, imageProvider) => CircleAvatar(
+                //       radius: 40,
+                //       child: Container(
+                //         decoration: BoxDecoration(
+                //           image: DecorationImage(
+                //             image: imageProvider,
+                //             fit: BoxFit.cover,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     placeholder: (context, url) =>
+                //         const CircularProgressIndicator(),
+                //     errorWidget: (context, url, error) => unknownGroupIcon,
+                //   ),
+                // ),
                 title: Text(group.name),
                 subtitle: Text(group.description),
                 onTap: () => context.goNamed(
