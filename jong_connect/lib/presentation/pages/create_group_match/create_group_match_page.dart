@@ -142,6 +142,16 @@ class _ResultTable extends ConsumerWidget {
         rows: List<DataRow>.generate(
           records.maxRounds,
           (index) => DataRow2(
+            onTap: () {
+              context.goNamed(
+                RoutingPath.editGroupMatchScore,
+                pathParameters: {
+                  'groupId': groupId.toString(),
+                  'matchType': type.name,
+                  'matchOrder': (index + 1).toString(),
+                },
+              );
+            },
             cells: [
               DataCell(
                 Center(

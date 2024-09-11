@@ -3,7 +3,8 @@ WITH credentials(id, mail, pass) AS (
     ('123e4567-e89b-12d3-a456-426614174000', 'user1@example.com', 'password1'), 
     ('123e4567-e89b-12d3-a456-426614174001', 'user2@example.com', 'password2'), 
     ('123e4567-e89b-12d3-a456-426614174002', 'user3@example.com', 'password3'), 
-    ('123e4567-e89b-12d3-a456-426614174003', 'user4@example.com', 'password4')
+    ('123e4567-e89b-12d3-a456-426614174003', 'user4@example.com', 'password4'),
+    ('123e4567-e89b-12d3-a456-426614174004', 'user5@example.com', 'password5')
   ) AS users(id, mail, pass)
 ),
 create_user AS (
@@ -62,18 +63,30 @@ SET
   "name" = 'user004',
   "profile" = 'aaaaa',
   "friend_id" = 4,
-  "avatar_url" = 'aaaaa'
+  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/dog.png'
 where
   id = '123e4567-e89b-12d3-a456-426614174003';
+
+UPDATE "public"."users"
+SET
+  "name" = 'user005',
+  "profile" = '麻雀大好き',
+  "friend_id" = 5,
+  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/cat.png'
+where
+  id = '123e4567-e89b-12d3-a456-426614174004';
+
 
 INSERT INTO "public"."friends" ("user_id", "friend_id") 
 VALUES 
   ('123e4567-e89b-12d3-a456-426614174000', 2),
   ('123e4567-e89b-12d3-a456-426614174000', 3),
   ('123e4567-e89b-12d3-a456-426614174000', 4),
+  ('123e4567-e89b-12d3-a456-426614174000', 5),
   ('123e4567-e89b-12d3-a456-426614174001', 1),
   ('123e4567-e89b-12d3-a456-426614174002', 1),
-  ('123e4567-e89b-12d3-a456-426614174003', 1);
+  ('123e4567-e89b-12d3-a456-426614174003', 1),
+  ('123e4567-e89b-12d3-a456-426614174004', 1);
 
 INSERT INTO "public"."groups" ("id", "name", "description", "image_url") 
 VALUES 
@@ -84,7 +97,8 @@ VALUES
   ('123e4567-e89b-12d3-a456-426614174000', 101),
   ('123e4567-e89b-12d3-a456-426614174001', 101),
   ('123e4567-e89b-12d3-a456-426614174002', 101),
-  ('123e4567-e89b-12d3-a456-426614174003', 101);
+  ('123e4567-e89b-12d3-a456-426614174003', 101),
+  ('123e4567-e89b-12d3-a456-426614174004', 101);
 
 INSERT INTO "public"."group_session_results" ("id", "group_id") 
 VALUES 

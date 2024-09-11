@@ -34,6 +34,6 @@ class CreateGroupMatchResultsUseCase extends _$CreateGroupMatchResultsUseCase {
     await ref.read(groupMatchesRepositoryProvider).createWithResults(
         state.groupId, createdUser!, state.matchType, state.results);
     // 対局結果リストリフレッシュ
-    ref.watch(groupMatchesProvider(groupId: state.groupId));
+    ref.invalidate(groupMatchesProvider(groupId: state.groupId));
   }
 }

@@ -63,14 +63,7 @@ class MatchResultRecords with _$MatchResultRecords {
 
     var convertedInputScores = _convertFromInputUserScore(inputScores);
 
-    return copyWith(results: [
-      for (var result in results) ...[
-        result,
-      ],
-      for (var newResult in convertedInputScores) ...[
-        newResult,
-      ],
-    ]);
+    return copyWith(results: [...results, ...convertedInputScores]);
   }
 
   /// 全て同じmatch_order前提
@@ -81,22 +74,26 @@ class MatchResultRecords with _$MatchResultRecords {
           '集計に必要な対局者数に達していません: ${editedScores.length} / ${matchType.playableNumber}人');
     }
 
-    results.removeWhere((result) => result.matchOrder == targetOrder);
     var convertedInputScores =
         _convertFromInputUserScore(editedScores, targetOrder: targetOrder);
     return copyWith(results: [
-      for (var result in results) ...[
-        result,
-      ],
-      for (var newResult in convertedInputScores) ...[
-        newResult,
-      ],
+      for (var result in results)
+        if (result.matchOrder < targetOrder) result,
+      ...convertedInputScores,
+      for (var result in results)
+        if (result.matchOrder > targetOrder) result,
     ]);
   }
 
   MatchResultRecords deleteResults(int targetOrder) {
-    results.removeWhere((result) => result.matchOrder == targetOrder);
-    return copyWith(results: results);
+    return copyWith(results: [
+      for (var result in results)
+        if (result.matchOrder != targetOrder)
+          result.copyWith(
+              matchOrder: result.matchOrder < targetOrder
+                  ? result.matchOrder
+                  : result.matchOrder + 1),
+    ]);
   }
 
   List<GroupMatchResult> _convertFromInputUserScore(
@@ -130,14 +127,16 @@ class MatchResultRecords with _$MatchResultRecords {
       // TODO: ウマオカ入れてトータル算出する
       var totalPoints = (int.parse(scoreString) / 1000).floor() - 25;
       outputResults.add(GroupMatchResult(
-          id: 0,
-          score: inputScores[i].score,
-          rank: rank,
-          totalPoints: totalPoints,
-          matchOrder: matchOrder,
-          createdAt: createdAt,
-          userId: inputScores[i].userId,
-          userName: inputScores[i].userName));
+        id: 0,
+        score: inputScores[i].score,
+        rank: rank,
+        totalPoints: totalPoints,
+        matchOrder: matchOrder,
+        createdAt: createdAt,
+        userId: inputScores[i].user.id,
+        userName: inputScores[i].user.name,
+        user: inputScores[i].user,
+      ));
     }
 
     return outputResults;
