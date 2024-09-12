@@ -211,10 +211,13 @@ class _ResultView extends StatelessWidget {
     var totalResults = match.totalPointsPerUser;
     var sortedResults = SplayTreeMap<String, int>.from(
         totalResults, (a, b) => totalResults[b]!.compareTo(totalResults[a]!));
-    var userNames = sortedResults.keys.toList();
+    var playerIds = sortedResults.keys.toList();
+    var playerMap = Map.fromIterables(
+        match.joinUsers.map<String>((user) => user.id).toList(),
+        match.joinUsers.map<String>((user) => user.name).toList());
 
-    return ElevatedButton(
-      onPressed: () => {
+    return GestureDetector(
+      onTap: () => {
         context.goNamed(
           RoutingPath.groupMatch,
           pathParameters: {
@@ -246,8 +249,8 @@ class _ResultView extends StatelessWidget {
             sortedResults.length,
             (index) => DataRow(
               cells: [
-                DataCell(Text(userNames[index])),
-                DataCell(Text(sortedResults[userNames[index]].toString())),
+                DataCell(Text(playerMap[playerIds[index]]!)),
+                DataCell(Text(sortedResults[playerIds[index]].toString())),
               ],
             ),
           ),
