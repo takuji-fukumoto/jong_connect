@@ -16,6 +16,7 @@ _$GroupMatchResultImpl _$$GroupMatchResultImplFromJson(
       matchOrder: (json['match_order'] as num).toInt(),
       createdAt: DateTime.parse(json['created_at'] as String),
       userName: json['user_name'] as String,
+      groupMatchId: (json['group_match_id'] as num?)?.toInt(),
       groupMatch: json['group_matches'] == null
           ? null
           : GroupMatch.fromJson(json['group_matches'] as Map<String, dynamic>),
@@ -35,6 +36,7 @@ Map<String, dynamic> _$$GroupMatchResultImplToJson(
       'match_order': instance.matchOrder,
       'created_at': instance.createdAt.toIso8601String(),
       'user_name': instance.userName,
+      'group_match_id': instance.groupMatchId,
       'group_matches': instance.groupMatch,
       'user_id': instance.userId,
       'users': instance.user,

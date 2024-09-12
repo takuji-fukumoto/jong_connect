@@ -85,8 +85,8 @@ final routerProvider = Provider(
                     routes: [
                       GoRoute(
                         parentNavigatorKey: _rootNavigatorKey,
-                        name: RoutingPath.createGroupMatch,
-                        path: RoutingPath.createGroupMatch,
+                        name: RoutingPath.groupMatch,
+                        path: RoutingPath.groupMatch,
                         builder: (context, state) {
                           final groupId =
                               int.parse(state.pathParameters['groupId']!);

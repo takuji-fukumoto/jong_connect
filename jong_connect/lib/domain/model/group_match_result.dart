@@ -17,6 +17,7 @@ class GroupMatchResult with _$GroupMatchResult {
     @JsonKey(name: 'match_order') required int matchOrder,
     @JsonKey(name: 'created_at') required DateTime createdAt,
     @JsonKey(name: 'user_name') required String userName,
+    @JsonKey(name: 'group_match_id') int? groupMatchId,
     @JsonKey(name: 'group_matches') GroupMatch? groupMatch,
     @JsonKey(name: 'user_id') String? userId,
     @JsonKey(name: 'users') AppUser? user,

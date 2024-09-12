@@ -78,7 +78,7 @@ class GroupMatchHistoriesSection extends ConsumerWidget {
                       return;
                     }
                     context.goNamed(
-                      RoutingPath.createGroupMatch,
+                      RoutingPath.groupMatch,
                       pathParameters: {
                         'groupId': id.toString(),
                         'matchType': result,

@@ -17,6 +17,11 @@ class GroupMatchesRepository {
     throw UnimplementedError();
   }
 
+  Future<GroupMatch> create(
+      int groupId, AppUser createdUser, MatchType type) async {
+    throw UnimplementedError();
+  }
+
   Future<void> createWithResults(int groupId, AppUser createdUser,
       MatchType type, List<GroupMatchResult> results) async {
     throw UnimplementedError();

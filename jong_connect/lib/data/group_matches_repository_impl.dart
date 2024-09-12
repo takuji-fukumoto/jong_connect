@@ -8,7 +8,6 @@ import 'group_matches_repository.dart';
 class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
   @override
   Future<List<GroupMatch>> getWithResults(int groupId, {int limit = 50}) async {
-    print('get results');
     final json = await supabase
         .from('group_matches')
         .select('''
@@ -49,10 +48,23 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
   }
 
   @override
+  Future<GroupMatch> create(
+      int groupId, AppUser createdUser, MatchType type) async {
+    var data = await supabase.from('group_matches').insert([
+      {'group_id': groupId, 'user_id': createdUser.id, 'match_type': type.name},
+    ]).select();
+
+    return data
+        .map<GroupMatch>((match) => GroupMatch.fromJson(match))
+        .toList()
+        .first;
+  }
+
+  @override
   Future<void> createWithResults(int groupId, AppUser createdUser,
       MatchType type, List<GroupMatchResult> results) async {
     var resultsJson =
-    results.map<Map<String, dynamic>>((result) => result.toJson()).toList();
+        results.map<Map<String, dynamic>>((result) => result.toJson()).toList();
 
     return await supabase.rpc('create_group_match_with_results', params: {
       'group_id': groupId,
@@ -63,8 +75,8 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
   }
 
   @override
-  Future<void> updateResults(int groupMatchId,
-      List<GroupMatchResult> results) async {
+  Future<void> updateResults(
+      int groupMatchId, List<GroupMatchResult> results) async {
     throw UnimplementedError();
   }
 

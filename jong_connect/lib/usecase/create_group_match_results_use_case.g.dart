@@ -7,7 +7,7 @@ part of 'create_group_match_results_use_case.dart';
 // **************************************************************************
 
 String _$createGroupMatchResultsUseCaseHash() =>
-    r'7b35690252142b67d9aef17b762102d5da336e73';
+    r'1c738ae9bd2937736b349458c1b75327f4b096f8';
 
 /// Copied from Dart SDK
 class _SystemHash {
