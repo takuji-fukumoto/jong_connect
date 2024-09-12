@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jong_connect/domain/model/app_user.dart';
 
@@ -55,6 +57,37 @@ class GroupMatch with _$GroupMatch {
     }
 
     return totalResults;
+  }
+
+  // UserID -> ラウンド順のトータルポイント
+  Map<String, List<int?>> get resultsPerRound {
+    if (results == null || results!.isEmpty) {
+      return {};
+    }
+
+    var matchPlayerIds =
+        results!.map<String>((result) => result.userId!).toSet();
+    var totalPoints = <String, List<int?>>{};
+    // 初期化
+    for (var id in matchPlayerIds) {
+      totalPoints[id] = List.generate(maxRounds, (i) => null);
+    }
+
+    // 順にtotal_pointをセット
+    for (var result in results!) {
+      totalPoints[result.userId!]?[result.matchOrder - 1] ??=
+          result.totalPoints;
+    }
+
+    return totalPoints;
+  }
+
+  int get maxRounds {
+    if (results == null || results!.isEmpty) {
+      return 0;
+    }
+    var matchOrders = results!.map<int>((result) => result.matchOrder).toSet();
+    return matchOrders.reduce(max);
   }
 
   /// 参加ユーザー（重複なし）

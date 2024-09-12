@@ -5,7 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/model/input_user_score.dart';
 import 'package:jong_connect/presentation/common_widgets/user_section_item_vertical.dart';
-import 'package:jong_connect/usecase/create_group_match_results_use_case.dart';
+import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:jong_connect/util/exceptions/calc_match_results_exception.dart';

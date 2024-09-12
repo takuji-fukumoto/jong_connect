@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/provider/group_match_players.dart';
 import 'package:jong_connect/presentation/common_widgets/async_value_widget.dart';
-import 'package:jong_connect/usecase/create_group_match_results_use_case.dart';
+import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/constants.dart';
 
 import '../../../domain/model/app_user.dart';

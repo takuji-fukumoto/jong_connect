@@ -7,7 +7,7 @@ part of 'group_match_round_results.dart';
 // **************************************************************************
 
 String _$groupMatchRoundResultsHash() =>
-    r'3352278b62ae5dcad0d6e0060919951365e17619';
+    r'58e43ddb87bbd8edd295ade0855d26a19c9d12d1';
 
 /// Copied from Dart SDK
 class _SystemHash {

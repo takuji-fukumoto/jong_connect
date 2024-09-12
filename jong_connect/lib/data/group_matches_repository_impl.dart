@@ -6,11 +6,7 @@ import '../util/constants.dart';
 import 'group_matches_repository.dart';
 
 class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
-  @override
-  Future<List<GroupMatch>> getWithResults(int groupId, {int limit = 50}) async {
-    final json = await supabase
-        .from('group_matches')
-        .select('''
+  final _columns = '''
       id, 
       group_id,
       created_at, 
@@ -39,7 +35,27 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
           friend_id
         )
       )
-    ''')
+    ''';
+
+  @override
+  Future<GroupMatch> get(int groupMatchId) async {
+    final json = await supabase
+        .from('group_matches')
+        .select(_columns)
+        .eq('id', groupMatchId)
+        .limit(1);
+
+    return json
+        .map<GroupMatch>((match) => GroupMatch.fromJson(match))
+        .toList()
+        .first;
+  }
+
+  @override
+  Future<List<GroupMatch>> getAll(int groupId, {int limit = 50}) async {
+    final json = await supabase
+        .from('group_matches')
+        .select(_columns)
         .eq('group_id', groupId)
         .order('created_at', ascending: true)
         .limit(limit);
