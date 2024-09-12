@@ -18,15 +18,14 @@ import '../../../domain/provider/group_match.dart';
 import '../../../domain/provider/group_match_players.dart';
 
 class InputGroupMatchScorePage extends ConsumerStatefulWidget {
-  const InputGroupMatchScorePage(
-      {super.key,
-      required this.groupId,
-      required this.groupMatchId,
-      required this.matchOrder});
+  const InputGroupMatchScorePage({
+    super.key,
+    required this.groupId,
+    required this.groupMatchId,
+  });
 
   final int groupId;
   final int groupMatchId;
-  final int matchOrder;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _InputScoreFormState();
@@ -88,7 +87,7 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
       // TODO: 同点のプレイヤーがいる場合ここで別画面表示して座順を入力してもらう
       await ref
           .read(groupMatchResultsUseCaseProvider)
-          .addRoundResults(groupMatch, inputScores, widget.matchOrder);
+          .addRoundResults(groupMatch, inputScores, groupMatch.maxRounds + 1);
 
       context.pop();
       SnackBarService.showSnackBar(content: 'スコアを追加しました');

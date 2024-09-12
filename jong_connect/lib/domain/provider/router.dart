@@ -107,13 +107,10 @@ final routerProvider = Provider(
                                   int.parse(state.pathParameters['groupId']!);
                               final groupMatchId = int.parse(
                                   state.pathParameters['groupMatchId']!);
-                              final matchOrder = int.parse(
-                                  state.uri.queryParameters['matchOrder']!);
 
                               return InputGroupMatchScorePage(
                                 groupId: groupId,
                                 groupMatchId: groupMatchId,
-                                matchOrder: matchOrder,
                               );
                             },
                             routes: [],
