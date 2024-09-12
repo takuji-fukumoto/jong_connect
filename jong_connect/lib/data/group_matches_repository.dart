@@ -13,7 +13,16 @@ GroupMatchesRepository groupMatchesRepository(GroupMatchesRepositoryRef ref) =>
     GroupMatchesRepositoryImpl();
 
 class GroupMatchesRepository {
-  Future<List<GroupMatch>> getWithResults(int groupId, {int limit = 50}) async {
+  Future<GroupMatch> get(int groupMatchId) async {
+    throw UnimplementedError();
+  }
+
+  Future<List<GroupMatch>> getAll(int groupId, {int limit = 50}) async {
+    throw UnimplementedError();
+  }
+
+  Future<GroupMatch> create(
+      int groupId, AppUser createdUser, MatchType type) async {
     throw UnimplementedError();
   }
 

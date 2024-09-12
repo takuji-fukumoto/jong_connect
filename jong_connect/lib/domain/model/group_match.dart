@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jong_connect/domain/model/app_user.dart';
 
@@ -19,6 +21,7 @@ class GroupMatch with _$GroupMatch {
     required int id,
     @JsonKey(name: 'match_type') required MatchType matchType,
     @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'group_id') required int groupId,
     @JsonKey(name: 'groups') Group? group,
     @JsonKey(name: 'users') AppUser? createdBy,
     @JsonKey(name: 'group_match_results') List<GroupMatchResult>? results,
@@ -27,40 +30,56 @@ class GroupMatch with _$GroupMatch {
   factory GroupMatch.fromJson(Map<String, dynamic> json) =>
       _$GroupMatchFromJson(json);
 
-  /// ユーザー名 => トータルスコア
-  Map<String, int>? get totalResultsPerUser {
+  /// ユーザーID => トータルスコア
+  Map<String, int> get totalPointsPerUser {
     if (results == null || results!.isEmpty) {
-      return null;
+      return {};
     }
     Map<String, int> totalResults = {};
-    Map<String, String> deactivatedUserNames = {};
 
     for (var result in results!) {
-      var userName = '';
-
-      // 退会済みのユーザーは名前を伏せる（退会済みユーザー1,2,3...）
-      if (result.userId == null) {
-        if (!deactivatedUserNames.containsKey(result.userName)) {
-          deactivatedUserNames[result.userName] =
-              '退会済みユーザー${deactivatedUserNames.length + 1}';
-        }
-
-        userName = deactivatedUserNames[result.userName]!;
-      } else {
-        userName = result.user?.name ?? result.userName;
-      }
-
-      totalResults[userName] =
-          (totalResults[userName] ?? 0) + result.totalPoints;
+      var userKey = result.userId!;
+      totalResults[userKey] = (totalResults[userKey] ?? 0) + result.totalPoints;
     }
 
     return totalResults;
   }
 
-  /// 参加ユーザー（重複なし）
-  List<AppUser>? get joinUsers {
+  /// ユーザーID -> ラウンド別ポイント
+  Map<String, List<int?>> get pointsPerRound {
     if (results == null || results!.isEmpty) {
-      return null;
+      return {};
+    }
+
+    var playerKeys = results!.map<String>((result) => result.userId!).toSet();
+    var totalPoints = <String, List<int?>>{};
+
+    // 初期化
+    for (var key in playerKeys) {
+      totalPoints[key] = List.generate(maxRounds, (i) => null);
+    }
+
+    // 順にtotal_pointをセット
+    for (var result in results!) {
+      totalPoints[result.userId!]?[result.matchOrder - 1] ??=
+          result.totalPoints;
+    }
+
+    return totalPoints;
+  }
+
+  int get maxRounds {
+    if (results == null || results!.isEmpty) {
+      return 0;
+    }
+    var matchOrders = results!.map<int>((result) => result.matchOrder).toSet();
+    return matchOrders.reduce(max);
+  }
+
+  /// 参加ユーザー（重複なし）
+  List<AppUser> get joinUsers {
+    if (results == null || results!.isEmpty) {
+      return [];
     }
 
     // 退会しているユーザーがいる場合仮のユーザーを追加

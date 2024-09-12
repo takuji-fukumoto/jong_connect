@@ -1,45 +1,36 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:async_value_group/async_value_group.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jong_connect/domain/provider/group_match.dart';
 import 'package:jong_connect/domain/provider/group_match_players.dart';
-import 'package:jong_connect/presentation/common_widgets/async_value_widget.dart';
-import 'package:jong_connect/usecase/create_group_match_results_use_case.dart';
+import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/constants.dart';
+import 'package:jong_connect/util/expect.dart';
 
 import '../../../domain/model/app_user.dart';
+import '../../../domain/model/group_match.dart';
 import '../../../util/routing_path.dart';
 
-class CreateGroupMatchPage extends ConsumerWidget {
-  const CreateGroupMatchPage(
-      {super.key, required this.groupId, required this.type});
+class GroupMatchPage extends ConsumerWidget {
+  const GroupMatchPage(
+      {super.key, required this.groupId, required this.groupMatchId});
 
   final int groupId;
-  final MatchType type;
+  final int groupMatchId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncValueWidget(
-      asyncValue: ref.watch(groupMatchPlayersProvider(groupId)),
-      data: (players) {
+    return AsyncValueGroup.group2(
+      ref.watch(groupMatchPlayersProvider(groupId)),
+      ref.watch(groupMatchProvider(groupMatchId: groupMatchId)),
+    ).when(
+      data: (values) {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            leading: TextButton(
-              onPressed: () async {
-                final result = await showOkCancelAlertDialog(
-                    context: context, message: '途中まで記録した内容は破棄されます');
-
-                if (result.name != 'ok') {
-                  return;
-                }
-
-                context.pop();
-              },
-              child: const Text('キャンセル'),
-            ),
-            leadingWidth: 100,
             actions: [
               TextButton(
                 onPressed: () async {
@@ -51,10 +42,8 @@ class CreateGroupMatchPage extends ConsumerWidget {
                   }
 
                   ref
-                      .watch(createGroupMatchResultsUseCaseProvider(
-                              groupId, type.name)
-                          .notifier)
-                      .register();
+                      .watch(groupMatchResultsUseCaseProvider)
+                      .register(groupMatchId);
                   context.pop();
                   SnackBarService.showSnackBar(content: '対局結果を記録しました');
                 },
@@ -63,9 +52,9 @@ class CreateGroupMatchPage extends ConsumerWidget {
             ],
           ),
           body: _ResultTable(
-            players: players,
+            players: values.$1,
             groupId: groupId,
-            type: type,
+            groupMatch: values.$2,
           ),
           floatingActionButton: FloatingActionButton(
             elevation: 1.5,
@@ -74,7 +63,10 @@ class CreateGroupMatchPage extends ConsumerWidget {
                 RoutingPath.inputGroupMatchScore,
                 pathParameters: {
                   'groupId': groupId.toString(),
-                  'matchType': type.name,
+                  'groupMatchId': groupMatchId.toString(),
+                },
+                queryParameters: {
+                  'matchOrder': (values.$2.maxRounds + 1).toString(),
                 },
               );
             },
@@ -82,6 +74,11 @@ class CreateGroupMatchPage extends ConsumerWidget {
           ),
         );
       },
+      error: (error, st) {
+        print(st);
+        return const Center(child: Text('Oops, something unexpected happened'));
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }
@@ -91,17 +88,20 @@ class _ResultTable extends ConsumerWidget {
       {super.key,
       required this.players,
       required this.groupId,
-      required this.type});
+      required this.groupMatch});
 
   final List<AppUser> players;
   final int groupId;
-  final MatchType type;
+  final GroupMatch groupMatch;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final records =
-        ref.watch(createGroupMatchResultsUseCaseProvider(groupId, type.name));
-    final totalPointsPerUser = records.totalPointsPerUser;
+    final totalPointsPerUser = groupMatch.totalPointsPerUser;
+    final pointsPerRounds = groupMatch.pointsPerRound;
+
+    /// グループに参加しているユーザーとグループから退会したが記録に残っているユーザーを全て表示する
+    var allPlayers = <AppUser>[...players, ...groupMatch.joinUsers];
+    allPlayers = expect(allPlayers, (player) => player.id);
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -119,7 +119,7 @@ class _ResultTable extends ConsumerWidget {
             size: ColumnSize.S,
             fixedWidth: 50,
           ),
-          for (var player in players) ...[
+          for (var player in allPlayers) ...[
             DataColumn2(
               label: Center(
                 child: Column(
@@ -127,9 +127,7 @@ class _ResultTable extends ConsumerWidget {
                   children: [
                     Text(player.name),
                     Text(totalPointsPerUser.keys.contains(player.id)
-                        ? totalPointsPerUser[player.id]!
-                            .reduce((a, b) => (a ?? 0) + (b ?? 0))
-                            .toString()
+                        ? totalPointsPerUser[player.id].toString()
                         : 0.toString()),
                   ],
                 ),
@@ -140,14 +138,14 @@ class _ResultTable extends ConsumerWidget {
           ],
         ],
         rows: List<DataRow>.generate(
-          records.maxRounds,
+          groupMatch.maxRounds,
           (index) => DataRow2(
             onTap: () {
               context.goNamed(
                 RoutingPath.editGroupMatchScore,
                 pathParameters: {
                   'groupId': groupId.toString(),
-                  'matchType': type.name,
+                  'groupMatchId': groupMatch.id.toString(),
                   'matchOrder': (index + 1).toString(),
                 },
               );
@@ -158,11 +156,11 @@ class _ResultTable extends ConsumerWidget {
                   child: Text((index + 1).toString()),
                 ),
               ),
-              for (var player in players) ...[
+              for (var player in allPlayers) ...[
                 DataCell(
                   Center(
                     child: Text(
-                        '${totalPointsPerUser[player.id]?[index] != null ? totalPointsPerUser[player.id]![index] : ''}'),
+                        '${pointsPerRounds[player.id]?[index] != null ? pointsPerRounds[player.id]![index] : ''}'),
                   ),
                 ),
               ],

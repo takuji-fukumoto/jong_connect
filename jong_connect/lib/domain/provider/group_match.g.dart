@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'group_matches.dart';
+part of 'group_match.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$groupMatchesHash() => r'b0e257d679c7c79b359bf9991e7969dc3a114bc7';
+String _$groupMatchHash() => r'e6e87e9998d3f7a5d34269f9e2de1418572ec46a';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,30 +29,30 @@ class _SystemHash {
   }
 }
 
-/// See also [groupMatches].
-@ProviderFor(groupMatches)
-const groupMatchesProvider = GroupMatchesFamily();
+/// See also [groupMatch].
+@ProviderFor(groupMatch)
+const groupMatchProvider = GroupMatchFamily();
 
-/// See also [groupMatches].
-class GroupMatchesFamily extends Family<AsyncValue<List<GroupMatch>>> {
-  /// See also [groupMatches].
-  const GroupMatchesFamily();
+/// See also [groupMatch].
+class GroupMatchFamily extends Family<AsyncValue<GroupMatch>> {
+  /// See also [groupMatch].
+  const GroupMatchFamily();
 
-  /// See also [groupMatches].
-  GroupMatchesProvider call({
-    required int groupId,
+  /// See also [groupMatch].
+  GroupMatchProvider call({
+    required int groupMatchId,
   }) {
-    return GroupMatchesProvider(
-      groupId: groupId,
+    return GroupMatchProvider(
+      groupMatchId: groupMatchId,
     );
   }
 
   @override
-  GroupMatchesProvider getProviderOverride(
-    covariant GroupMatchesProvider provider,
+  GroupMatchProvider getProviderOverride(
+    covariant GroupMatchProvider provider,
   ) {
     return call(
-      groupId: provider.groupId,
+      groupMatchId: provider.groupMatchId,
     );
   }
 
@@ -68,92 +68,91 @@ class GroupMatchesFamily extends Family<AsyncValue<List<GroupMatch>>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'groupMatchesProvider';
+  String? get name => r'groupMatchProvider';
 }
 
-/// See also [groupMatches].
-class GroupMatchesProvider extends AutoDisposeFutureProvider<List<GroupMatch>> {
-  /// See also [groupMatches].
-  GroupMatchesProvider({
-    required int groupId,
+/// See also [groupMatch].
+class GroupMatchProvider extends AutoDisposeFutureProvider<GroupMatch> {
+  /// See also [groupMatch].
+  GroupMatchProvider({
+    required int groupMatchId,
   }) : this._internal(
-          (ref) => groupMatches(
-            ref as GroupMatchesRef,
-            groupId: groupId,
+          (ref) => groupMatch(
+            ref as GroupMatchRef,
+            groupMatchId: groupMatchId,
           ),
-          from: groupMatchesProvider,
-          name: r'groupMatchesProvider',
+          from: groupMatchProvider,
+          name: r'groupMatchProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$groupMatchesHash,
-          dependencies: GroupMatchesFamily._dependencies,
+                  : _$groupMatchHash,
+          dependencies: GroupMatchFamily._dependencies,
           allTransitiveDependencies:
-              GroupMatchesFamily._allTransitiveDependencies,
-          groupId: groupId,
+              GroupMatchFamily._allTransitiveDependencies,
+          groupMatchId: groupMatchId,
         );
 
-  GroupMatchesProvider._internal(
+  GroupMatchProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.groupId,
+    required this.groupMatchId,
   }) : super.internal();
 
-  final int groupId;
+  final int groupMatchId;
 
   @override
   Override overrideWith(
-    FutureOr<List<GroupMatch>> Function(GroupMatchesRef provider) create,
+    FutureOr<GroupMatch> Function(GroupMatchRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: GroupMatchesProvider._internal(
-        (ref) => create(ref as GroupMatchesRef),
+      override: GroupMatchProvider._internal(
+        (ref) => create(ref as GroupMatchRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        groupId: groupId,
+        groupMatchId: groupMatchId,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<GroupMatch>> createElement() {
-    return _GroupMatchesProviderElement(this);
+  AutoDisposeFutureProviderElement<GroupMatch> createElement() {
+    return _GroupMatchProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GroupMatchesProvider && other.groupId == groupId;
+    return other is GroupMatchProvider && other.groupMatchId == groupMatchId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, groupId.hashCode);
+    hash = _SystemHash.combine(hash, groupMatchId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin GroupMatchesRef on AutoDisposeFutureProviderRef<List<GroupMatch>> {
-  /// The parameter `groupId` of this provider.
-  int get groupId;
+mixin GroupMatchRef on AutoDisposeFutureProviderRef<GroupMatch> {
+  /// The parameter `groupMatchId` of this provider.
+  int get groupMatchId;
 }
 
-class _GroupMatchesProviderElement
-    extends AutoDisposeFutureProviderElement<List<GroupMatch>>
-    with GroupMatchesRef {
-  _GroupMatchesProviderElement(super.provider);
+class _GroupMatchProviderElement
+    extends AutoDisposeFutureProviderElement<GroupMatch> with GroupMatchRef {
+  _GroupMatchProviderElement(super.provider);
 
   @override
-  int get groupId => (origin as GroupMatchesProvider).groupId;
+  int get groupMatchId => (origin as GroupMatchProvider).groupMatchId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
