@@ -1,29 +1,33 @@
+import 'package:async_value_group/async_value_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jong_connect/domain/model/group_match_result.dart';
 import 'package:jong_connect/domain/model/input_user_score.dart';
+import 'package:jong_connect/domain/provider/group_match.dart';
+import 'package:jong_connect/domain/provider/group_match_players.dart';
+import 'package:jong_connect/domain/provider/group_match_round_results.dart';
 import 'package:jong_connect/presentation/common_widgets/user_section_item_vertical.dart';
-import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:jong_connect/util/exceptions/calc_match_results_exception.dart';
+import 'package:jong_connect/util/expect.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 import '../../../domain/model/app_user.dart';
-import '../../../domain/provider/group_match_players.dart';
-import '../../common_widgets/async_value_widget.dart';
+import '../../../usecase/group_match_results_use_case.dart';
 
 class EditGroupMatchScorePage extends ConsumerStatefulWidget {
   const EditGroupMatchScorePage(
       {super.key,
       required this.groupId,
-      required this.type,
+      required this.groupMatchId,
       required this.matchOrder});
 
   final int groupId;
-  final MatchType type;
+  final int groupMatchId;
   final int matchOrder;
 
   @override
@@ -36,7 +40,8 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
   final _formKey = GlobalKey<FormBuilderState>();
   List<AppUser>? targetPlayers;
 
-  Future<void> register() async {
+  Future<void> register(
+      MatchType type, List<GroupMatchResult> originResults) async {
     if (!_formKey.currentState!.saveAndValidate()) {
       _btnController.reset();
       return;
@@ -84,11 +89,8 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
       }
 
       // TODO: 同点のプレイヤーがいる場合ここで別画面表示して座順を入力してもらう
-      ref
-          .read(createGroupMatchResultsUseCaseProvider(
-                  widget.groupId, widget.type.name)
-              .notifier)
-          .editRoundResults(widget.matchOrder, inputScores);
+      await ref.read(groupMatchResultsUseCaseProvider).editRoundResults(
+          widget.matchOrder, type, originResults, inputScores);
 
       context.pop();
       SnackBarService.showSnackBar(content: 'スコアを編集しました');
@@ -104,24 +106,24 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    final groupMatchResults = ref.watch(createGroupMatchResultsUseCaseProvider(
-        widget.groupId, widget.type.name));
-    final targetOrderScores = groupMatchResults.results
-        .where((result) => result.matchOrder == widget.matchOrder)
-        .map<InputUserScore>(
-            (result) => InputUserScore(user: result.user!, score: result.score))
-        .toList();
-    targetPlayers =
-        targetOrderScores.map<AppUser>((score) => score.user).toList();
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('スコア編集'),
       ),
-      body: AsyncValueWidget(
-        asyncValue: ref.read(groupMatchPlayersProvider(widget.groupId)),
-        data: (players) {
+      body: AsyncValueGroup.group3(
+        ref.watch(groupMatchProvider(groupMatchId: widget.groupMatchId)),
+        ref.watch(groupMatchRoundResultsProvider(
+            groupMatchId: widget.groupMatchId, matchOrder: widget.matchOrder)),
+        ref.watch(groupMatchPlayersProvider(widget.groupId)),
+      ).when(
+        data: (values) {
+          targetPlayers ??=
+              values.$2.map<AppUser>((result) => result.user!).toList();
+          var allPlayers = [...values.$1.joinUsers, ...values.$3];
+          allPlayers = expect(allPlayers, (player) => player.id);
+
           return FormBuilder(
             key: _formKey,
             child: ListView(
@@ -133,10 +135,10 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
                     name: 'player',
                     decoration: const InputDecoration(labelText: '参加者'),
                     initialValue: targetPlayers,
-                    maxChips: widget.type.playableNumber,
+                    maxChips: values.$1.matchType.playableNumber,
                     validator: (selectors) {
-                      var diff =
-                          (selectors?.length ?? 0) - widget.type.playableNumber;
+                      var diff = (selectors?.length ?? 0) -
+                          values.$1.matchType.playableNumber;
                       if (diff == 0) {
                         return null;
                       }
@@ -149,7 +151,7 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
                     showCheckmark: false,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     options: [
-                      for (var player in players) ...[
+                      for (var player in values.$1.joinUsers) ...[
                         FormBuilderChipOption(
                           value: player,
                           child: UserSectionItemVertical(user: player),
@@ -159,7 +161,9 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
                   ),
                 ),
                 gapH16,
-                for (var i = 0; i < widget.type.playableNumber; i++) ...[
+                for (var i = 0;
+                    i < values.$1.matchType.playableNumber;
+                    i++) ...[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -179,7 +183,7 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
                         child: FormBuilderTextField(
                           name: "player$i",
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          initialValue: targetOrderScores[i].score.toString(),
+                          initialValue: values.$2[i].score.toString(),
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.numeric(
                                 checkNullOrEmpty: false),
@@ -195,7 +199,7 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
                   successIcon: Icons.check,
                   failedIcon: Icons.cottage,
                   controller: _btnController,
-                  onPressed: register,
+                  onPressed: () => register(values.$1.matchType, values.$2),
                   child:
                       const Text('保存', style: TextStyle(color: Colors.white)),
                 ),
@@ -203,6 +207,12 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
             ),
           );
         },
+        error: (error, st) {
+          print(st);
+          return const Center(
+              child: Text('Oops, something unexpected happened'));
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }

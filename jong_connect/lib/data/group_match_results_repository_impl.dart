@@ -85,10 +85,21 @@ class GroupMatchResultsRepositoryImpl implements GroupMatchResultsRepository {
   }
 
   @override
-  Future<void> upsert(List<GroupMatchResult> result) async {
-    final data =
-        result.map<Map<String, dynamic>>((result) => result.toJson()).toList();
-    await supabase.from('group_match_results').upsert(data);
+  Future<void> upsert(List<GroupMatchResult> results) async {
+    var outputData = <Map<String, dynamic>>[];
+    for (var result in results) {
+      outputData.add({
+        'id': result.id,
+        'group_match_id': result.groupMatchId,
+        'score': result.score,
+        'rank': result.rank,
+        'total_points': result.totalPoints,
+        'match_order': result.matchOrder,
+        'user_id': result.userId,
+        'user_name': result.userName,
+      });
+    }
+    await supabase.from('group_match_results').upsert(outputData);
   }
 
   @override

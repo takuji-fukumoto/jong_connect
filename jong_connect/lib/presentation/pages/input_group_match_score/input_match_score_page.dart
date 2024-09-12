@@ -1,8 +1,10 @@
+import 'package:async_value_group/async_value_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/domain/model/input_user_score.dart';
 import 'package:jong_connect/presentation/common_widgets/user_section_item_vertical.dart';
 import 'package:jong_connect/usecase/group_match_results_use_case.dart';
@@ -12,15 +14,19 @@ import 'package:jong_connect/util/exceptions/calc_match_results_exception.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 import '../../../domain/model/app_user.dart';
+import '../../../domain/provider/group_match.dart';
 import '../../../domain/provider/group_match_players.dart';
-import '../../common_widgets/async_value_widget.dart';
 
 class InputGroupMatchScorePage extends ConsumerStatefulWidget {
   const InputGroupMatchScorePage(
-      {super.key, required this.groupId, required this.type});
+      {super.key,
+      required this.groupId,
+      required this.groupMatchId,
+      required this.matchOrder});
 
   final int groupId;
-  final MatchType type;
+  final int groupMatchId;
+  final int matchOrder;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _InputScoreFormState();
@@ -32,7 +38,7 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
   final _formKey = GlobalKey<FormBuilderState>();
   List<AppUser>? targetPlayers;
 
-  Future<void> register() async {
+  Future<void> register(GroupMatch groupMatch) async {
     if (!_formKey.currentState!.saveAndValidate()) {
       _btnController.reset();
       return;
@@ -80,11 +86,9 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
       }
 
       // TODO: 同点のプレイヤーがいる場合ここで別画面表示して座順を入力してもらう
-      ref
-          .read(createGroupMatchResultsUseCaseProvider(
-                  widget.groupId, widget.type.name)
-              .notifier)
-          .addRoundResults(inputScores);
+      await ref
+          .read(groupMatchResultsUseCaseProvider)
+          .addRoundResults(groupMatch, inputScores, widget.matchOrder);
 
       context.pop();
       SnackBarService.showSnackBar(content: 'スコアを追加しました');
@@ -106,10 +110,13 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('スコア入力'),
       ),
-      body: AsyncValueWidget(
-        asyncValue: ref.read(groupMatchPlayersProvider(widget.groupId)),
-        data: (players) {
-          targetPlayers ??= players.take(widget.type.playableNumber).toList();
+      body: AsyncValueGroup.group2(
+        ref.watch(groupMatchProvider(groupMatchId: widget.groupMatchId)),
+        ref.read(groupMatchPlayersProvider(widget.groupId)),
+      ).when(
+        data: (values) {
+          targetPlayers ??=
+              values.$2.take(values.$1.matchType.playableNumber).toList();
           return FormBuilder(
             key: _formKey,
             child: ListView(
@@ -121,10 +128,10 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                     name: 'player',
                     decoration: const InputDecoration(labelText: '参加者'),
                     initialValue: targetPlayers,
-                    maxChips: widget.type.playableNumber,
+                    maxChips: values.$1.matchType.playableNumber,
                     validator: (selectors) {
-                      var diff =
-                          (selectors?.length ?? 0) - widget.type.playableNumber;
+                      var diff = (selectors?.length ?? 0) -
+                          values.$1.matchType.playableNumber;
                       if (diff == 0) {
                         return null;
                       }
@@ -137,7 +144,7 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                     showCheckmark: false,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     options: [
-                      for (var player in players) ...[
+                      for (var player in values.$2) ...[
                         FormBuilderChipOption(
                           value: player,
                           child: UserSectionItemVertical(user: player),
@@ -147,7 +154,9 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                   ),
                 ),
                 gapH16,
-                for (var i = 0; i < widget.type.playableNumber; i++) ...[
+                for (var i = 0;
+                    i < values.$1.matchType.playableNumber;
+                    i++) ...[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -182,7 +191,7 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                   successIcon: Icons.check,
                   failedIcon: Icons.cottage,
                   controller: _btnController,
-                  onPressed: register,
+                  onPressed: () => register(values.$1),
                   child:
                       const Text('保存', style: TextStyle(color: Colors.white)),
                 ),
@@ -190,6 +199,12 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
             ),
           );
         },
+        error: (error, st) {
+          print(st);
+          return const Center(
+              child: Text('Oops, something unexpected happened'));
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }

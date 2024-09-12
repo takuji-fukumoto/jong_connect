@@ -1,7 +1,6 @@
 import 'package:jong_connect/data/group_match_results_repository.dart';
 import 'package:jong_connect/data/group_matches_repository.dart';
 import 'package:jong_connect/domain/model/input_user_score.dart';
-import 'package:jong_connect/domain/model/match_result_records.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -10,7 +9,6 @@ import '../domain/model/group_match.dart';
 import '../domain/model/group_match_result.dart';
 import '../domain/model/group_match_result_raw.dart';
 import '../domain/provider/group_match.dart';
-import '../domain/provider/group_matches.dart';
 import '../util/exceptions/calc_match_results_exception.dart';
 
 part 'group_match_results_use_case.g.dart';
@@ -74,13 +72,14 @@ class GroupMatchResultsUseCase {
           userName: rawResults[i].user.name));
     }
 
-    _ref.read(groupMatchResultsRepositoryProvider).upsert(fixedResults);
+    await _ref.read(groupMatchResultsRepositoryProvider).upsert(fixedResults);
 
     // 対局結果更新
-    _ref.invalidate(groupMatchProvider);
+    _ref.invalidate(
+        groupMatchProvider(groupMatchId: originResults.first.groupMatchId!));
   }
 
-  Future<void> register(int groupId) async {
-    // TODO: group_matchにend_atを追記して、group_matchesを更新かける
+  Future<void> register(int groupMatchId) async {
+    // TODO: group_matchにend_atを追記して、group_matchesプロバイダに更新かける
   }
 }

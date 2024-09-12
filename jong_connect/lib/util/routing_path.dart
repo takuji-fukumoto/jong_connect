@@ -13,5 +13,5 @@ abstract final class RoutingPath {
   static const String groupMatch = 'group_match/:groupMatchId';
   static const String inputGroupMatchScore =
       'scores/new'; // TODO: クエリパラメータでmatchOrderつける
-  static const String editGroupMatchScore = 'scores/:matchOrder';
+  static const String editGroupMatchScore = 'scores/:matchOrder/edit';
 }

@@ -12,6 +12,7 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/domain/provider/group_matches.dart';
+import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/app_colors.dart';
 
 import '../../../domain/model/app_user.dart';
@@ -77,11 +78,17 @@ class GroupMatchHistoriesSection extends ConsumerWidget {
                     if (result == null) {
                       return;
                     }
+
+                    // グループ対局レコード作成
+                    final groupMatch = await ref
+                        .read(groupMatchResultsUseCaseProvider)
+                        .createGroupMatch(id, MatchType.values.byName(result));
+
                     context.goNamed(
                       RoutingPath.groupMatch,
                       pathParameters: {
                         'groupId': id.toString(),
-                        'matchType': result,
+                        'groupMatchId': groupMatch.id.toString(),
                       },
                     );
                   },
@@ -201,37 +208,48 @@ class _ResultView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var totalResults = match.totalResultsPerUser;
+    var totalResults = match.totalPointsPerUser;
     var sortedResults = SplayTreeMap<String, int>.from(
-        totalResults!, (a, b) => totalResults[b]!.compareTo(totalResults[a]!));
+        totalResults, (a, b) => totalResults[b]!.compareTo(totalResults[a]!));
     var userNames = sortedResults.keys.toList();
 
-    return Container(
-      height: 150,
-      color: AppColors.powderGreen,
-      child: DataTable2(
-        columnSpacing: 12,
-        horizontalMargin: 12,
-        dataRowHeight: 30,
-        headingRowHeight: 30,
-        sortColumnIndex: 1,
-        columns: const [
-          DataColumn2(
-            label: Text('参加ユーザー'),
-            size: ColumnSize.L,
-          ),
-          DataColumn(
-            label: Text('最終スコア'),
-            numeric: true,
-          ),
-        ],
-        rows: List<DataRow>.generate(
-          sortedResults.length,
-          (index) => DataRow(
-            cells: [
-              DataCell(Text(userNames[index])),
-              DataCell(Text(sortedResults[userNames[index]].toString())),
-            ],
+    return ElevatedButton(
+      onPressed: () => {
+        context.goNamed(
+          RoutingPath.groupMatch,
+          pathParameters: {
+            'groupId': match.groupId.toString(),
+            'groupMatchId': match.id.toString(),
+          },
+        )
+      },
+      child: Container(
+        height: 150,
+        color: AppColors.powderGreen,
+        child: DataTable2(
+          columnSpacing: 12,
+          horizontalMargin: 12,
+          dataRowHeight: 30,
+          headingRowHeight: 30,
+          sortColumnIndex: 1,
+          columns: const [
+            DataColumn2(
+              label: Text('参加ユーザー'),
+              size: ColumnSize.L,
+            ),
+            DataColumn(
+              label: Text('最終スコア'),
+              numeric: true,
+            ),
+          ],
+          rows: List<DataRow>.generate(
+            sortedResults.length,
+            (index) => DataRow(
+              cells: [
+                DataCell(Text(userNames[index])),
+                DataCell(Text(sortedResults[userNames[index]].toString())),
+              ],
+            ),
           ),
         ),
       ),
