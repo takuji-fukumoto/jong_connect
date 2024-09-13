@@ -34,7 +34,7 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
       if (authState.session != null && !authState.session!.isExpired) {
         _signInAnonymouslyButtonController.success();
         await Future.delayed(const Duration(seconds: 1));
-        context.go(RoutingPath.editProfile);
+        context.go(RoutingPath.profile);
       }
     } on AuthException catch (error) {
       context.showErrorSnackBar(message: error.message);
@@ -59,7 +59,7 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
       if (authState.session != null && !authState.session!.isExpired) {
         _signUpButtonController.success();
         await Future.delayed(const Duration(seconds: 1));
-        context.go(RoutingPath.editProfile);
+        context.go(RoutingPath.profile);
       } else {
         context.showErrorSnackBar(message: unexpectedErrorMessage);
       }

@@ -1,23 +1,14 @@
 import 'package:jong_connect/data/game_config_repository.dart';
-import 'package:jong_connect/domain/provider/current_user.dart';
-
-import '../domain/model/app_user.dart';
 import '../domain/model/game_config.dart';
 import '../util/constants.dart';
 
 class GameConfigRepositoryImpl implements GameConfigRepository {
-  final GameConfigRepositoryRef _ref;
-
-  GameConfigRepositoryImpl(this._ref);
-
   @override
-  Future<GameConfig> get() async {
-    final user = await getCurrentUser();
-
+  Future<GameConfig> get(String userId) async {
     final json = await supabase
         .from('game_configs')
         .select()
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .limit(1);
 
     return json
@@ -30,7 +21,11 @@ class GameConfigRepositoryImpl implements GameConfigRepository {
   Future<GameConfig> update(GameConfig input) async {
     var json = await supabase
         .from('game_configs')
-        .update(input.toJson())
+        .update({
+          'initial_starting_point': input.initialStartingPoint,
+          'settlement_score': input.settlementScore,
+          'position_points': input.positionPoints,
+        })
         .eq('user_id', input.userId)
         .select();
 
@@ -38,15 +33,5 @@ class GameConfigRepositoryImpl implements GameConfigRepository {
         .map<GameConfig>((result) => GameConfig.fromJson(result))
         .toList()
         .first;
-  }
-
-  Future<AppUser> getCurrentUser() async {
-    final user = await _ref.read(currentUserProvider.future);
-
-    if (user == null) {
-      throw Exception('ログインしてください');
-    }
-
-    return user;
   }
 }

@@ -6,11 +6,11 @@ part of 'game_config.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$gameConfigHash() => r'fe4bc28debf9dbd831d6201451407b935025ed68';
+String _$gameConfigHash() => r'eceae1c66d433c849c169a96aff73d4cbab7f933';
 
 /// See also [gameConfig].
 @ProviderFor(gameConfig)
-final gameConfigProvider = FutureProvider<GameConfig>.internal(
+final gameConfigProvider = AutoDisposeFutureProvider<GameConfig?>.internal(
   gameConfig,
   name: r'gameConfigProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final gameConfigProvider = FutureProvider<GameConfig>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef GameConfigRef = FutureProviderRef<GameConfig>;
+typedef GameConfigRef = AutoDisposeFutureProviderRef<GameConfig?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

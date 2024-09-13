@@ -9,7 +9,7 @@ class GameConfig with _$GameConfig {
   const GameConfig._();
 
   const factory GameConfig({
-    required String id,
+    required int id,
     @JsonKey(name: 'user_id') required String userId,
     @JsonKey(name: 'created_at') required DateTime createdAt,
     @JsonKey(name: 'initial_starting_point') required int initialStartingPoint,
@@ -19,4 +19,8 @@ class GameConfig with _$GameConfig {
 
   factory GameConfig.fromJson(Map<String, dynamic> json) =>
       _$GameConfigFromJson(json);
+
+  String get positionPointsString {
+    return positionPoints.join(',');
+  }
 }

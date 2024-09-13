@@ -20,7 +20,7 @@ GameConfig _$GameConfigFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GameConfig {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
@@ -49,7 +49,7 @@ abstract class $GameConfigCopyWith<$Res> {
       _$GameConfigCopyWithImpl<$Res, GameConfig>;
   @useResult
   $Res call(
-      {String id,
+      {int id,
       @JsonKey(name: 'user_id') String userId,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'initial_starting_point') int initialStartingPoint,
@@ -83,7 +83,7 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -117,7 +117,7 @@ abstract class _$$GameConfigImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {int id,
       @JsonKey(name: 'user_id') String userId,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'initial_starting_point') int initialStartingPoint,
@@ -149,7 +149,7 @@ class __$$GameConfigImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -193,7 +193,7 @@ class _$GameConfigImpl extends _GameConfig {
       _$$GameConfigImplFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   @JsonKey(name: 'user_id')
   final String userId;
@@ -266,7 +266,7 @@ class _$GameConfigImpl extends _GameConfig {
 
 abstract class _GameConfig extends GameConfig {
   const factory _GameConfig(
-      {required final String id,
+      {required final int id,
       @JsonKey(name: 'user_id') required final String userId,
       @JsonKey(name: 'created_at') required final DateTime createdAt,
       @JsonKey(name: 'initial_starting_point')
@@ -280,7 +280,7 @@ abstract class _GameConfig extends GameConfig {
       _$GameConfigImpl.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   @JsonKey(name: 'user_id')
   String get userId;

@@ -8,7 +8,7 @@ part of 'game_config.dart';
 
 _$GameConfigImpl _$$GameConfigImplFromJson(Map<String, dynamic> json) =>
     _$GameConfigImpl(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       userId: json['user_id'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
       initialStartingPoint: (json['initial_starting_point'] as num).toInt(),

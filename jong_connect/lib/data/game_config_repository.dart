@@ -7,10 +7,10 @@ part 'game_config_repository.g.dart';
 
 @riverpod
 GameConfigRepository gameConfigRepository(GameConfigRepositoryRef ref) =>
-    GameConfigRepositoryImpl(ref);
+    GameConfigRepositoryImpl();
 
 class GameConfigRepository {
-  Future<GameConfig> get() async {
+  Future<GameConfig> get(String userId) async {
     throw UnimplementedError();
   }
 
