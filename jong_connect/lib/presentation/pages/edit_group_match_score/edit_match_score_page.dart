@@ -17,6 +17,7 @@ import 'package:jong_connect/util/expect.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 import '../../../domain/model/app_user.dart';
+import '../../../domain/provider/game_config.dart';
 import '../../../usecase/group_match_results_use_case.dart';
 
 class EditGroupMatchScorePage extends ConsumerStatefulWidget {
@@ -49,8 +50,9 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
 
     try {
       int blankCount = 0;
-      // TODO: ウマオカ設定時はここも変更する
-      int maxTotalScore = 100000;
+      var gameConfig = await ref.read(gameConfigProvider.future);
+      int maxTotalScore =
+          gameConfig!.initialStartingPoint * type.playableNumber;
       int totalScore = 0;
       for (var i = 0; i < targetPlayers!.length; i++) {
         if (_formKey.currentState!.value["player$i"] == null ||
