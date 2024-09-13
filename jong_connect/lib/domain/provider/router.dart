@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/presentation/pages/create_group/create_group_page.dart';
 import 'package:jong_connect/presentation/pages/edit_group/edit_group_page.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
+import 'package:jong_connect/presentation/pages/game_config/game_config_page.dart';
 import 'package:jong_connect/presentation/pages/input_group_match_score/input_match_score_page.dart';
 import 'package:jong_connect/presentation/pages/invite_friend/invite_friend_page.dart';
 import 'package:jong_connect/presentation/pages/record/record_page.dart';
@@ -24,6 +25,7 @@ import 'auth_state.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _roomsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'rooms');
+final _settingsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'settings');
 final _sectionNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'section');
 
 final routerProvider = Provider(
@@ -166,16 +168,25 @@ final routerProvider = Provider(
             ],
           ),
           StatefulShellBranch(
+            navigatorKey: _settingsNavigatorKey,
             routes: [
               GoRoute(
                 path: RoutingPath.settings,
                 builder: (context, state) => const SettingsPage(),
                 routes: [
                   GoRoute(
-                    path: 'edit_profile',
-                    builder: (context, state) {
-                      return const EditProfilePage();
-                    },
+                    parentNavigatorKey: _rootNavigatorKey,
+                    name: RoutingPath.gameConfig,
+                    path: RoutingPath.gameConfig,
+                    builder: (context, state) => const GameConfigPage(),
+                    routes: [],
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    name: RoutingPath.editProfile,
+                    path: RoutingPath.editProfile,
+                    builder: (context, state) => const EditProfilePage(),
+                    routes: [],
                   ),
                 ],
               ),
@@ -195,7 +206,7 @@ final routerProvider = Provider(
       ),
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
-        path: RoutingPath.editProfile,
+        path: RoutingPath.profile,
         builder: (context, state) => const EditProfilePage(),
       ),
     ],

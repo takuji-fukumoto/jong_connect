@@ -6,6 +6,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/domain/model/input_user_score.dart';
+import 'package:jong_connect/domain/provider/game_config.dart';
 import 'package:jong_connect/presentation/common_widgets/user_section_item_vertical.dart';
 import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/app_sizes.dart';
@@ -45,8 +46,9 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
 
     try {
       int blankCount = 0;
-      // TODO: ウマオカ設定時はここも変更する
-      int maxTotalScore = 100000;
+      var gameConfig = await ref.read(gameConfigProvider.future);
+      int maxTotalScore = gameConfig!.initialStartingPoint *
+          groupMatch.matchType.playableNumber;
       int totalScore = 0;
       for (var i = 0; i < targetPlayers!.length; i++) {
         if (_formKey.currentState!.value["player$i"] == null ||

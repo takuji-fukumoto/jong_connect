@@ -2,6 +2,7 @@ import 'package:jong_connect/data/group_match_results_repository.dart';
 import 'package:jong_connect/data/group_matches_repository.dart';
 import 'package:jong_connect/domain/model/input_user_score.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
+import 'package:jong_connect/domain/provider/game_config.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -40,11 +41,11 @@ class GroupMatchResultsUseCase {
       throw const CalcMatchResultsException('対局タイプと集計数が一致しません');
     }
 
+    var rawResults = await _calcTotalPoints(scores, groupMatch.matchType);
     await _ref.read(groupMatchResultsRepositoryProvider).createRoundResults(
         groupMatchId: groupMatch.id,
         matchOrder: matchOrder,
-        results: GroupMatchResultRaw.convertFromRoundInputScores(
-            scores, groupMatch.matchType));
+        results: rawResults);
 
     // 対局結果更新
     _ref.invalidate(groupMatchProvider(groupMatchId: groupMatch.id));
@@ -57,8 +58,7 @@ class GroupMatchResultsUseCase {
     }
 
     var fixedResults = <GroupMatchResult>[];
-    var rawResults =
-        GroupMatchResultRaw.convertFromRoundInputScores(scores, type);
+    var rawResults = await _calcTotalPoints(scores, type);
     for (var i = 0; i < originResults.length; i++) {
       fixedResults.add(GroupMatchResult(
           id: originResults[i].id,
@@ -81,5 +81,56 @@ class GroupMatchResultsUseCase {
 
   Future<void> register(int groupMatchId) async {
     // TODO: group_matchにend_atを追記して、group_matchesプロバイダに更新かける
+  }
+
+  Future<List<GroupMatchResultRaw>> _calcTotalPoints(
+      List<InputUserScore> inputScores, MatchType type) async {
+    // 重複チェック
+    // TODO: スコアが重複している場合座順もチェックする
+    var scores = inputScores.map<int>((value) => value.score).toSet().toList();
+    if (scores.length < type.playableNumber) {
+      throw const CalcMatchResultsException('スコアが重複しています');
+    }
+
+    // スコアが高い順にトータルスコア算出
+    inputScores.sort((a, b) => b.score.compareTo(a.score));
+    var outputResults = <GroupMatchResultRaw>[];
+    for (var i = 0; i < inputScores.length; i++) {
+      var rank = i + 1;
+      var scoreString = inputScores[i].score.toString();
+      if (scoreString.length >= 3) {
+        // 5捨6入
+        if (int.parse(scoreString[scoreString.length - 3]) > 5) {
+          scoreString = scoreString.replaceRange(
+              scoreString.length - 4,
+              scoreString.length - 3,
+              (int.parse(scoreString[scoreString.length - 4]) + 1).toString());
+        }
+      }
+      final gameConfig = await _ref.read(gameConfigProvider.future);
+      // 点数のポイント変換
+      var totalPoints = (int.parse(scoreString) / 1000).floor() -
+          (gameConfig!.settlementScore / 1000) as int;
+
+      // ウマ加点
+      totalPoints += gameConfig.positionPoints[i];
+
+      // オカ加点
+      if (rank == 1) {
+        final oka =
+            (gameConfig.settlementScore - gameConfig.initialStartingPoint) *
+                type.playableNumber;
+        totalPoints += (oka / 1000) as int;
+      }
+
+      outputResults.add(GroupMatchResultRaw(
+        user: inputScores[i].user,
+        score: inputScores[i].score,
+        rank: rank,
+        totalPoints: totalPoints,
+      ));
+    }
+
+    return outputResults;
   }
 }
