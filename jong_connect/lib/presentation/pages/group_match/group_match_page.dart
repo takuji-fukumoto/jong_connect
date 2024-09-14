@@ -112,6 +112,14 @@ class _ResultTable extends ConsumerWidget {
     var allPlayers = <AppUser>[...players, ...groupMatch.joinUsers];
     allPlayers = expect(allPlayers, (player) => player.id);
 
+    Color scoreColor(int score) {
+      return score > 0
+          ? Colors.blue
+          : score < 0
+              ? Colors.redAccent
+              : Colors.white;
+    }
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: DataTable2(
@@ -135,9 +143,14 @@ class _ResultTable extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(player.name),
-                    Text(totalPointsPerUser.keys.contains(player.id)
-                        ? totalPointsPerUser[player.id].toString()
-                        : 0.toString()),
+                    Text(
+                      totalPointsPerUser.keys.contains(player.id)
+                          ? totalPointsPerUser[player.id].toString()
+                          : 0.toString(),
+                      style: TextStyle(
+                        color: scoreColor(totalPointsPerUser[player.id] ?? 0),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -169,7 +182,12 @@ class _ResultTable extends ConsumerWidget {
                 DataCell(
                   Center(
                     child: Text(
-                        '${pointsPerRounds[player.id]?[index] != null ? pointsPerRounds[player.id]![index] : ''}'),
+                      '${pointsPerRounds[player.id]?[index] != null ? pointsPerRounds[player.id]![index] : ''}',
+                      style: TextStyle(
+                        color:
+                            scoreColor(pointsPerRounds[player.id]?[index] ?? 0),
+                      ),
+                    ),
                   ),
                 ),
               ],
