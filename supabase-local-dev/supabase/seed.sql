@@ -22,9 +22,6 @@ VALUES
     ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/man_03.png'),
     ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/woman_01.png'),
     ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/woman_02.png'),
-    ('2024-08-20 07:02:20.378184+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/01.png'), 
-    ('2024-08-20 07:02:46.171755+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/02.png'), 
-    ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/03.png'),
     ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/bear.png'),
     ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/raccoon_dog.png'),
     ('2024-08-20 07:03:07.78514+00', 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/rabbit.png'),
@@ -36,7 +33,7 @@ SET
   "name" = 'user001',
   "profile" = 'hello',
   "friend_id" = 1,
-  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/01.png'
+  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/man_01.png'
 where
   id = '123e4567-e89b-12d3-a456-426614174000';
 
@@ -45,7 +42,7 @@ SET
   "name" = 'user002',
   "profile" = 'onakasuita',
   "friend_id" = 2,
-  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/02.png'
+  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/man_02.png'
 where
   id = '123e4567-e89b-12d3-a456-426614174001';
 
@@ -54,7 +51,7 @@ SET
   "name" = 'user003',
   "profile" = 'osushi',
   "friend_id" = 3,
-  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/03.png'
+  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/man_03.png'
 where
   id = '123e4567-e89b-12d3-a456-426614174002';
 

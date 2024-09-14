@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +6,9 @@ import 'package:jong_connect/domain/provider/current_friends.dart';
 import 'package:jong_connect/presentation/common_widgets/async_value_widget.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/routing_path.dart';
+
+import '../../../domain/model/app_user.dart';
+import '../../../util/constants.dart';
 
 class FriendsListSection extends ConsumerWidget {
   const FriendsListSection({super.key});
@@ -19,13 +23,13 @@ class FriendsListSection extends ConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _TitleSection(),
+            const _TitleSection(),
             gapH16,
             if (friends.isEmpty) ...[
               const Text('ともだちがいません'),
             ] else ...[
               for (int i = 0; i < friends.length && i < maxDispCount; i++) ...{
-                Text('${friends[i].name} ${friends[i].hashedFriendId}'),
+                _FriendListTile(friend: friends[i]),
               }
             ],
           ],
@@ -59,6 +63,43 @@ class _TitleSection extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class _FriendListTile extends StatelessWidget {
+  const _FriendListTile({super.key, required this.friend});
+
+  final AppUser friend;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: SizedBox(
+        width: 40,
+        height: 40,
+        child: CachedNetworkImage(
+          imageUrl: friend.avatarUrl,
+          imageBuilder: (context, imageProvider) => CircleAvatar(
+            radius: 40,
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => unknownUserIcon,
+        ),
+      ),
+      title: Text(friend.name),
+      subtitle: Text(friend.profile),
+      onTap: () {
+        // TODO: ユーザーの詳細ダイアログを表示する
+      },
     );
   }
 }
