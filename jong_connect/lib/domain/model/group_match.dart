@@ -24,6 +24,7 @@ class GroupMatch with _$GroupMatch {
     @JsonKey(name: 'group_id') required int groupId,
     @JsonKey(name: 'groups') Group? group,
     @JsonKey(name: 'users') AppUser? createdBy,
+    @JsonKey(name: 'end_at') DateTime? endAt,
     @JsonKey(name: 'group_match_results') List<GroupMatchResult>? results,
   }) = _GroupMatch;
 
