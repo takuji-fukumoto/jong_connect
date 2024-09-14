@@ -18,6 +18,9 @@ _$GroupMatchImpl _$$GroupMatchImplFromJson(Map<String, dynamic> json) =>
       createdBy: json['users'] == null
           ? null
           : AppUser.fromJson(json['users'] as Map<String, dynamic>),
+      endAt: json['end_at'] == null
+          ? null
+          : DateTime.parse(json['end_at'] as String),
       results: (json['group_match_results'] as List<dynamic>?)
           ?.map((e) => GroupMatchResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -31,6 +34,7 @@ Map<String, dynamic> _$$GroupMatchImplToJson(_$GroupMatchImpl instance) =>
       'group_id': instance.groupId,
       'groups': instance.group?.toJson(),
       'users': instance.createdBy?.toJson(),
+      'end_at': instance.endAt?.toIso8601String(),
       'group_match_results': instance.results?.map((e) => e.toJson()).toList(),
     };
 

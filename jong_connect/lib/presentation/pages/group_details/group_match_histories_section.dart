@@ -179,12 +179,11 @@ class _MatchHistoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMine = match.createdBy?.id == user.id;
+    final prefix = isMine ? '' : '${match.createdBy?.name ?? '退会済みユーザー'}さんが';
     return Column(
       children: [
         BubbleNormal(
-          text: isMine
-              ? '対局結果を記録しました'
-              : '${match.createdBy?.name ?? '退会済みユーザー'}さんが対局結果を記録しました',
+          text: '$prefix${match.isFinish ? '対局結果を記録しました' : '対局を開始しました'}',
           isSender: isMine,
           color: AppColors.powderGreen,
           leading: CachedNetworkImage(
@@ -235,13 +234,13 @@ class _ResultView extends StatelessWidget {
           dataRowHeight: 30,
           headingRowHeight: 30,
           sortColumnIndex: 1,
-          columns: const [
-            DataColumn2(
+          columns: [
+            const DataColumn2(
               label: Text('参加ユーザー'),
               size: ColumnSize.L,
             ),
             DataColumn(
-              label: Text('最終スコア'),
+              label: Text('${match.isFinish ? '最終' : '途中'}スコア'),
               numeric: true,
             ),
           ],

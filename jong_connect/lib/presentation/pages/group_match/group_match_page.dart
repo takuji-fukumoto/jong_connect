@@ -32,23 +32,24 @@ class GroupMatchPage extends ConsumerWidget {
           appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             actions: [
-              TextButton(
-                onPressed: () async {
-                  final result = await showOkCancelAlertDialog(
-                      context: context, message: '記録した内容を確定します');
+              if (!values.$2.isFinish)
+                TextButton(
+                  onPressed: () async {
+                    final result = await showOkCancelAlertDialog(
+                        context: context, message: '対局を終了します');
 
-                  if (result.name != 'ok') {
-                    return;
-                  }
+                    if (result.name != 'ok') {
+                      return;
+                    }
 
-                  ref
-                      .watch(groupMatchResultsUseCaseProvider)
-                      .register(groupMatchId);
-                  context.pop();
-                  SnackBarService.showSnackBar(content: '対局結果を記録しました');
-                },
-                child: const Text('保存'),
-              ),
+                    ref
+                        .watch(groupMatchResultsUseCaseProvider)
+                        .closeMatch(values.$2);
+                    context.pop();
+                    SnackBarService.showSnackBar(content: '対局結果を記録しました');
+                  },
+                  child: const Text('対局終了'),
+                ),
             ],
           ),
           body: _ResultTable(
@@ -56,22 +57,24 @@ class GroupMatchPage extends ConsumerWidget {
             groupId: groupId,
             groupMatch: values.$2,
           ),
-          floatingActionButton: FloatingActionButton(
-            elevation: 1.5,
-            onPressed: () {
-              context.goNamed(
-                RoutingPath.inputGroupMatchScore,
-                pathParameters: {
-                  'groupId': groupId.toString(),
-                  'groupMatchId': groupMatchId.toString(),
-                },
-                queryParameters: {
-                  'matchOrder': (values.$2.maxRounds + 1).toString(),
-                },
-              );
-            },
-            child: const Icon(Icons.add),
-          ),
+          floatingActionButton: !values.$2.isFinish
+              ? FloatingActionButton(
+                  elevation: 1.5,
+                  onPressed: () {
+                    context.goNamed(
+                      RoutingPath.inputGroupMatchScore,
+                      pathParameters: {
+                        'groupId': groupId.toString(),
+                        'groupMatchId': groupMatchId.toString(),
+                      },
+                      queryParameters: {
+                        'matchOrder': (values.$2.maxRounds + 1).toString(),
+                      },
+                    );
+                  },
+                  child: const Icon(Icons.add),
+                )
+              : const SizedBox(),
         );
       },
       error: (error, st) {

@@ -12,6 +12,7 @@ import '../domain/model/group_match.dart';
 import '../domain/model/group_match_result.dart';
 import '../domain/model/group_match_result_raw.dart';
 import '../domain/provider/group_match.dart';
+import '../domain/provider/group_matches.dart';
 import '../util/exceptions/calc_match_results_exception.dart';
 
 part 'group_match_results_use_case.g.dart';
@@ -106,8 +107,9 @@ class GroupMatchResultsUseCase {
         groupMatchProvider(groupMatchId: originResults.first.groupMatchId!));
   }
 
-  Future<void> register(int groupMatchId) async {
-    // TODO: group_matchにend_atを追記して、group_matchesプロバイダに更新かける
+  Future<void> closeMatch(GroupMatch match) async {
+    await _ref.read(groupMatchesRepositoryProvider).closeMatch(match.id);
+    _ref.invalidate(groupMatchesProvider(groupId: match.groupId));
   }
 
   Future<List<GroupMatchResultRaw>> _calcTotalPoints(

@@ -10,6 +10,7 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
       id, 
       group_id,
       created_at, 
+      end_at,
       users (
           id,
           name, 
@@ -94,6 +95,12 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
   Future<void> updateResults(
       int groupMatchId, List<GroupMatchResult> results) async {
     throw UnimplementedError();
+  }
+
+  @override
+  Future<void> closeMatch(int groupMatchId) async {
+    await supabase.from('group_matches').update(
+        {'end_at': DateTime.now().toIso8601String()}).eq('id', groupMatchId);
   }
 
   @override
