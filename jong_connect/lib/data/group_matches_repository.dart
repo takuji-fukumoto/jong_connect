@@ -36,6 +36,10 @@ class GroupMatchesRepository {
     throw UnimplementedError();
   }
 
+  Future<void> closeMatch(int groupMatchId) async {
+    throw UnimplementedError();
+  }
+
   Future<void> delete(int groupMatchId) async {
     throw UnimplementedError();
   }

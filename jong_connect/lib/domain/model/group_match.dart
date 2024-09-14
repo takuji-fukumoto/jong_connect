@@ -31,6 +31,10 @@ class GroupMatch with _$GroupMatch {
   factory GroupMatch.fromJson(Map<String, dynamic> json) =>
       _$GroupMatchFromJson(json);
 
+  bool get isFinish {
+    return endAt != null;
+  }
+
   /// ユーザーID => トータルスコア
   Map<String, int> get totalPointsPerUser {
     if (results == null || results!.isEmpty) {
