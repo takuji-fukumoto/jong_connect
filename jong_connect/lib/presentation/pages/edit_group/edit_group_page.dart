@@ -78,7 +78,7 @@ class _EditGroupFormState extends ConsumerState<EditGroupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('グループ編集'),
       ),
       body: AsyncValueGroup.group3(
@@ -180,11 +180,12 @@ class _EditGroupFormState extends ConsumerState<EditGroupPage> {
                 ),
                 gapH16,
                 RoundedLoadingButton(
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
                   successIcon: Icons.check,
                   failedIcon: Icons.cottage,
                   controller: _btnController,
                   onPressed: createGroup,
-                  child: Text('更新', style: TextStyle(color: Colors.white)),
+                  child: const Text('更新'),
                 ),
               ],
             ),

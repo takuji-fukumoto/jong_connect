@@ -67,7 +67,7 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('ユーザー設定'),
       ),
       body: AsyncValueGroup.group2(
@@ -97,7 +97,7 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(labelText: 'プロフィール'),
                 validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.maxLength(300),
+                  FormBuilderValidators.maxLength(300, checkNullOrEmpty: false),
                 ]),
               ),
               gapH16,
@@ -140,11 +140,12 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
               ),
               gapH16,
               RoundedLoadingButton(
+                color: Theme.of(context).colorScheme.tertiaryContainer,
                 successIcon: Icons.check,
                 failedIcon: Icons.cottage,
                 controller: _btnController,
                 onPressed: register,
-                child: Text('登録', style: TextStyle(color: Colors.white)),
+                child: const Text('登録'),
               ),
             ],
           ),

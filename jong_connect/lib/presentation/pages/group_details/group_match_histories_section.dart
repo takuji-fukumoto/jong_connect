@@ -14,6 +14,7 @@ import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/domain/provider/group_matches.dart';
 import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/app_colors.dart';
+import 'package:jong_connect/util/app_sizes.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../util/constants.dart';
@@ -92,10 +93,10 @@ class GroupMatchHistoriesSection extends ConsumerWidget {
                       },
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     '記録をつける',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 20,
                     ),
                   ),
@@ -185,7 +186,7 @@ class _MatchHistoryItem extends StatelessWidget {
         BubbleNormal(
           text: '$prefix${match.isFinish ? '対局結果を記録しました' : '対局を開始しました'}',
           isSender: isMine,
-          color: AppColors.powderGreen,
+          color: Theme.of(context).colorScheme.onSurface,
           leading: CachedNetworkImage(
             imageUrl: match.createdBy?.avatarUrl ?? '',
             width: 30,
@@ -226,8 +227,9 @@ class _ResultView extends StatelessWidget {
         )
       },
       child: Container(
-        height: 150,
-        color: AppColors.powderGreen,
+        height: 180,
+        padding: paddingV8H8,
+        color: Theme.of(context).colorScheme.onSurface,
         child: DataTable2(
           columnSpacing: 12,
           horizontalMargin: 12,
@@ -235,12 +237,22 @@ class _ResultView extends StatelessWidget {
           headingRowHeight: 30,
           sortColumnIndex: 1,
           columns: [
-            const DataColumn2(
-              label: Text('参加ユーザー'),
+            DataColumn2(
+              label: Text(
+                '参加ユーザー',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.surface,
+                ),
+              ),
               size: ColumnSize.L,
             ),
             DataColumn(
-              label: Text('${match.isFinish ? '最終' : '途中'}スコア'),
+              label: Text(
+                '${match.isFinish ? '最終' : '途中'}スコア',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.surface,
+                ),
+              ),
               numeric: true,
             ),
           ],
@@ -248,8 +260,22 @@ class _ResultView extends StatelessWidget {
             sortedResults.length,
             (index) => DataRow(
               cells: [
-                DataCell(Text(playerMap[playerIds[index]]!)),
-                DataCell(Text(sortedResults[playerIds[index]].toString())),
+                DataCell(
+                  Text(
+                    playerMap[playerIds[index]]!,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                  ),
+                ),
+                DataCell(
+                  Text(
+                    sortedResults[playerIds[index]].toString(),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

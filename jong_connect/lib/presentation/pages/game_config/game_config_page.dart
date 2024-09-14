@@ -60,7 +60,7 @@ class _EditConfigFormState extends ConsumerState<GameConfigPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('ゲーム設定'),
       ),
       body: AsyncValueWidget(
@@ -131,12 +131,12 @@ class _EditConfigFormState extends ConsumerState<GameConfigPage> {
                 ),
                 gapH16,
                 RoundedLoadingButton(
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
                   successIcon: Icons.check,
                   failedIcon: Icons.cottage,
                   controller: _btnController,
                   onPressed: applyConfig,
-                  child:
-                      const Text('反映', style: TextStyle(color: Colors.white)),
+                  child: const Text('反映'),
                 ),
               ],
             ),

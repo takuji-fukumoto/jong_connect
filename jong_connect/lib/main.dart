@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/domain/provider/router.dart';
 import 'package:jong_connect/util/constants.dart';
+import 'package:jong_connect/util/text_theme.dart';
+import 'package:jong_connect/util/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -40,7 +42,11 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var theme =
+        MaterialTheme(createTextTheme(context, 'Noto Sans JP', 'Noto Sans JP'));
     return MaterialApp.router(
+      theme: theme.light(),
+      darkTheme: theme.dark(),
       routerConfig: ref.watch(routerProvider),
       scaffoldMessengerKey: SnackBarService.scaffoldKey,
       localizationsDelegates: const [

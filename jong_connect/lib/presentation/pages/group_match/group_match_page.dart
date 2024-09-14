@@ -30,7 +30,7 @@ class GroupMatchPage extends ConsumerWidget {
       data: (values) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            backgroundColor: Theme.of(context).colorScheme.primary,
             actions: [
               if (!values.$2.isFinish)
                 TextButton(
@@ -48,7 +48,13 @@ class GroupMatchPage extends ConsumerWidget {
                     context.pop();
                     SnackBarService.showSnackBar(content: '対局結果を記録しました');
                   },
-                  child: const Text('対局終了'),
+                  child: Text(
+                    '対局終了',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
             ],
           ),

@@ -20,7 +20,7 @@ class GroupDetailsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: AsyncValueWidget(
           asyncValue: ref.watch(groupDetailsProvider(groupId: id)),
           data: (detail) => Text(detail.name),

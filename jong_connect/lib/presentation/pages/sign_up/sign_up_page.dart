@@ -76,8 +76,8 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Sign up'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Text('サインアップ'),
       ),
       body: FormBuilder(
         key: _formKey,
@@ -110,25 +110,23 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
             ),
             gapH16,
             RoundedLoadingButton(
+              color: Theme.of(context).colorScheme.tertiaryContainer,
               successIcon: Icons.check,
               failedIcon: Icons.cottage,
               controller: _signUpButtonController,
-              color: AppColors.shinbashi,
               onPressed: _signUp,
-              child:
-                  const Text('Sign Up', style: TextStyle(color: Colors.white)),
+              child: const Text('サインアップ'),
             ),
             gapH16,
             RoundedLoadingButton(
+              color: Theme.of(context).colorScheme.tertiaryContainer,
               successIcon: Icons.check,
               failedIcon: Icons.cottage,
               controller: _signInAnonymouslyButtonController,
               onPressed: _signUpAnonymously,
-              color: AppColors.ivory,
               valueColor: AppColors.shinbashi,
               elevation: 0,
-              child: const Text('ゲストとして始める',
-                  style: TextStyle(color: AppColors.hanaasagi)),
+              child: const Text('ゲストとして始める'),
             ),
           ],
         ),
