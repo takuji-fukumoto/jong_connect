@@ -142,7 +142,13 @@ class _ResultTable extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(player.name),
+                    Text(
+                      player.name,
+                      style: const TextStyle(
+                        fontSize: 10,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     Text(
                       totalPointsPerUser.keys.contains(player.id)
                           ? totalPointsPerUser[player.id].toString()
