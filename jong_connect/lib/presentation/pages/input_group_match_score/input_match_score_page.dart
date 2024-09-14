@@ -142,7 +142,7 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('スコア入力'),
       ),
       body: AsyncValueGroup.group2(
@@ -223,12 +223,12 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                 ],
                 gapH24,
                 RoundedLoadingButton(
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
                   successIcon: Icons.check,
                   failedIcon: Icons.cottage,
                   controller: _btnController,
                   onPressed: () => register(values.$1),
-                  child:
-                      const Text('保存', style: TextStyle(color: Colors.white)),
+                  child: const Text('保存'),
                 ),
               ],
             ),

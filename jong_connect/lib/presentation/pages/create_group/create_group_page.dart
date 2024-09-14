@@ -77,7 +77,7 @@ class _CreateGroupFormState extends ConsumerState<CreateGroupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('グループ作成'),
       ),
       body: AsyncValueGroup.group3(
@@ -169,11 +169,12 @@ class _CreateGroupFormState extends ConsumerState<CreateGroupPage> {
               ),
               gapH16,
               RoundedLoadingButton(
+                color: Theme.of(context).colorScheme.tertiaryContainer,
                 successIcon: Icons.check,
                 failedIcon: Icons.cottage,
                 controller: _btnController,
                 onPressed: createGroup,
-                child: Text('作成', style: TextStyle(color: Colors.white)),
+                child: const Text('作成'),
               ),
             ],
           ),

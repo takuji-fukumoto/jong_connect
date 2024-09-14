@@ -52,8 +52,8 @@ class _SignInFormState extends ConsumerState<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Sign in'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Text('雀コネ'),
       ),
       body: FormBuilder(
         key: _formKey,
@@ -86,11 +86,12 @@ class _SignInFormState extends ConsumerState<SignInPage> {
             ),
             gapH16,
             RoundedLoadingButton(
+              color: Theme.of(context).colorScheme.tertiaryContainer,
               successIcon: Icons.check,
               failedIcon: Icons.cottage,
               controller: _btnController,
               onPressed: () => _signIn(),
-              child: Text('Sign In', style: TextStyle(color: Colors.white)),
+              child: const Text('ログイン'),
             ),
             gapH16,
             TextButton(
