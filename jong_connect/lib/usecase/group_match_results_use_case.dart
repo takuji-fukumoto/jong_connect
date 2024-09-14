@@ -1,9 +1,11 @@
+import 'dart:collection';
 import 'package:jong_connect/data/group_match_results_repository.dart';
 import 'package:jong_connect/data/group_matches_repository.dart';
 import 'package:jong_connect/domain/model/input_user_score.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/domain/provider/game_config.dart';
 import 'package:jong_connect/util/constants.dart';
+import 'package:jong_connect/util/extensions/swap.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/model/group_match.dart';
@@ -57,11 +59,36 @@ class GroupMatchResultsUseCase {
       throw const CalcMatchResultsException('変更前と変更後の集計数が異なります');
     }
 
+    // DBのユニーク制約に引っかからないように同じuser_idのレコードは同じIDになるようにする
+    // MEMO: group_match_resultにはgroup_match_id,user_id,match_orderの複合キーを設定している
+    var originUserIds =
+        originResults.map<String>((result) => result.userId!).toSet();
+    var newUserIds = scores.map<String>((score) => score.user.id).toSet();
+    // ユーザーIDが重複しているリスト
+    var duplicatedUserIds = originUserIds.intersection(newUserIds);
+    final remainIds = ListQueue<int>();
+    remainIds.addAll(originResults
+        .where((result) => !duplicatedUserIds.contains(result.userId!))
+        .map<int>((result) => result.id));
+    // ユーザーID => 割り振られたID
+    Map<String, int> outputIds = {};
+    for (var score in scores) {
+      if (duplicatedUserIds.contains(score.user.id)) {
+        // 重複しているレコードのIDをセット
+        outputIds[score.user.id] = originResults
+            .firstWhere((result) => result.userId == score.user.id)
+            .id;
+      } else {
+        // 残りのIDから取り出してセット
+        outputIds[score.user.id] = remainIds.removeFirst();
+      }
+    }
+
     var fixedResults = <GroupMatchResult>[];
     var rawResults = await _calcTotalPoints(scores, type);
     for (var i = 0; i < originResults.length; i++) {
       fixedResults.add(GroupMatchResult(
-          id: originResults[i].id,
+          id: outputIds[rawResults[i].user.id]!,
           groupMatchId: originResults[i].groupMatchId,
           score: rawResults[i].score,
           rank: rawResults[i].rank,
@@ -85,15 +112,18 @@ class GroupMatchResultsUseCase {
 
   Future<List<GroupMatchResultRaw>> _calcTotalPoints(
       List<InputUserScore> inputScores, MatchType type) async {
-    // 重複チェック
-    // TODO: スコアが重複している場合座順もチェックする
-    var scores = inputScores.map<int>((value) => value.score).toSet().toList();
-    if (scores.length < type.playableNumber) {
-      throw const CalcMatchResultsException('スコアが重複しています');
-    }
-
     // スコアが高い順にトータルスコア算出
     inputScores.sort((a, b) => b.score.compareTo(a.score));
+    for (var i = 0; i < inputScores.length; i++) {
+      for (var j = i + 1; j < inputScores.length; j++) {
+        // 同じスコアの人がいたら、座順通りに並び替える
+        if (inputScores[i].score == inputScores[j].score &&
+            inputScores[i].seatingOrder > inputScores[j].seatingOrder) {
+          inputScores.swap(i, j);
+        }
+      }
+    }
+
     var outputResults = <GroupMatchResultRaw>[];
     for (var i = 0; i < inputScores.length; i++) {
       var rank = i + 1;

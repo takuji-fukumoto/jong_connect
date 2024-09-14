@@ -19,6 +19,7 @@ import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import '../../../domain/model/app_user.dart';
 import '../../../domain/provider/game_config.dart';
 import '../../../usecase/group_match_results_use_case.dart';
+import '../../../util/input_seating_order_form.dart';
 
 class EditGroupMatchScorePage extends ConsumerStatefulWidget {
   const EditGroupMatchScorePage(
@@ -90,7 +91,40 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
         throw const CalcMatchResultsException('合計値が合うようにスコアを入力してください');
       }
 
-      // TODO: 同点のプレイヤーがいる場合ここで別画面表示して座順を入力してもらう
+      // 同点のプレイヤーがいる場合ここで別画面表示して座順を入力してもらう
+      var nonDuplicateScores =
+          inputScores.map<int>((input) => input.score).toSet().toList();
+      if (nonDuplicateScores.length < inputScores.length) {
+        if (!mounted) {
+          return;
+        }
+        List<int>? seatingOrders = await showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              title: const Text("座順を起家から順に選択してください"),
+              content: InputSeatingOrderForm(
+                players: targetPlayers!,
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => context.pop(),
+                  child: const Text('キャンセル'),
+                ),
+              ],
+            );
+          },
+        );
+
+        if (seatingOrders == null) {
+          return;
+        }
+        for (var i = 0; i < inputScores.length; i++) {
+          inputScores[i] =
+              inputScores[i].copyWith(seatingOrder: seatingOrders[i]);
+        }
+      }
+
       await ref.read(groupMatchResultsUseCaseProvider).editRoundResults(
           widget.matchOrder, type, originResults, inputScores);
 
