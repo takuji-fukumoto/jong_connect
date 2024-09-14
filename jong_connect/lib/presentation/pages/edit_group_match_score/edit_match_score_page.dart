@@ -224,7 +224,10 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
                             FormBuilderValidators.numeric(
                                 checkNullOrEmpty: false),
                           ]),
-                          keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(
+                            signed: true,
+                            decimal: true,
+                          ),
                         ),
                       ),
                     ],
