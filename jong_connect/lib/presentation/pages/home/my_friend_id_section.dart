@@ -40,7 +40,7 @@ class MyFriendIdSection extends ConsumerWidget {
                   icon: const Icon(Icons.copy),
                 ),
               ],
-            )
+            ),
           ],
         );
       },

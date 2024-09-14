@@ -117,10 +117,10 @@ VALUES
   (107, 102, '123e4567-e89b-12d3-a456-426614174002', 35000, 1, 40),
   (108, 102, '123e4567-e89b-12d3-a456-426614174003', 13000, 4, -42);
 
-INSERT INTO "public"."group_matches" ("id", "group_id", "match_type", "created_at", "user_id") 
+INSERT INTO "public"."group_matches" ("id", "group_id", "match_type", "created_at", "user_id", "end_at") 
 VALUES 
-  (101, 101, 'four', '2024-08-20 07:02:20.378184+00', '123e4567-e89b-12d3-a456-426614174000'),
-  (102, 101, 'four', '2024-08-14 07:02:20.378184+00', '123e4567-e89b-12d3-a456-426614174001');
+  (101, 101, 'four', '2024-08-20 07:02:20.378184+00', '123e4567-e89b-12d3-a456-426614174000', '2024-08-20 15:02:20.378184+00'),
+  (102, 101, 'four', '2024-08-14 07:02:20.378184+00', '123e4567-e89b-12d3-a456-426614174001', '2024-08-14 20:02:20.378184+00');
 
 INSERT INTO "public"."group_match_results" ("group_match_id", "user_id", "user_name", "score", "rank", "total_points", "match_order") 
 VALUES 
