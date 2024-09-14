@@ -97,7 +97,7 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(labelText: 'プロフィール'),
                 validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.maxLength(300),
+                  FormBuilderValidators.maxLength(300, checkNullOrEmpty: false),
                 ]),
               ),
               gapH16,
