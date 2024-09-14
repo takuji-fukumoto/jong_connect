@@ -226,7 +226,6 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
                           ]),
                           keyboardType: const TextInputType.numberWithOptions(
                             signed: true,
-                            decimal: true,
                           ),
                         ),
                       ),
