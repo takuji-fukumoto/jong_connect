@@ -1,5 +1,4 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -91,16 +90,8 @@ class _DrawerMenu extends ConsumerWidget {
       context.go(RoutingPath.rooms);
       SnackBarService.showSnackBar(content: 'グループから退会しました');
     } catch (error) {
-      Flushbar(
-        message: 'グループの退会に失敗しました。時間を空けて再度お試しください',
-        icon: const Icon(
-          Icons.error,
-          color: Colors.red,
-        ),
-        duration: const Duration(seconds: 3),
-        margin: const EdgeInsets.all(8),
-        borderRadius: BorderRadius.circular(8),
-      ).show(context);
+      SnackBarService.showErrorSnackBar(
+          content: 'グループの退会に失敗しました。時間を空けて再度お試しください');
     }
   }
 
