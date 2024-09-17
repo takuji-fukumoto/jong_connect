@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:async_value_group/async_value_group.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal.dart';
@@ -12,12 +11,9 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/domain/provider/group_matches.dart';
-import 'package:jong_connect/usecase/group_match_results_use_case.dart';
-import 'package:jong_connect/util/app_colors.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 
 import '../../../domain/model/app_user.dart';
-import '../../../util/constants.dart';
 import '../../../util/format_date.dart';
 import '../../../util/routing_path.dart';
 
@@ -28,83 +24,26 @@ class GroupMatchHistoriesSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var mediaSize = MediaQuery.of(context).size;
     return AsyncValueGroup.group2(
       ref.watch(groupMatchesProvider(groupId: id)),
       ref.watch(currentUserProvider),
     ).when(
       data: (values) {
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            GroupedListView<GroupMatch, String>(
-              padding: const EdgeInsets.fromLTRB(8, 8, 8, 64),
-              elements: values.$1,
-              reverse: true,
-              order: GroupedListOrder.DESC,
-              groupBy: (match) =>
-                  DateFormatter(match.createdAt).formatToYYYYMMDD(),
-              groupSeparatorBuilder: (String groupByValue) => _SeparatorBuilder(
-                groupByValue: groupByValue,
-              ),
-              itemBuilder: (context, GroupMatch match) => _MatchHistoryItem(
-                match: match,
-                user: values.$2!,
-              ),
-              floatingHeader: true,
-              physics: const BouncingScrollPhysics(),
-            ),
-            Positioned(
-              bottom: 10,
-              child: SizedBox(
-                width: mediaSize.width - 20,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.tertiaryContainer,
-                  ),
-                  onPressed: () async {
-                    final result = await showModalActionSheet<String>(
-                      context: context,
-                      message: '対局タイプを選択してください',
-                      actions: [
-                        for (var type in MatchType.values) ...[
-                          SheetAction(
-                            label: type.displayName,
-                            key: type.name,
-                          ),
-                        ],
-                      ],
-                    );
-
-                    if (result == null) {
-                      return;
-                    }
-
-                    // グループ対局レコード作成
-                    final groupMatch = await ref
-                        .read(groupMatchResultsUseCaseProvider)
-                        .createGroupMatch(id, MatchType.values.byName(result));
-
-                    context.goNamed(
-                      RoutingPath.groupMatch,
-                      pathParameters: {
-                        'groupId': id.toString(),
-                        'groupMatchId': groupMatch.id.toString(),
-                      },
-                    );
-                  },
-                  child: Text(
-                    '記録をつける',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.surface,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+        return GroupedListView<GroupMatch, String>(
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 64),
+          elements: values.$1,
+          reverse: true,
+          order: GroupedListOrder.DESC,
+          groupBy: (match) => DateFormatter(match.createdAt).formatToYYYYMMDD(),
+          groupSeparatorBuilder: (String groupByValue) => _SeparatorBuilder(
+            groupByValue: groupByValue,
+          ),
+          itemBuilder: (context, GroupMatch match) => _MatchHistoryItem(
+            match: match,
+            user: values.$2!,
+          ),
+          floatingHeader: true,
+          physics: const BouncingScrollPhysics(),
         );
       },
       error: (error, st) {
@@ -136,7 +75,9 @@ class _SeparatorBuilder extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
               groupByValue,
-              style: const TextStyle(color: AppColors.ardoise),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.inverseSurface,
+              ),
             ),
           ),
           const Expanded(
@@ -158,10 +99,10 @@ class _SeparateLine extends StatelessWidget {
         const Expanded(child: SizedBox()),
         Container(
           width: double.infinity,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: Colors.black26,
+                color: Theme.of(context).colorScheme.inverseSurface,
               ),
             ),
           ),
@@ -186,8 +127,11 @@ class _MatchHistoryItem extends StatelessWidget {
       children: [
         BubbleNormal(
           text: '$prefix${match.isFinish ? '対局結果を記録しました' : '対局を開始しました'}',
+          textStyle: TextStyle(
+            color: Theme.of(context).colorScheme.inverseSurface,
+          ),
           isSender: isMine,
-          color: Theme.of(context).colorScheme.onSurface,
+          color: Theme.of(context).colorScheme.surfaceContainerHigh,
           leading: CachedNetworkImage(
             imageUrl: match.createdBy?.avatarUrl ?? '',
             width: 30,
@@ -230,7 +174,7 @@ class _ResultView extends StatelessWidget {
       child: Container(
         height: 180,
         padding: paddingV8H8,
-        color: Theme.of(context).colorScheme.onSurface,
+        color: Theme.of(context).colorScheme.surfaceContainerHigh,
         child: DataTable2(
           columnSpacing: 12,
           horizontalMargin: 12,
@@ -242,7 +186,7 @@ class _ResultView extends StatelessWidget {
               label: Text(
                 '参加ユーザー',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.surface,
+                  color: Theme.of(context).colorScheme.inverseSurface,
                 ),
               ),
               size: ColumnSize.L,
@@ -251,7 +195,7 @@ class _ResultView extends StatelessWidget {
               label: Text(
                 '${match.isFinish ? '最終' : '途中'}スコア',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.surface,
+                  color: Theme.of(context).colorScheme.inverseSurface,
                 ),
               ),
               numeric: true,
@@ -265,7 +209,7 @@ class _ResultView extends StatelessWidget {
                   Text(
                     playerMap[playerIds[index]]!,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.surface,
+                      color: Theme.of(context).colorScheme.inverseSurface,
                     ),
                   ),
                 ),
@@ -273,7 +217,7 @@ class _ResultView extends StatelessWidget {
                   Text(
                     sortedResults[playerIds[index]].toString(),
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.surface,
+                      color: Theme.of(context).colorScheme.inverseSurface,
                     ),
                   ),
                 ),

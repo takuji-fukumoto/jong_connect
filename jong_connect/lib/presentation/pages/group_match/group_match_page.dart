@@ -52,8 +52,7 @@ class GroupMatchPage extends ConsumerWidget {
                   child: Text(
                     '対局終了',
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      fontSize: 20,
+                      color: Theme.of(context).colorScheme.surface,
                     ),
                   ),
                 ),
