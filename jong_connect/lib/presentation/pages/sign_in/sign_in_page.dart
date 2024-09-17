@@ -53,6 +53,7 @@ class _SignInFormState extends ConsumerState<SignInPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('雀コネ'),
       ),
       body: FormBuilder(
@@ -91,12 +92,17 @@ class _SignInFormState extends ConsumerState<SignInPage> {
               failedIcon: Icons.cottage,
               controller: _btnController,
               onPressed: () => _signIn(),
-              child: const Text('ログイン'),
+              child: Text(
+                'ログイン',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.surface,
+                ),
+              ),
             ),
             gapH16,
             TextButton(
               onPressed: () => context.go(RoutingPath.signUp),
-              child: const Text('ユーザー登録'),
+              child: const Text('アカウント登録'),
             ),
           ],
         ),

@@ -78,6 +78,7 @@ class _CreateGroupFormState extends ConsumerState<CreateGroupPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('グループ作成'),
       ),
       body: AsyncValueGroup.group3(
@@ -174,7 +175,12 @@ class _CreateGroupFormState extends ConsumerState<CreateGroupPage> {
                 failedIcon: Icons.cottage,
                 controller: _btnController,
                 onPressed: createGroup,
-                child: const Text('作成'),
+                child: Text(
+                  '作成',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                ),
               ),
             ],
           ),

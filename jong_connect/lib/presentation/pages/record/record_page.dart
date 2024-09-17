@@ -14,6 +14,7 @@ class _RoomsPageState extends ConsumerState<RecordPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('戦績'),
       ),
       body: const Center(child: Text('もうちっとかかるんじゃ')),

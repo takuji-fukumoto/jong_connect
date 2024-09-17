@@ -77,7 +77,8 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('サインアップ'),
+        foregroundColor: Theme.of(context).colorScheme.surface,
+        title: const Text('アカウント登録'),
       ),
       body: FormBuilder(
         key: _formKey,
@@ -115,11 +116,16 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
               failedIcon: Icons.cottage,
               controller: _signUpButtonController,
               onPressed: _signUp,
-              child: const Text('サインアップ'),
+              child: Text(
+                '登録',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.surface,
+                ),
+              ),
             ),
             gapH16,
             RoundedLoadingButton(
-              color: Theme.of(context).colorScheme.tertiaryContainer,
+              color: Colors.transparent,
               successIcon: Icons.check,
               failedIcon: Icons.cottage,
               controller: _signInAnonymouslyButtonController,

@@ -60,7 +60,8 @@ class GroupMatchHistoriesSection extends ConsumerWidget {
                 width: mediaSize.width - 20,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.outerSpace,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.tertiaryContainer,
                   ),
                   onPressed: () async {
                     final result = await showModalActionSheet<String>(
@@ -96,7 +97,7 @@ class GroupMatchHistoriesSection extends ConsumerWidget {
                   child: Text(
                     '記録をつける',
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.surface,
                       fontSize: 20,
                     ),
                   ),

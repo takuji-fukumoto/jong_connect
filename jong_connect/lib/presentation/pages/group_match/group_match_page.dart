@@ -31,6 +31,7 @@ class GroupMatchPage extends ConsumerWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.surface,
             actions: [
               if (!values.$2.isFinish)
                 TextButton(
