@@ -61,6 +61,7 @@ class _EditConfigFormState extends ConsumerState<GameConfigPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('ゲーム設定'),
       ),
       body: AsyncValueWidget(
@@ -136,7 +137,12 @@ class _EditConfigFormState extends ConsumerState<GameConfigPage> {
                   failedIcon: Icons.cottage,
                   controller: _btnController,
                   onPressed: applyConfig,
-                  child: const Text('反映'),
+                  child: Text(
+                    '反映',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                  ),
                 ),
               ],
             ),

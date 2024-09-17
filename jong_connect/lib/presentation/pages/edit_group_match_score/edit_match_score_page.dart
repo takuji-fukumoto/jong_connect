@@ -146,6 +146,7 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('スコア編集'),
       ),
       body: AsyncValueGroup.group3(
@@ -237,7 +238,12 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
                   failedIcon: Icons.cottage,
                   controller: _btnController,
                   onPressed: () => register(values.$1.matchType, values.$2),
-                  child: const Text('保存'),
+                  child: Text(
+                    '保存',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                  ),
                 ),
               ],
             ),

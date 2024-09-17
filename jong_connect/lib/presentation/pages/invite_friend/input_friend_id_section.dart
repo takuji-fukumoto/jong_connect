@@ -86,7 +86,12 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
                 failedIcon: Icons.cottage,
                 controller: _btnController,
                 onPressed: () => _addFriend(),
-                child: const Text('追加'),
+                child: Text(
+                  '追加',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                ),
               ),
             ],
           ),

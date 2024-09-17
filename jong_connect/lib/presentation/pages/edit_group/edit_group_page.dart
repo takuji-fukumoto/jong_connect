@@ -79,6 +79,7 @@ class _EditGroupFormState extends ConsumerState<EditGroupPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('グループ編集'),
       ),
       body: AsyncValueGroup.group3(
@@ -185,7 +186,12 @@ class _EditGroupFormState extends ConsumerState<EditGroupPage> {
                   failedIcon: Icons.cottage,
                   controller: _btnController,
                   onPressed: createGroup,
-                  child: const Text('更新'),
+                  child: Text(
+                    '更新',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                  ),
                 ),
               ],
             ),

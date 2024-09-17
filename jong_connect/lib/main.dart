@@ -45,7 +45,7 @@ class MyApp extends ConsumerWidget {
     var theme =
         MaterialTheme(createTextTheme(context, 'Noto Sans JP', 'Noto Sans JP'));
     return MaterialApp.router(
-      theme: theme.darkMediumContrast(),
+      theme: theme.lightMediumContrast(),
       darkTheme: theme.dark(),
       routerConfig: ref.watch(routerProvider),
       scaffoldMessengerKey: SnackBarService.scaffoldKey,

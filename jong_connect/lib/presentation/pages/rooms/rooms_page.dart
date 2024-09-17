@@ -13,6 +13,7 @@ class RoomsPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.surface,
           title: const Text('ルーム'),
           actions: [
             IconButton(

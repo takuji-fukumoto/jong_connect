@@ -68,6 +68,7 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('ユーザー設定'),
       ),
       body: AsyncValueGroup.group2(
@@ -145,7 +146,12 @@ class _EditProfileFormState extends ConsumerState<EditProfilePage> {
                 failedIcon: Icons.cottage,
                 controller: _btnController,
                 onPressed: register,
-                child: const Text('登録'),
+                child: Text(
+                  '登録',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                ),
               ),
             ],
           ),

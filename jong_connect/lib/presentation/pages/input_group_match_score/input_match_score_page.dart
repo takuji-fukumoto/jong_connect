@@ -143,6 +143,7 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('スコア入力'),
       ),
       body: AsyncValueGroup.group2(

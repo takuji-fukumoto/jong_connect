@@ -10,6 +10,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.surface,
           title: const Text('ホーム'),
         ),
         body: ListView(
