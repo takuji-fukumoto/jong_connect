@@ -37,7 +37,8 @@ class GroupMatchResultsRepository {
     throw UnimplementedError();
   }
 
-  Future<void> delete(int groupMatchId) async {
+  Future<void> deleteRoundResults(
+      {required int groupMatchId, required int matchOrder}) async {
     throw UnimplementedError();
   }
 }
