@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:async_value_group/async_value_group.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +13,7 @@ import 'package:jong_connect/util/expect.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../domain/model/group_match.dart';
+import '../../../util/app_icon_urls.dart';
 import '../../../util/routing_path.dart';
 
 class GroupMatchPage extends ConsumerWidget {
@@ -175,6 +177,7 @@ class _ResultTable extends ConsumerWidget {
                           ? totalPointsPerUser[player.id].toString()
                           : 0.toString(),
                       style: TextStyle(
+                        fontSize: 16,
                         color: scoreColor(totalPointsPerUser[player.id] ?? 0),
                       ),
                     ),
@@ -211,13 +214,41 @@ class _ResultTable extends ConsumerWidget {
               for (var player in allPlayers) ...[
                 DataCell(
                   Center(
-                    child: Text(
-                      '${resultsPerRounds[player.id]?[index] != null ? resultsPerRounds[player.id]![index]!.totalPoints : ''}',
-                      style: TextStyle(
-                        color: scoreColor(
-                            resultsPerRounds[player.id]?[index]?.totalPoints ??
-                                0),
-                      ),
+                    child: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        if (resultsPerRounds[player.id]?[index] != null &&
+                            resultsPerRounds[player.id]![index]!.rank == 1)
+                          Positioned(
+                            top: 5,
+                            child: CachedNetworkImage(
+                              imageUrl: AppIconUrls.crown,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        Center(
+                          child: Text(
+                            '${resultsPerRounds[player.id]?[index] != null ? resultsPerRounds[player.id]![index]!.totalPoints : ''}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: scoreColor(resultsPerRounds[player.id]
+                                          ?[index]
+                                      ?.totalPoints ??
+                                  0),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
