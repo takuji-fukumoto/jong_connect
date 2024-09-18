@@ -5,6 +5,7 @@ import 'package:jong_connect/domain/model/input_user_score.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/domain/provider/game_config.dart';
 import 'package:jong_connect/util/constants.dart';
+import 'package:jong_connect/util/extensions/round56.dart';
 import 'package:jong_connect/util/extensions/swap.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -129,20 +130,12 @@ class GroupMatchResultsUseCase {
     var outputResults = <GroupMatchResultRaw>[];
     for (var i = 0; i < inputScores.length; i++) {
       var rank = i + 1;
-      var scoreString = inputScores[i].score.toString();
-      if (scoreString.length >= 3) {
-        // 5捨6入
-        if (int.parse(scoreString[scoreString.length - 3]) > 5) {
-          scoreString = scoreString.replaceRange(
-              scoreString.length - 4,
-              scoreString.length - 3,
-              (int.parse(scoreString[scoreString.length - 4]) + 1).toString());
-        }
-      }
+
       final gameConfig = await _ref.read(gameConfigProvider.future);
+      // 5捨6入
+      var fixedScore = (inputScores[i].score / 1000).round56();
       // 点数のポイント変換
-      var totalPoints = (int.parse(scoreString) / 1000).floor() -
-          (gameConfig!.settlementScore / 1000) as int;
+      var totalPoints = fixedScore - gameConfig!.settlementScore ~/ 1000;
 
       // ウマ加点
       totalPoints += gameConfig.positionPoints[i];
