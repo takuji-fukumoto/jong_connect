@@ -175,6 +175,7 @@ class _ResultTable extends ConsumerWidget {
                           ? totalPointsPerUser[player.id].toString()
                           : 0.toString(),
                       style: TextStyle(
+                        fontSize: 16,
                         color: scoreColor(totalPointsPerUser[player.id] ?? 0),
                       ),
                     ),
@@ -211,13 +212,32 @@ class _ResultTable extends ConsumerWidget {
               for (var player in allPlayers) ...[
                 DataCell(
                   Center(
-                    child: Text(
-                      '${resultsPerRounds[player.id]?[index] != null ? resultsPerRounds[player.id]![index]!.totalPoints : ''}',
-                      style: TextStyle(
-                        color: scoreColor(
-                            resultsPerRounds[player.id]?[index]?.totalPoints ??
-                                0),
-                      ),
+                    child: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        if (resultsPerRounds[player.id]?[index] != null &&
+                            resultsPerRounds[player.id]![index]!.rank == 1)
+                          const Positioned(
+                            top: 5,
+                            child: Icon(
+                              Icons.emoji_emotions,
+                              size: 12,
+                              color: Colors.amberAccent,
+                            ),
+                          ),
+                        Center(
+                          child: Text(
+                            '${resultsPerRounds[player.id]?[index] != null ? resultsPerRounds[player.id]![index]!.totalPoints : ''}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: scoreColor(resultsPerRounds[player.id]
+                                          ?[index]
+                                      ?.totalPoints ??
+                                  0),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
