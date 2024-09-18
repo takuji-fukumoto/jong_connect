@@ -108,6 +108,14 @@ class GroupMatchResultsUseCase {
         groupMatchProvider(groupMatchId: originResults.first.groupMatchId!));
   }
 
+  Future<void> deleteRoundResults(int groupMatchId, int matchOrder) async {
+    await _ref
+        .read(groupMatchResultsRepositoryProvider)
+        .deleteRoundResults(groupMatchId: groupMatchId, matchOrder: matchOrder);
+    // 対局結果更新
+    _ref.invalidate(groupMatchProvider(groupMatchId: groupMatchId));
+  }
+
   Future<void> closeMatch(GroupMatch match) async {
     await _ref.read(groupMatchesRepositoryProvider).closeMatch(match.id);
     _ref.invalidate(groupMatchesProvider(groupId: match.groupId));

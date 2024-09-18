@@ -103,7 +103,11 @@ class GroupMatchResultsRepositoryImpl implements GroupMatchResultsRepository {
   }
 
   @override
-  Future<void> delete(int groupMatchId) async {
-    throw UnimplementedError();
+  Future<void> deleteRoundResults(
+      {required int groupMatchId, required int matchOrder}) async {
+    await supabase
+        .from('group_match_results')
+        .delete()
+        .match({'group_match_id': groupMatchId, 'match_order': matchOrder});
   }
 }

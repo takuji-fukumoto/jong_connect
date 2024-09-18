@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:async_value_group/async_value_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -148,6 +149,28 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('スコア編集'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final result = await showOkCancelAlertDialog(
+                  context: context, message: '対局結果を削除しますか？\n削除すると戦績からも除外されます');
+
+              if (result.name != 'ok') {
+                return;
+              }
+
+              ref
+                  .read(groupMatchResultsUseCaseProvider)
+                  .deleteRoundResults(widget.groupMatchId, widget.matchOrder);
+              context.pop();
+              SnackBarService.showSnackBar(content: '対局結果を削除しました');
+            },
+            icon: Icon(
+              Icons.delete_forever,
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
+        ],
       ),
       body: AsyncValueGroup.group3(
         ref.watch(groupMatchProvider(groupMatchId: widget.groupMatchId)),
