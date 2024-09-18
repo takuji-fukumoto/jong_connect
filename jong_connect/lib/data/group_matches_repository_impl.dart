@@ -105,6 +105,6 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
 
   @override
   Future<void> delete(int groupMatchId) async {
-    throw UnimplementedError();
+    await supabase.from('group_matches').delete().eq('id', groupMatchId);
   }
 }
