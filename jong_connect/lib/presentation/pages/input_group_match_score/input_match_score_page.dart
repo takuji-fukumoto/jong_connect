@@ -158,36 +158,33 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
             child: ListView(
               padding: formPadding,
               children: [
-                SizedBox(
-                  height: 100,
-                  child: FormBuilderFilterChip(
-                    name: 'player',
-                    decoration: const InputDecoration(labelText: '参加者'),
-                    initialValue: targetPlayers,
-                    maxChips: values.$1.matchType.playableNumber,
-                    validator: (selectors) {
-                      var diff = (selectors?.length ?? 0) -
-                          values.$1.matchType.playableNumber;
-                      if (diff == 0) {
-                        return null;
-                      }
+                FormBuilderFilterChip(
+                  name: 'player',
+                  decoration: const InputDecoration(labelText: '参加者'),
+                  initialValue: targetPlayers,
+                  maxChips: values.$1.matchType.playableNumber,
+                  validator: (selectors) {
+                    var diff = (selectors?.length ?? 0) -
+                        values.$1.matchType.playableNumber;
+                    if (diff == 0) {
+                      return null;
+                    }
 
-                      return '参加者を選択してください';
-                    },
-                    onChanged: (users) => setState(() {
-                      targetPlayers = users ?? [];
-                    }),
-                    showCheckmark: false,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    options: [
-                      for (var player in values.$2) ...[
-                        FormBuilderChipOption(
-                          value: player,
-                          child: UserSectionItemVertical(user: player),
-                        ),
-                      ],
+                    return '参加者を選択してください';
+                  },
+                  onChanged: (users) => setState(() {
+                    targetPlayers = users ?? [];
+                  }),
+                  showCheckmark: false,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  options: [
+                    for (var player in values.$2) ...[
+                      FormBuilderChipOption(
+                        value: player,
+                        child: UserSectionItemVertical(user: player),
+                      ),
                     ],
-                  ),
+                  ],
                 ),
                 gapH16,
                 for (var i = 0;

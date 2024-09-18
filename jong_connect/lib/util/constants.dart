@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hashids2/hashids2.dart';
+import 'package:jong_connect/util/app_sizes.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Supabase client
@@ -28,8 +29,54 @@ const unknownGroupIcon = Icon(Icons.groups);
 abstract final class SnackBarService {
   static final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
-  static void showSnackBar({required String content}) {
-    scaffoldKey.currentState?.showSnackBar(SnackBar(content: Text(content)));
+  static void showSnackBar({required String content, Widget? icon}) {
+    scaffoldKey.currentState?.showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            if (icon != null) ...[
+              icon,
+              gapW8,
+            ],
+            Text(content),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static void showSuccessSnackBar({required String content}) {
+    scaffoldKey.currentState?.showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(
+              Icons.check_circle,
+              color: Colors.greenAccent,
+            ),
+            gapW8,
+            Text(content),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static void showErrorSnackBar({required String content}) {
+    scaffoldKey.currentState?.showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(
+              Icons.error,
+              color: Colors.red,
+            ),
+            gapW8,
+            Text(content),
+          ],
+        ),
+      ),
+    );
   }
 }
 

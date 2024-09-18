@@ -50,27 +50,36 @@ class GroupMatch with _$GroupMatch {
     return totalResults;
   }
 
-  /// ユーザーID -> ラウンド別ポイント
-  Map<String, List<int?>> get pointsPerRound {
+  /// ユーザーID -> ラウンド別対局結果
+  Map<String, List<GroupMatchResult?>> get resultsPerRound {
     if (results == null || results!.isEmpty) {
       return {};
     }
 
     var playerKeys = results!.map<String>((result) => result.userId!).toSet();
-    var totalPoints = <String, List<int?>>{};
+    var totalResults = <String, List<GroupMatchResult?>>{};
 
     // 初期化
     for (var key in playerKeys) {
-      totalPoints[key] = List.generate(maxRounds, (i) => null);
+      totalResults[key] = List.generate(roundsCount, (i) => null);
     }
 
-    // 順にtotal_pointをセット
-    for (var result in results!) {
-      totalPoints[result.userId!]?[result.matchOrder - 1] ??=
-          result.totalPoints;
+    // 各ラウンドの順番はmatch_orderの小さい順で制御する
+    var orderedResults = [...results!];
+    orderedResults.sort((a, b) => a.matchOrder.compareTo(b.matchOrder));
+    var uniqueMatchOrders =
+        orderedResults.map<int>((result) => result.matchOrder).toSet().toList();
+    print(uniqueMatchOrders);
+
+    for (var i = 0; i < uniqueMatchOrders.length; i++) {
+      var targets =
+          results!.where((result) => result.matchOrder == uniqueMatchOrders[i]);
+      for (var target in targets) {
+        totalResults[target.userId!]?[i] ??= target;
+      }
     }
 
-    return totalPoints;
+    return totalResults;
   }
 
   int get maxRounds {
@@ -79,6 +88,14 @@ class GroupMatch with _$GroupMatch {
     }
     var matchOrders = results!.map<int>((result) => result.matchOrder).toSet();
     return matchOrders.reduce(max);
+  }
+
+  int get roundsCount {
+    if (results == null || results!.isEmpty) {
+      return 0;
+    }
+    var matchOrders = results!.map<int>((result) => result.matchOrder).toSet();
+    return matchOrders.length;
   }
 
   /// 参加ユーザー（重複なし）

@@ -106,7 +106,7 @@ class _ResultTable extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final totalPointsPerUser = groupMatch.totalPointsPerUser;
-    final pointsPerRounds = groupMatch.pointsPerRound;
+    final resultsPerRounds = groupMatch.resultsPerRound;
 
     /// グループに参加しているユーザーとグループから退会したが記録に残っているユーザーを全て表示する
     var allPlayers = <AppUser>[...players, ...groupMatch.joinUsers];
@@ -166,15 +166,18 @@ class _ResultTable extends ConsumerWidget {
           ],
         ],
         rows: List<DataRow>.generate(
-          groupMatch.maxRounds,
+          groupMatch.roundsCount,
           (index) => DataRow2(
             onTap: () {
+              var targetUser = resultsPerRounds.keys
+                  .firstWhere((user) => resultsPerRounds[user]?[index] != null);
+              var matchOrder = resultsPerRounds[targetUser]![index]!.matchOrder;
               context.goNamed(
                 RoutingPath.editGroupMatchScore,
                 pathParameters: {
                   'groupId': groupId.toString(),
                   'groupMatchId': groupMatch.id.toString(),
-                  'matchOrder': (index + 1).toString(),
+                  'matchOrder': matchOrder.toString(),
                 },
               );
             },
@@ -188,10 +191,11 @@ class _ResultTable extends ConsumerWidget {
                 DataCell(
                   Center(
                     child: Text(
-                      '${pointsPerRounds[player.id]?[index] != null ? pointsPerRounds[player.id]![index] : ''}',
+                      '${resultsPerRounds[player.id]?[index] != null ? resultsPerRounds[player.id]![index]!.totalPoints : ''}',
                       style: TextStyle(
-                        color:
-                            scoreColor(pointsPerRounds[player.id]?[index] ?? 0),
+                        color: scoreColor(
+                            resultsPerRounds[player.id]?[index]?.totalPoints ??
+                                0),
                       ),
                     ),
                   ),
