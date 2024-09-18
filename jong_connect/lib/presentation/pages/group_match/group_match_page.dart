@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:async_value_group/async_value_group.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +13,7 @@ import 'package:jong_connect/util/expect.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../domain/model/group_match.dart';
+import '../../../util/app_icon_urls.dart';
 import '../../../util/routing_path.dart';
 
 class GroupMatchPage extends ConsumerWidget {
@@ -217,12 +219,21 @@ class _ResultTable extends ConsumerWidget {
                       children: [
                         if (resultsPerRounds[player.id]?[index] != null &&
                             resultsPerRounds[player.id]![index]!.rank == 1)
-                          const Positioned(
+                          Positioned(
                             top: 5,
-                            child: Icon(
-                              Icons.emoji_emotions,
-                              size: 12,
-                              color: Colors.amberAccent,
+                            child: CachedNetworkImage(
+                              imageUrl: AppIconUrls.crown,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         Center(
