@@ -121,6 +121,11 @@ class GroupMatchResultsUseCase {
     _ref.invalidate(groupMatchesProvider(groupId: match.groupId));
   }
 
+  Future<void> deleteMatch(GroupMatch match) async {
+    await _ref.read(groupMatchesRepositoryProvider).delete(match.id);
+    _ref.invalidate(groupMatchesProvider(groupId: match.groupId));
+  }
+
   Future<List<GroupMatchResultRaw>> _calcTotalPoints(
       List<InputUserScore> inputScores, MatchType type) async {
     // スコアが高い順にトータルスコア算出

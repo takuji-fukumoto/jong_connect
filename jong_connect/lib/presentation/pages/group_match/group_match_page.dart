@@ -56,6 +56,27 @@ class GroupMatchPage extends ConsumerWidget {
                     ),
                   ),
                 ),
+              IconButton(
+                onPressed: () async {
+                  final result = await showOkCancelAlertDialog(
+                      context: context,
+                      message: 'グループ対局を削除しますか？\n記録した各対局結果も全て削除されます');
+
+                  if (result.name != 'ok') {
+                    return;
+                  }
+
+                  ref
+                      .read(groupMatchResultsUseCaseProvider)
+                      .deleteMatch(values.$2);
+                  context.pop();
+                  SnackBarService.showSnackBar(content: 'グループ対局を削除しました');
+                },
+                icon: Icon(
+                  Icons.delete_forever,
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
             ],
           ),
           body: _ResultTable(
