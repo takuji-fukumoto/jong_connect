@@ -50,6 +50,55 @@ class GroupMatchResultsRepositoryImpl implements GroupMatchResultsRepository {
   }
 
   @override
+  Future<List<GroupMatchResult>> getUserAllResults(
+      String userId, MatchType type,
+      {int limit = 500}) async {
+    final json = await supabase
+        .from('group_match_results')
+        .select('''
+          *,
+          group_matches!inner (
+            *         
+          )
+        ''')
+        .match({
+          'group_matches.match_type': type.name,
+          'user_id': userId,
+        })
+        .order('created_at', ascending: false)
+        .limit(limit);
+
+    return json
+        .map<GroupMatchResult>((result) => GroupMatchResult.fromJson(result))
+        .toList();
+  }
+
+  @override
+  Future<List<GroupMatchResult>> getUserGroupResults(
+      String userId, MatchType type, int groupId,
+      {int limit = 500}) async {
+    final json = await supabase
+        .from('group_match_results')
+        .select('''
+          *,
+          group_matches!inner  (
+            *  
+          )
+        ''')
+        .match({
+          'group_matches.group_id': groupId,
+          'group_matches.match_type': type.name,
+          'user_id': userId,
+        })
+        .order('created_at', ascending: false)
+        .limit(limit);
+
+    return json
+        .map<GroupMatchResult>((result) => GroupMatchResult.fromJson(result))
+        .toList();
+  }
+
+  @override
   Future<List<GroupMatchResult>> getByMatchOrder(
       int groupMatchId, int matchOrder) async {
     final json = await supabase
