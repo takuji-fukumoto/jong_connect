@@ -12,6 +12,7 @@ _$GameRecordImpl _$$GameRecordImplFromJson(Map<String, dynamic> json) =>
       totalGames: (json['totalGames'] as num).toInt(),
       averageRank: (json['averageRank'] as num?)?.toDouble(),
       topTwoRate: (json['topTwoRate'] as num?)?.toDouble(),
+      bustingRate: (json['bustingRate'] as num?)?.toDouble(),
       totalPoints: (json['totalPoints'] as num).toInt(),
       averagePoints: (json['averagePoints'] as num?)?.toDouble(),
       rankCounts: (json['rankCounts'] as List<dynamic>)
@@ -28,6 +29,7 @@ Map<String, dynamic> _$$GameRecordImplToJson(_$GameRecordImpl instance) =>
       'totalGames': instance.totalGames,
       'averageRank': instance.averageRank,
       'topTwoRate': instance.topTwoRate,
+      'bustingRate': instance.bustingRate,
       'totalPoints': instance.totalPoints,
       'averagePoints': instance.averagePoints,
       'rankCounts': instance.rankCounts,

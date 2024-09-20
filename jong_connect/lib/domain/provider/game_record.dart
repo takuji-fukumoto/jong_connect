@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:jong_connect/data/group_match_results_repository.dart';
 import 'package:jong_connect/domain/model/game_record.dart';
+import 'package:jong_connect/util/extensions/cache.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../util/constants.dart';
@@ -20,6 +21,8 @@ Future<GameRecord> gameRecord(GameRecordRef ref,
         .getUserGroupResults(userId, type, groupId);
     return GameRecord.fromResults(type, results);
   }
+  // 5分間キャッシュ
+  ref.cacheFor(const Duration(minutes: 5));
 
   final results = await ref
       .read(groupMatchResultsRepositoryProvider)

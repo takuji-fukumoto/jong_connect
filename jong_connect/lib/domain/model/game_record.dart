@@ -17,6 +17,7 @@ class GameRecord with _$GameRecord {
     required int totalGames,
     required double? averageRank,
     required double? topTwoRate,
+    required double? bustingRate,
     required int totalPoints,
     required double? averagePoints,
     required List<int> rankCounts,
@@ -34,7 +35,19 @@ class GameRecord with _$GameRecord {
   }
 
   String get topTwoRateString {
-    return topTwoRate != null ? topTwoRate!.toStringAsFixed(2) : '-';
+    if (topTwoRate == null) {
+      return '-';
+    }
+
+    return '${(topTwoRate! * 100).toStringAsFixed(2)} %';
+  }
+
+  String get bustingRateString {
+    if (bustingRate == null) {
+      return '-';
+    }
+
+    return '${(bustingRate! * 100).toStringAsFixed(2)} %';
   }
 
   String get averagePointsString {
@@ -55,6 +68,7 @@ class GameRecord with _$GameRecord {
         totalGames: 0,
         averageRank: null,
         topTwoRate: null,
+        bustingRate: null,
         totalPoints: 0,
         averagePoints: null,
         rankCounts: List.generate(type.playableNumber, (_) => 0),
@@ -64,13 +78,16 @@ class GameRecord with _$GameRecord {
 
     final averageRank =
         results.map<int>((result) => result.rank).reduce((a, b) => a + b) /
-            results.length;
+            totalGames;
     final topTwoRate =
-        results.where((result) => result.rank <= 2).length / results.length;
+        results.where((result) => result.rank <= 2).length / totalGames;
+    final bustingRate =
+        results.where((result) => result.score < 0).length / totalGames;
+
     final totalPoints = results
         .map<int>((result) => result.totalPoints)
         .reduce((a, b) => a + b);
-    final averagePoints = totalPoints / results.length;
+    final averagePoints = totalPoints / totalGames;
     var rankCounts = List.generate(type.playableNumber, (index) => 0);
     for (var result in results) {
       rankCounts[result.rank - 1]++;
@@ -79,13 +96,15 @@ class GameRecord with _$GameRecord {
         results.take(20).map<int>((result) => result.rank).toList();
 
     return GameRecord(
-        type: type,
-        totalGames: totalGames,
-        averageRank: averageRank,
-        topTwoRate: topTwoRate,
-        totalPoints: totalPoints,
-        averagePoints: averagePoints,
-        rankCounts: rankCounts,
-        recent20Ranks: recent20Ranks);
+      type: type,
+      totalGames: totalGames,
+      averageRank: averageRank,
+      topTwoRate: topTwoRate,
+      bustingRate: bustingRate,
+      totalPoints: totalPoints,
+      averagePoints: averagePoints,
+      rankCounts: rankCounts,
+      recent20Ranks: recent20Ranks,
+    );
   }
 }

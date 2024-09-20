@@ -24,6 +24,7 @@ mixin _$GameRecord {
   int get totalGames => throw _privateConstructorUsedError;
   double? get averageRank => throw _privateConstructorUsedError;
   double? get topTwoRate => throw _privateConstructorUsedError;
+  double? get bustingRate => throw _privateConstructorUsedError;
   int get totalPoints => throw _privateConstructorUsedError;
   double? get averagePoints => throw _privateConstructorUsedError;
   List<int> get rankCounts => throw _privateConstructorUsedError;
@@ -50,6 +51,7 @@ abstract class $GameRecordCopyWith<$Res> {
       int totalGames,
       double? averageRank,
       double? topTwoRate,
+      double? bustingRate,
       int totalPoints,
       double? averagePoints,
       List<int> rankCounts,
@@ -75,6 +77,7 @@ class _$GameRecordCopyWithImpl<$Res, $Val extends GameRecord>
     Object? totalGames = null,
     Object? averageRank = freezed,
     Object? topTwoRate = freezed,
+    Object? bustingRate = freezed,
     Object? totalPoints = null,
     Object? averagePoints = freezed,
     Object? rankCounts = null,
@@ -96,6 +99,10 @@ class _$GameRecordCopyWithImpl<$Res, $Val extends GameRecord>
       topTwoRate: freezed == topTwoRate
           ? _value.topTwoRate
           : topTwoRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      bustingRate: freezed == bustingRate
+          ? _value.bustingRate
+          : bustingRate // ignore: cast_nullable_to_non_nullable
               as double?,
       totalPoints: null == totalPoints
           ? _value.totalPoints
@@ -130,6 +137,7 @@ abstract class _$$GameRecordImplCopyWith<$Res>
       int totalGames,
       double? averageRank,
       double? topTwoRate,
+      double? bustingRate,
       int totalPoints,
       double? averagePoints,
       List<int> rankCounts,
@@ -153,6 +161,7 @@ class __$$GameRecordImplCopyWithImpl<$Res>
     Object? totalGames = null,
     Object? averageRank = freezed,
     Object? topTwoRate = freezed,
+    Object? bustingRate = freezed,
     Object? totalPoints = null,
     Object? averagePoints = freezed,
     Object? rankCounts = null,
@@ -174,6 +183,10 @@ class __$$GameRecordImplCopyWithImpl<$Res>
       topTwoRate: freezed == topTwoRate
           ? _value.topTwoRate
           : topTwoRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      bustingRate: freezed == bustingRate
+          ? _value.bustingRate
+          : bustingRate // ignore: cast_nullable_to_non_nullable
               as double?,
       totalPoints: null == totalPoints
           ? _value.totalPoints
@@ -203,6 +216,7 @@ class _$GameRecordImpl extends _GameRecord {
       required this.totalGames,
       required this.averageRank,
       required this.topTwoRate,
+      required this.bustingRate,
       required this.totalPoints,
       required this.averagePoints,
       required final List<int> rankCounts,
@@ -222,6 +236,8 @@ class _$GameRecordImpl extends _GameRecord {
   final double? averageRank;
   @override
   final double? topTwoRate;
+  @override
+  final double? bustingRate;
   @override
   final int totalPoints;
   @override
@@ -244,7 +260,7 @@ class _$GameRecordImpl extends _GameRecord {
 
   @override
   String toString() {
-    return 'GameRecord(type: $type, totalGames: $totalGames, averageRank: $averageRank, topTwoRate: $topTwoRate, totalPoints: $totalPoints, averagePoints: $averagePoints, rankCounts: $rankCounts, recent20Ranks: $recent20Ranks)';
+    return 'GameRecord(type: $type, totalGames: $totalGames, averageRank: $averageRank, topTwoRate: $topTwoRate, bustingRate: $bustingRate, totalPoints: $totalPoints, averagePoints: $averagePoints, rankCounts: $rankCounts, recent20Ranks: $recent20Ranks)';
   }
 
   @override
@@ -259,6 +275,8 @@ class _$GameRecordImpl extends _GameRecord {
                 other.averageRank == averageRank) &&
             (identical(other.topTwoRate, topTwoRate) ||
                 other.topTwoRate == topTwoRate) &&
+            (identical(other.bustingRate, bustingRate) ||
+                other.bustingRate == bustingRate) &&
             (identical(other.totalPoints, totalPoints) ||
                 other.totalPoints == totalPoints) &&
             (identical(other.averagePoints, averagePoints) ||
@@ -277,6 +295,7 @@ class _$GameRecordImpl extends _GameRecord {
       totalGames,
       averageRank,
       topTwoRate,
+      bustingRate,
       totalPoints,
       averagePoints,
       const DeepCollectionEquality().hash(_rankCounts),
@@ -304,6 +323,7 @@ abstract class _GameRecord extends GameRecord {
       required final int totalGames,
       required final double? averageRank,
       required final double? topTwoRate,
+      required final double? bustingRate,
       required final int totalPoints,
       required final double? averagePoints,
       required final List<int> rankCounts,
@@ -321,6 +341,8 @@ abstract class _GameRecord extends GameRecord {
   double? get averageRank;
   @override
   double? get topTwoRate;
+  @override
+  double? get bustingRate;
   @override
   int get totalPoints;
   @override
