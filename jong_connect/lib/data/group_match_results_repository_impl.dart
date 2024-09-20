@@ -53,7 +53,6 @@ class GroupMatchResultsRepositoryImpl implements GroupMatchResultsRepository {
   Future<List<GroupMatchResult>> getUserAllResults(
       String userId, MatchType type,
       {int limit = 500}) async {
-    print('get all user id: $userId, type: ${type.displayName}');
     final json = await supabase
         .from('group_match_results')
         .select('''
@@ -78,9 +77,6 @@ class GroupMatchResultsRepositoryImpl implements GroupMatchResultsRepository {
   Future<List<GroupMatchResult>> getUserGroupResults(
       String userId, MatchType type, int groupId,
       {int limit = 500}) async {
-    print(
-        'get group user id: $userId, type: ${type.displayName}, group id: $groupId');
-
     final json = await supabase
         .from('group_match_results')
         .select('''
