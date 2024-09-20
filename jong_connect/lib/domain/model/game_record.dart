@@ -8,18 +8,38 @@ part 'game_record.g.dart';
 
 @freezed
 class GameRecord with _$GameRecord {
+  static const maxGameCount = 500;
+
   const GameRecord._();
 
   const factory GameRecord({
     required MatchType type,
     required int totalGames,
-    required double averageRank,
-    required double topTwoRate,
+    required double? averageRank,
+    required double? topTwoRate,
     required int totalPoints,
-    required double averagePoints,
+    required double? averagePoints,
     required List<int> rankCounts,
     required List<int> recent20Ranks,
   }) = _GameRecord;
+
+  String get totalGamesString {
+    return totalGames >= maxGameCount
+        ? '$maxGameCount+'
+        : totalGames.toString();
+  }
+
+  String get averageRankString {
+    return averageRank != null ? averageRank!.toStringAsFixed(2) : '-';
+  }
+
+  String get topTwoRateString {
+    return topTwoRate != null ? topTwoRate!.toStringAsFixed(2) : '-';
+  }
+
+  String get averagePointsString {
+    return averagePoints != null ? averagePoints!.toStringAsFixed(2) : '-';
+  }
 
   factory GameRecord.fromJson(Map<String, dynamic> json) =>
       _$GameRecordFromJson(json);
@@ -27,6 +47,21 @@ class GameRecord with _$GameRecord {
   factory GameRecord.fromResults(
       MatchType type, List<GroupMatchResult> results) {
     final totalGames = results.length;
+
+    // 1度も対局していない場合0除算しないように早期リターン
+    if (totalGames <= 0) {
+      return GameRecord(
+        type: type,
+        totalGames: 0,
+        averageRank: null,
+        topTwoRate: null,
+        totalPoints: 0,
+        averagePoints: null,
+        rankCounts: List.generate(type.playableNumber, (_) => 0),
+        recent20Ranks: [],
+      );
+    }
+
     final averageRank =
         results.map<int>((result) => result.rank).reduce((a, b) => a + b) /
             results.length;

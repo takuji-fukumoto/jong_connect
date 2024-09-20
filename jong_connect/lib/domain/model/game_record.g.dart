@@ -10,10 +10,10 @@ _$GameRecordImpl _$$GameRecordImplFromJson(Map<String, dynamic> json) =>
     _$GameRecordImpl(
       type: $enumDecode(_$MatchTypeEnumMap, json['type']),
       totalGames: (json['totalGames'] as num).toInt(),
-      averageRank: (json['averageRank'] as num).toDouble(),
-      topTwoRate: (json['topTwoRate'] as num).toDouble(),
+      averageRank: (json['averageRank'] as num?)?.toDouble(),
+      topTwoRate: (json['topTwoRate'] as num?)?.toDouble(),
       totalPoints: (json['totalPoints'] as num).toInt(),
-      averagePoints: (json['averagePoints'] as num).toDouble(),
+      averagePoints: (json['averagePoints'] as num?)?.toDouble(),
       rankCounts: (json['rankCounts'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),

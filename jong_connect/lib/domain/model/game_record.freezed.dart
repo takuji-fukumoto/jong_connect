@@ -22,10 +22,10 @@ GameRecord _$GameRecordFromJson(Map<String, dynamic> json) {
 mixin _$GameRecord {
   MatchType get type => throw _privateConstructorUsedError;
   int get totalGames => throw _privateConstructorUsedError;
-  double get averageRank => throw _privateConstructorUsedError;
-  double get topTwoRate => throw _privateConstructorUsedError;
+  double? get averageRank => throw _privateConstructorUsedError;
+  double? get topTwoRate => throw _privateConstructorUsedError;
   int get totalPoints => throw _privateConstructorUsedError;
-  double get averagePoints => throw _privateConstructorUsedError;
+  double? get averagePoints => throw _privateConstructorUsedError;
   List<int> get rankCounts => throw _privateConstructorUsedError;
   List<int> get recent20Ranks => throw _privateConstructorUsedError;
 
@@ -48,10 +48,10 @@ abstract class $GameRecordCopyWith<$Res> {
   $Res call(
       {MatchType type,
       int totalGames,
-      double averageRank,
-      double topTwoRate,
+      double? averageRank,
+      double? topTwoRate,
       int totalPoints,
-      double averagePoints,
+      double? averagePoints,
       List<int> rankCounts,
       List<int> recent20Ranks});
 }
@@ -73,10 +73,10 @@ class _$GameRecordCopyWithImpl<$Res, $Val extends GameRecord>
   $Res call({
     Object? type = null,
     Object? totalGames = null,
-    Object? averageRank = null,
-    Object? topTwoRate = null,
+    Object? averageRank = freezed,
+    Object? topTwoRate = freezed,
     Object? totalPoints = null,
-    Object? averagePoints = null,
+    Object? averagePoints = freezed,
     Object? rankCounts = null,
     Object? recent20Ranks = null,
   }) {
@@ -89,22 +89,22 @@ class _$GameRecordCopyWithImpl<$Res, $Val extends GameRecord>
           ? _value.totalGames
           : totalGames // ignore: cast_nullable_to_non_nullable
               as int,
-      averageRank: null == averageRank
+      averageRank: freezed == averageRank
           ? _value.averageRank
           : averageRank // ignore: cast_nullable_to_non_nullable
-              as double,
-      topTwoRate: null == topTwoRate
+              as double?,
+      topTwoRate: freezed == topTwoRate
           ? _value.topTwoRate
           : topTwoRate // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       totalPoints: null == totalPoints
           ? _value.totalPoints
           : totalPoints // ignore: cast_nullable_to_non_nullable
               as int,
-      averagePoints: null == averagePoints
+      averagePoints: freezed == averagePoints
           ? _value.averagePoints
           : averagePoints // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       rankCounts: null == rankCounts
           ? _value.rankCounts
           : rankCounts // ignore: cast_nullable_to_non_nullable
@@ -128,10 +128,10 @@ abstract class _$$GameRecordImplCopyWith<$Res>
   $Res call(
       {MatchType type,
       int totalGames,
-      double averageRank,
-      double topTwoRate,
+      double? averageRank,
+      double? topTwoRate,
       int totalPoints,
-      double averagePoints,
+      double? averagePoints,
       List<int> rankCounts,
       List<int> recent20Ranks});
 }
@@ -151,10 +151,10 @@ class __$$GameRecordImplCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
     Object? totalGames = null,
-    Object? averageRank = null,
-    Object? topTwoRate = null,
+    Object? averageRank = freezed,
+    Object? topTwoRate = freezed,
     Object? totalPoints = null,
-    Object? averagePoints = null,
+    Object? averagePoints = freezed,
     Object? rankCounts = null,
     Object? recent20Ranks = null,
   }) {
@@ -167,22 +167,22 @@ class __$$GameRecordImplCopyWithImpl<$Res>
           ? _value.totalGames
           : totalGames // ignore: cast_nullable_to_non_nullable
               as int,
-      averageRank: null == averageRank
+      averageRank: freezed == averageRank
           ? _value.averageRank
           : averageRank // ignore: cast_nullable_to_non_nullable
-              as double,
-      topTwoRate: null == topTwoRate
+              as double?,
+      topTwoRate: freezed == topTwoRate
           ? _value.topTwoRate
           : topTwoRate // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       totalPoints: null == totalPoints
           ? _value.totalPoints
           : totalPoints // ignore: cast_nullable_to_non_nullable
               as int,
-      averagePoints: null == averagePoints
+      averagePoints: freezed == averagePoints
           ? _value.averagePoints
           : averagePoints // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       rankCounts: null == rankCounts
           ? _value._rankCounts
           : rankCounts // ignore: cast_nullable_to_non_nullable
@@ -219,13 +219,13 @@ class _$GameRecordImpl extends _GameRecord {
   @override
   final int totalGames;
   @override
-  final double averageRank;
+  final double? averageRank;
   @override
-  final double topTwoRate;
+  final double? topTwoRate;
   @override
   final int totalPoints;
   @override
-  final double averagePoints;
+  final double? averagePoints;
   final List<int> _rankCounts;
   @override
   List<int> get rankCounts {
@@ -302,10 +302,10 @@ abstract class _GameRecord extends GameRecord {
   const factory _GameRecord(
       {required final MatchType type,
       required final int totalGames,
-      required final double averageRank,
-      required final double topTwoRate,
+      required final double? averageRank,
+      required final double? topTwoRate,
       required final int totalPoints,
-      required final double averagePoints,
+      required final double? averagePoints,
       required final List<int> rankCounts,
       required final List<int> recent20Ranks}) = _$GameRecordImpl;
   const _GameRecord._() : super._();
@@ -318,13 +318,13 @@ abstract class _GameRecord extends GameRecord {
   @override
   int get totalGames;
   @override
-  double get averageRank;
+  double? get averageRank;
   @override
-  double get topTwoRate;
+  double? get topTwoRate;
   @override
   int get totalPoints;
   @override
-  double get averagePoints;
+  double? get averagePoints;
   @override
   List<int> get rankCounts;
   @override

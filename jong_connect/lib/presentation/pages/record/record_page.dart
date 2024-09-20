@@ -1,49 +1,66 @@
+import 'package:async_value_group/async_value_group.dart';
+import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jong_connect/domain/provider/game_record.dart';
-import 'package:jong_connect/presentation/common_widgets/async_value_widget.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:jong_connect/domain/provider/current_user.dart';
+import 'package:jong_connect/presentation/common_widgets/user_section_item_vertical.dart';
+import 'package:jong_connect/presentation/pages/record/game_record_section.dart';
 
-import '../../../domain/provider/user_session.dart';
-import '../../../util/constants.dart';
+import '../../../domain/provider/current_friends.dart';
 
 class RecordPage extends ConsumerWidget {
   const RecordPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(userSessionProvider);
-    if (session == null) {
-      return Center(
-        child: LoadingAnimationWidget.staggeredDotsWave(
-          color: Colors.grey,
-          size: 50,
-        ),
-      );
-    }
-
-    final userId = session.user.id;
-
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.surface,
-          title: const Text('戦績'),
-        ),
-        body: AsyncValueWidget(
-            asyncValue: ref.watch(gameRecordProvider(
-                userId: userId, matchTypeName: MatchType.four.name)),
-            data: (record) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(record.totalGames.toString()),
-                  Text(record.averageRank.toString()),
-                  Text(record.totalPoints.toString()),
-                  Text(record.averagePoints.toString()),
-                  Text(record.topTwoRate.toString()),
-                ],
-              );
-            }));
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.surface,
+        title: const Text('戦績'),
+      ),
+      body: AsyncValueGroup.group2(
+        ref.watch(currentUserProvider),
+        ref.watch(currentFriendsProvider),
+      ).when(
+        data: (values) {
+          return DefaultTabController(
+            length: values.$2.length + 1,
+            child: Column(
+              children: <Widget>[
+                ButtonsTabBar(
+                  backgroundColor:
+                      Theme.of(context).colorScheme.surfaceContainerHighest,
+                  height: 60,
+                  unselectedBackgroundColor: Colors.transparent,
+                  tabs: [
+                    Tab(icon: UserSectionItemVertical(user: values.$1!)),
+                    for (var friend in values.$2) ...[
+                      Tab(icon: UserSectionItemVertical(user: friend)),
+                    ],
+                  ],
+                ),
+                Expanded(
+                  child: TabBarView(
+                    children: <Widget>[
+                      GameRecordSection(user: values.$1!),
+                      for (var friend in values.$2) ...[
+                        GameRecordSection(user: friend),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        error: (error, st) {
+          print(st);
+          return const Center(
+              child: Text('Oops, something unexpected happened'));
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+      ),
+    );
   }
 }
