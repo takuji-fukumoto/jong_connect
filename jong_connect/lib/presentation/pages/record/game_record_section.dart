@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -11,12 +12,15 @@ import 'package:fl_chart/fl_chart.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../domain/model/game_record.dart';
+import '../../../domain/model/group.dart';
 import '../../../util/constants.dart';
 
 class GameRecordSection extends ConsumerStatefulWidget {
-  const GameRecordSection({super.key, required this.user});
+  const GameRecordSection(
+      {super.key, required this.user, required this.filterGroups});
 
   final AppUser user;
+  final List<Group> filterGroups;
 
   @override
   ConsumerState<GameRecordSection> createState() => _GameRecordSectionState();
@@ -24,6 +28,7 @@ class GameRecordSection extends ConsumerStatefulWidget {
 
 class _GameRecordSectionState extends ConsumerState<GameRecordSection> {
   Set<MatchType> selected = {MatchType.four};
+  int? filterValue;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +52,79 @@ class _GameRecordSectionState extends ConsumerState<GameRecordSection> {
               ),
             ),
             gapH16,
-            _RecordBody(user: widget.user, type: selected.first),
+            const Row(
+              children: [
+                gapW12,
+                Text(
+                  '集計対象',
+                  style: TextStyle(
+                    fontSize: Sizes.p12,
+                  ),
+                ),
+              ],
+            ),
+            gapH4,
+            DropdownButtonHideUnderline(
+              child: DropdownButton2<int?>(
+                isExpanded: true,
+                value: filterValue,
+                items: [
+                  const DropdownMenuItem(
+                    value: null,
+                    child: Text('全て'),
+                  ),
+                  for (var group in widget.filterGroups)
+                    DropdownMenuItem(
+                      value: group.id,
+                      child: Text(
+                        group.name,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    filterValue = value != -1 ? value : null;
+                  });
+                },
+                buttonStyleData: ButtonStyleData(
+                  height: 40,
+                  padding:
+                      const EdgeInsets.only(left: Sizes.p8, right: Sizes.p8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.inverseSurface,
+                    ),
+                  ),
+                  elevation: 0,
+                ),
+                dropdownStyleData: DropdownStyleData(
+                  maxHeight: 300,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.black26,
+                    ),
+                  ),
+                  scrollbarTheme: ScrollbarThemeData(
+                    radius: const Radius.circular(40),
+                    thickness: WidgetStateProperty.all(6),
+                    thumbVisibility: WidgetStateProperty.all(true),
+                  ),
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  height: 40,
+                  padding: EdgeInsets.only(left: Sizes.p16, right: Sizes.p8),
+                ),
+              ),
+            ),
+            gapH16,
+            _RecordBody(
+              user: widget.user,
+              type: selected.first,
+              filterGroupId: filterValue,
+            ),
           ],
         ),
       ),
@@ -62,16 +139,21 @@ class _GameRecordSectionState extends ConsumerState<GameRecordSection> {
 }
 
 class _RecordBody extends ConsumerWidget {
-  const _RecordBody({super.key, required this.user, required this.type});
+  const _RecordBody(
+      {super.key,
+      required this.user,
+      required this.type,
+      required this.filterGroupId});
 
   final AppUser user;
   final MatchType type;
+  final int? filterGroupId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AsyncValueWidget(
-      asyncValue: ref
-          .watch(gameRecordProvider(userId: user.id, matchTypeName: type.name)),
+      asyncValue: ref.watch(gameRecordProvider(
+          userId: user.id, matchTypeName: type.name, groupId: filterGroupId)),
       data: (record) {
         return StaggeredGrid.count(
           axisDirection: AxisDirection.down,

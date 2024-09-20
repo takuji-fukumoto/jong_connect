@@ -14,6 +14,9 @@ Future<GameRecord> gameRecord(GameRecordRef ref,
     {required String userId,
     required String matchTypeName,
     int? groupId}) async {
+  // 5分間キャッシュ
+  ref.cacheFor(const Duration(minutes: 5));
+
   final type = MatchType.values.byName(matchTypeName);
   if (groupId != null) {
     final results = await ref
@@ -21,8 +24,6 @@ Future<GameRecord> gameRecord(GameRecordRef ref,
         .getUserGroupResults(userId, type, groupId);
     return GameRecord.fromResults(type, results);
   }
-  // 5分間キャッシュ
-  ref.cacheFor(const Duration(minutes: 5));
 
   final results = await ref
       .read(groupMatchResultsRepositoryProvider)
