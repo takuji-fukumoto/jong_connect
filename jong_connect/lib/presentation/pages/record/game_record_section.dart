@@ -109,42 +109,39 @@ class _RecordBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          _RecordBaseRow(
-            label: '対戦回数',
-            text: record.totalGamesString,
-          ),
-          gapH4,
-          _RecordBaseRow(
-            label: '平均順位',
-            text: record.averageRankString,
-          ),
-          gapH4,
-          _RecordBaseRow(
-            label: '連対率',
-            text: record.topTwoRateString,
-          ),
-          gapH4,
-          _RecordBaseRow(
-            label: '飛び率',
-            text: record.bustingRateString,
-          ),
-          gapH4,
-          _RecordBaseRow(
-            label: '累計ポイント',
-            text: record.totalPoints.toString(),
-          ),
-          gapH4,
-          _RecordBaseRow(
-            label: '平均ポイント',
-            text: record.averagePointsString,
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _RecordBaseRow(
+          label: '対戦回数',
+          text: record.totalGamesString,
+        ),
+        gapH4,
+        _RecordBaseRow(
+          label: '平均順位',
+          text: record.averageRankString,
+        ),
+        gapH4,
+        _RecordBaseRow(
+          label: '連対率',
+          text: record.topTwoRateString,
+        ),
+        gapH4,
+        _RecordBaseRow(
+          label: '飛び率',
+          text: record.bustingRateString,
+        ),
+        gapH4,
+        _RecordBaseRow(
+          label: '累計ポイント',
+          text: record.totalPoints.toString(),
+        ),
+        gapH4,
+        _RecordBaseRow(
+          label: '平均ポイント',
+          text: record.averagePointsString,
+        ),
+      ],
     );
   }
 }
@@ -263,9 +260,37 @@ class _RankCountsPieChart extends StatelessWidget {
   const _RankCountsPieChart({super.key, required this.counts});
 
   final List<int> counts;
+  static const List<Color> rankColors = [
+    Colors.lightGreen,
+    Colors.blueAccent,
+    Colors.blueGrey,
+    Colors.redAccent,
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return PieChart(
+      PieChartData(
+        borderData: FlBorderData(
+          show: true,
+        ),
+        startDegreeOffset: -90,
+        sectionsSpace: 3,
+        centerSpaceRadius: 50,
+        sections: [
+          for (var i = 0; i < counts.length; i++)
+            PieChartSectionData(
+              value: counts[i].toDouble(),
+              color: rankColors[i],
+              showTitle: true,
+              title:
+                  '${i + 1}着(${counts[i]}回)\n${((counts[i] / counts.length) * 100).toStringAsFixed(2)}%',
+              titleStyle: const TextStyle(
+                fontSize: Sizes.p12,
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }
