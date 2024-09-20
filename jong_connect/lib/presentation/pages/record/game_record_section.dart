@@ -269,6 +269,7 @@ class _RankCountsPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final totalCounts = counts.reduce((a, b) => a + b);
     return PieChart(
       PieChartData(
         borderData: FlBorderData(
@@ -284,7 +285,7 @@ class _RankCountsPieChart extends StatelessWidget {
               color: rankColors[i],
               showTitle: true,
               title:
-                  '${i + 1}着(${counts[i]}回)\n${((counts[i] / counts.length) * 100).toStringAsFixed(2)}%',
+                  '${i + 1}着(${counts[i]}回)\n${((counts[i] / totalCounts) * 100).toStringAsFixed(2)}%',
               titleStyle: const TextStyle(
                 fontSize: Sizes.p12,
               ),
