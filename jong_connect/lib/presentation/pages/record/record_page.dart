@@ -3,6 +3,7 @@ import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
+import 'package:jong_connect/domain/provider/joined_groups.dart';
 import 'package:jong_connect/presentation/common_widgets/user_section_item_vertical.dart';
 import 'package:jong_connect/presentation/pages/record/game_record_section.dart';
 
@@ -17,11 +18,12 @@ class RecordPage extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.surface,
-        title: const Text('戦績'),
+        title: const Text('成績'),
       ),
-      body: AsyncValueGroup.group2(
+      body: AsyncValueGroup.group3(
         ref.watch(currentUserProvider),
         ref.watch(currentFriendsProvider),
+        ref.watch(joinedGroupsProvider),
       ).when(
         data: (values) {
           return DefaultTabController(
@@ -43,9 +45,15 @@ class RecordPage extends ConsumerWidget {
                 Expanded(
                   child: TabBarView(
                     children: <Widget>[
-                      GameRecordSection(user: values.$1!),
+                      GameRecordSection(
+                        user: values.$1!,
+                        filterGroups: values.$3,
+                      ),
                       for (var friend in values.$2) ...[
-                        GameRecordSection(user: friend),
+                        GameRecordSection(
+                          user: friend,
+                          filterGroups: values.$3,
+                        ),
                       ],
                     ],
                   ),
