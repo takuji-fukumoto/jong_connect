@@ -6,9 +6,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jong_connect/domain/provider/current_avatars.dart';
 import 'package:jong_connect/domain/provider/current_friends.dart';
 import 'package:jong_connect/domain/provider/group_details.dart';
+import 'package:jong_connect/domain/provider/group_icons.dart';
 import 'package:jong_connect/presentation/common_widgets/user_section_item_vertical.dart';
 import 'package:jong_connect/usecase/edit_group_use_case.dart';
 import 'package:jong_connect/util/app_sizes.dart';
@@ -85,7 +85,7 @@ class _EditGroupFormState extends ConsumerState<EditGroupPage> {
       body: AsyncValueGroup.group3(
         ref.watch(groupDetailsProvider(groupId: widget.groupId)),
         ref.watch(currentFriendsProvider),
-        ref.watch(currentAvatarsProvider),
+        ref.watch(groupIconsProvider),
       ).when(
         data: (value) {
           final targetUsers = value.$1.joinedUsers!
@@ -134,14 +134,14 @@ class _EditGroupFormState extends ConsumerState<EditGroupPage> {
                     FormBuilderValidators.required(),
                   ]),
                   options: [
-                    for (final avatar in value.$3)
+                    for (final icon in value.$3)
                       FormBuilderChipOption(
-                        value: avatar.url,
+                        value: icon.url,
                         child: CircleAvatar(
                           minRadius: 20,
                           maxRadius: 40,
                           child: CachedNetworkImage(
-                            imageUrl: avatar.url,
+                            imageUrl: icon.url,
                             imageBuilder: (context, imageProvider) => Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(

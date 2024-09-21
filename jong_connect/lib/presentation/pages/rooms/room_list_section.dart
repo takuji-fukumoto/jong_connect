@@ -32,6 +32,7 @@ class RoomListSection extends ConsumerWidget {
                       radius: 40,
                       child: Container(
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
                           image: DecorationImage(
                             image: imageProvider,
                             fit: BoxFit.cover,

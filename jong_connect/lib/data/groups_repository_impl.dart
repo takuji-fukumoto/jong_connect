@@ -35,10 +35,6 @@ class GroupsRepositoryImpl implements GroupsRepository {
     return supabase.from('groups').stream(primaryKey: ['id'])
         // .order('updated_at', ascending: true)
         .map((events) {
-      for (var i = 0; i < events.length; i++) {
-        print('$i番目のevent');
-        print(events[i]);
-      }
       return events.map<Group>((json) => Group.fromJson(json)).toList();
     });
 
