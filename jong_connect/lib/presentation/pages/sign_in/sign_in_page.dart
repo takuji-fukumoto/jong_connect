@@ -23,6 +23,8 @@ class _SignInFormState extends ConsumerState<SignInPage> {
       RoundedLoadingButtonController();
   final _formKey = GlobalKey<FormBuilderState>();
 
+  bool _obscurePasswordText = true;
+
   Future<void> _signIn() async {
     if (!_formKey.currentState!.saveAndValidate()) {
       _btnController.reset();
@@ -74,8 +76,22 @@ class _SignInFormState extends ConsumerState<SignInPage> {
             FormBuilderTextField(
               name: "password",
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'パスワード'),
+              obscureText: _obscurePasswordText,
+              decoration: InputDecoration(
+                labelText: 'パスワード',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePasswordText
+                        ? Icons.disabled_visible
+                        : Icons.remove_red_eye_outlined,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePasswordText = !_obscurePasswordText;
+                    });
+                  },
+                ),
+              ),
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(),
                 FormBuilderValidators.password(
