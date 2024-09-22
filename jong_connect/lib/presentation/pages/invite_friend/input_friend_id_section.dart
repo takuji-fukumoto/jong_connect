@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:jong_connect/usecase/request_friend_use_case.dart';
+import 'package:jong_connect/usecase/friend_use_case.dart';
 
 import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/constants.dart';
@@ -30,7 +30,7 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
 
     try {
       await ref
-          .read(requestFriendUseCaseProvider)
+          .read(friendUseCaseProvider)
           .makeFriendFromFriendId(_formKey.currentState!.value["friend_id"]);
 
       _formKey.currentState?.fields['friend_id']?.reset();

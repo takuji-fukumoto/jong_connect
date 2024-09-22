@@ -8,16 +8,15 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../data/app_user_repository.dart';
 import '../domain/model/app_user.dart';
 
-part 'request_friend_use_case.g.dart';
+part 'friend_use_case.g.dart';
 
 @riverpod
-RequestFriendUseCase requestFriendUseCase(RequestFriendUseCaseRef ref) =>
-    RequestFriendUseCase(ref);
+FriendUseCase friendUseCase(FriendUseCaseRef ref) => FriendUseCase(ref);
 
-class RequestFriendUseCase {
-  final RequestFriendUseCaseRef _ref;
+class FriendUseCase {
+  final FriendUseCaseRef _ref;
 
-  RequestFriendUseCase(this._ref);
+  FriendUseCase(this._ref);
 
   /// フレンドIDを入力した場合はすぐにフレンド関係にする
   Future<void> makeFriendFromFriendId(String hashedFriendId) async {
@@ -60,4 +59,8 @@ class RequestFriendUseCase {
   }
 
 // TODO: リクエスト拒否のメソッド追加
+
+  Future<void> removeFriend(AppUser targetUser) async {
+    await _ref.read(friendsRepositoryProvider).removeFriend(targetUser);
+  }
 }
