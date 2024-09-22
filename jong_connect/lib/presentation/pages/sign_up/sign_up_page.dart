@@ -110,6 +110,20 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
               ]),
             ),
             gapH16,
+            FormBuilderTextField(
+              name: "password_confirm",
+              autovalidateMode: AutovalidateMode.onUnfocus,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'パスワード(再確認)'),
+              validator: (value) {
+                if (value != _formKey.currentState!.value["password"]) {
+                  return 'パスワードが一致しません';
+                }
+
+                return null;
+              },
+            ),
+            gapH16,
             RoundedLoadingButton(
               color: Theme.of(context).colorScheme.tertiaryContainer,
               successIcon: Icons.check,
