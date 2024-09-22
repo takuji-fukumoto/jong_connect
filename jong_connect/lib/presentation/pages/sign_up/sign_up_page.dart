@@ -26,6 +26,8 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
       RoundedLoadingButtonController();
 
   final _formKey = GlobalKey<FormBuilderState>();
+  bool _obscurePasswordText = true;
+  bool _obscureConfirmPasswordText = true;
 
   Future<void> _signUpAnonymously() async {
     try {
@@ -98,8 +100,22 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
             FormBuilderTextField(
               name: "password",
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'パスワード'),
+              obscureText: _obscurePasswordText,
+              decoration: InputDecoration(
+                labelText: 'パスワード',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePasswordText
+                        ? Icons.disabled_visible
+                        : Icons.remove_red_eye_outlined,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePasswordText = !_obscurePasswordText;
+                    });
+                  },
+                ),
+              ),
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(),
                 FormBuilderValidators.password(
@@ -113,8 +129,23 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
             FormBuilderTextField(
               name: "password_confirm",
               autovalidateMode: AutovalidateMode.onUnfocus,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'パスワード(再確認)'),
+              obscureText: _obscureConfirmPasswordText,
+              decoration: InputDecoration(
+                labelText: 'パスワード(確認)',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureConfirmPasswordText
+                        ? Icons.disabled_visible
+                        : Icons.remove_red_eye_outlined,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureConfirmPasswordText =
+                          !_obscureConfirmPasswordText;
+                    });
+                  },
+                ),
+              ),
               validator: (value) {
                 if (value != _formKey.currentState!.value["password"]) {
                   return 'パスワードが一致しません';
