@@ -42,7 +42,7 @@ class UserProfileDialog extends Dialog {
         ],
       ),
       actions: [
-        _RemoveFriendButton(user: user),
+        if (isFriend) _RemoveFriendButton(user: user),
       ],
     );
   }
@@ -59,7 +59,7 @@ class _RemoveFriendButton extends ConsumerWidget {
       onPressed: () async {
         final result = await showOkCancelAlertDialog(
           context: context,
-          message: 'ともだちを解除するとグループの招待、成績の閲覧ができなくなります',
+          message: 'ともだちを解除するとグループへの招待、成績の閲覧ができなくなります',
           okLabel: '解除',
         );
 
