@@ -9,7 +9,6 @@ import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../usecase/user_auth_use_case.dart';
-import '../../../util/app_colors.dart';
 import '../../../util/routing_path.dart';
 
 class SignUpPage extends ConsumerStatefulWidget {
@@ -175,7 +174,7 @@ class _SignUpFormState extends ConsumerState<SignUpPage> {
               failedIcon: Icons.cottage,
               controller: _signInAnonymouslyButtonController,
               onPressed: _signUpAnonymously,
-              valueColor: AppColors.shinbashi,
+              valueColor: Theme.of(context).colorScheme.secondary,
               elevation: 0,
               child: const Text('ゲストとして始める'),
             ),
