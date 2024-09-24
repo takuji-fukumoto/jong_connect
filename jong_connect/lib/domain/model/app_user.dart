@@ -22,4 +22,12 @@ class AppUser with _$AppUser {
       _$AppUserFromJson(json);
 
   String get hashedFriendId => hashids.encode(friendId);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AppUser && id == other.id && name == other.name;
+
+  @override
+  int get hashCode => id.hashCode;
 }
