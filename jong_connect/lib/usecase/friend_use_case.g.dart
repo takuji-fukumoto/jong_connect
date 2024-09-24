@@ -1,27 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'request_friend_use_case.dart';
+part of 'friend_use_case.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$requestFriendUseCaseHash() =>
-    r'186ffe0adac1e7fb05e305f8a8d9039c851c1b91';
+String _$friendUseCaseHash() => r'cf7512b3f9dfa894a795721f661e1e663f8ac4f6';
 
-/// See also [requestFriendUseCase].
-@ProviderFor(requestFriendUseCase)
-final requestFriendUseCaseProvider =
-    AutoDisposeProvider<RequestFriendUseCase>.internal(
-  requestFriendUseCase,
-  name: r'requestFriendUseCaseProvider',
+/// See also [friendUseCase].
+@ProviderFor(friendUseCase)
+final friendUseCaseProvider = AutoDisposeProvider<FriendUseCase>.internal(
+  friendUseCase,
+  name: r'friendUseCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$requestFriendUseCaseHash,
+      : _$friendUseCaseHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef RequestFriendUseCaseRef = AutoDisposeProviderRef<RequestFriendUseCase>;
+typedef FriendUseCaseRef = AutoDisposeProviderRef<FriendUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

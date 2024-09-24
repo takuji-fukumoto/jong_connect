@@ -20,7 +20,7 @@ import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import '../../../domain/model/app_user.dart';
 import '../../../domain/provider/game_config.dart';
 import '../../../usecase/group_match_results_use_case.dart';
-import '../../../util/input_seating_order_form.dart';
+import '../../common_widgets/input_seating_order_form.dart';
 
 class EditGroupMatchScorePage extends ConsumerStatefulWidget {
   const EditGroupMatchScorePage(

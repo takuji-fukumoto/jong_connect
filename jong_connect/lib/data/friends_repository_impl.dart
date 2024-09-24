@@ -41,4 +41,11 @@ class FriendsRepositoryImpl implements FriendsRepository {
 
     print('accept friend request response: $response');
   }
+
+  @override
+  Future<void> removeFriend(AppUser targetUser) async {
+    await supabase.rpc('remove_friend', params: {
+      'remove_friend_user_id': targetUser.id,
+    });
+  }
 }

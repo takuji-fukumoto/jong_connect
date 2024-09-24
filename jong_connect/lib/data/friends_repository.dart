@@ -26,4 +26,8 @@ class FriendsRepository {
   Future<void> acceptFriendRequest(AppUser requestedUser) async {
     throw UnimplementedError();
   }
+
+  Future<void> removeFriend(AppUser targetUser) async {
+    throw UnimplementedError();
+  }
 }
