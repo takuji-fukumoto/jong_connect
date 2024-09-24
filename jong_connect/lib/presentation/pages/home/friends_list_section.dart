@@ -9,6 +9,7 @@ import 'package:jong_connect/util/routing_path.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../util/constants.dart';
+import '../../common_widgets/user_profile_dialog.dart';
 
 class FriendsListSection extends ConsumerWidget {
   const FriendsListSection({super.key});
@@ -97,8 +98,11 @@ class _FriendListTile extends StatelessWidget {
       ),
       title: Text(friend.name),
       subtitle: Text(friend.profile),
-      onTap: () {
-        // TODO: ユーザーの詳細ダイアログを表示する
+      onTap: () async {
+        await showDialog(
+          context: context,
+          builder: (context) => UserProfileDialog(user: friend, isFriend: true),
+        );
       },
     );
   }

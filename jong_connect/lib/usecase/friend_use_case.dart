@@ -62,5 +62,6 @@ class FriendUseCase {
 
   Future<void> removeFriend(AppUser targetUser) async {
     await _ref.read(friendsRepositoryProvider).removeFriend(targetUser);
+    _ref.invalidate(currentFriendsProvider);
   }
 }

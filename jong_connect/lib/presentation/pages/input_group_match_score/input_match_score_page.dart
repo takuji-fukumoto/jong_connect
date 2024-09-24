@@ -17,7 +17,7 @@ import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 import '../../../domain/model/app_user.dart';
 import '../../../domain/provider/group_match.dart';
 import '../../../domain/provider/group_match_players.dart';
-import '../../../util/input_seating_order_form.dart';
+import '../../common_widgets/input_seating_order_form.dart';
 
 class InputGroupMatchScorePage extends ConsumerStatefulWidget {
   const InputGroupMatchScorePage({

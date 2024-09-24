@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 
-import '../domain/model/app_user.dart';
+import '../../domain/model/app_user.dart';
 
 class InputSeatingOrderForm extends StatefulWidget {
   const InputSeatingOrderForm({super.key, required this.players});
