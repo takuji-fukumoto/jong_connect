@@ -42,4 +42,9 @@ class AppUserRepositoryImpl implements AppUserRepository {
       'avatar_url': user.avatarUrl,
     }).eq('id', user.id);
   }
+
+  @override
+  Future<void> deactivate() async {
+    return await supabase.rpc('deactivate_user');
+  }
 }
