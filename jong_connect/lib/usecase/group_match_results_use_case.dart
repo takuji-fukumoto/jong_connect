@@ -63,14 +63,16 @@ class GroupMatchResultsUseCase {
 
     // DBのユニーク制約に引っかからないように同じuser_idのレコードは同じIDになるようにする
     // MEMO: group_match_resultにはgroup_match_id,user_id,match_orderの複合キーを設定している
-    var originUserIds =
-        originResults.map<String>((result) => result.userId!).toSet();
+    var originUserIds = originResults
+        .where((result) => result.userId != null)
+        .map<String>((result) => result.userId!)
+        .toSet();
     var newUserIds = scores.map<String>((score) => score.user.id).toSet();
     // ユーザーIDが重複しているリスト
     var duplicatedUserIds = originUserIds.intersection(newUserIds);
     final remainIds = ListQueue<int>();
     remainIds.addAll(originResults
-        .where((result) => !duplicatedUserIds.contains(result.userId!))
+        .where((result) => !duplicatedUserIds.contains(result.userId ?? ''))
         .map<int>((result) => result.id));
     // ユーザーID => 割り振られたID
     Map<String, int> outputIds = {};
@@ -97,7 +99,8 @@ class GroupMatchResultsUseCase {
           totalPoints: rawResults[i].totalPoints,
           matchOrder: matchOrder,
           createdAt: originResults[i].createdAt,
-          userId: rawResults[i].user.id,
+          // MEMO: 退会済みユーザーの場合ここで空白が来るのでnullで登録
+          userId: rawResults[i].user.id.isEmpty ? null : rawResults[i].user.id,
           userName: rawResults[i].user.name));
     }
 

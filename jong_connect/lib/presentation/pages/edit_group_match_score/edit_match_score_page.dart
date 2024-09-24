@@ -179,9 +179,19 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
         ref.watch(groupMatchPlayersProvider(widget.groupId)),
       ).when(
         data: (values) {
-          targetPlayers ??=
-              values.$2.map<AppUser>((result) => result.user!).toList();
-          var allPlayers = [...values.$1.joinUsers, ...values.$3];
+          // MEMO: 退会したユーザーも含める
+          targetPlayers ??= values.$2
+              .map<AppUser>((result) => result.user != null
+                  ? result.user!
+                  : AppUser(
+                      id: '',
+                      name: result.userDisplayName,
+                      profile: '',
+                      avatarUrl: '',
+                      friendId: 0,
+                    ))
+              .toList();
+          var allPlayers = [...values.$1.joinUsers, ...?targetPlayers];
           allPlayers = expect(allPlayers, (player) => player.id);
 
           return FormBuilder(
@@ -211,7 +221,7 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
                     showCheckmark: false,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     options: [
-                      for (var player in values.$1.joinUsers) ...[
+                      for (var player in allPlayers) ...[
                         FormBuilderChipOption(
                           value: player,
                           child: UserSectionItemVertical(user: player),

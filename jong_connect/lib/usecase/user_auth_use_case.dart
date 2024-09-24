@@ -16,6 +16,7 @@ class UserAuthUseCase {
 
   const UserAuthUseCase(this._ref);
 
+  // FIXME: 全体的にsupabaseに依存しているのでrepositoryに移したほうがいいかも
   Future<AuthResponse> signInWithPassword(String email, String password) async {
     return await supabase.auth
         .signInWithPassword(password: password, email: email);
@@ -34,11 +35,12 @@ class UserAuthUseCase {
     return await supabase.auth.signUp(email: email, password: password);
   }
 
-  void signOut() async {
+  Future<void> signOut() async {
     await supabase.auth.signOut();
   }
 
-  void deactivate() async {
-    return await _ref.read(appUserRepositoryProvider).deactivate();
+  Future<void> deactivate() async {
+    await _ref.read(appUserRepositoryProvider).deactivate();
+    await signOut();
   }
 }

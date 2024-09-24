@@ -9,6 +9,8 @@ part 'group_match_result.g.dart';
 
 @freezed
 class GroupMatchResult with _$GroupMatchResult {
+  const GroupMatchResult._();
+
   const factory GroupMatchResult({
     required int id,
     required int score,
@@ -25,4 +27,12 @@ class GroupMatchResult with _$GroupMatchResult {
 
   factory GroupMatchResult.fromJson(Map<String, dynamic> json) =>
       _$GroupMatchResultFromJson(json);
+
+  String get userDisplayName {
+    return user != null
+        ? user!.name
+        : userId != null
+            ? userName
+            : '退会済みユーザー';
+  }
 }
