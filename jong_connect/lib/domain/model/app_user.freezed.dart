@@ -27,6 +27,8 @@ mixin _$AppUser {
   String get avatarUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'friend_id')
   int get friendId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'deactivated_at')
+  DateTime? get deactivatedAt => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
 
   /// Serializes this AppUser to a JSON map.
@@ -49,6 +51,7 @@ abstract class $AppUserCopyWith<$Res> {
       String profile,
       @JsonKey(name: 'avatar_url') String avatarUrl,
       @JsonKey(name: 'friend_id') int friendId,
+      @JsonKey(name: 'deactivated_at') DateTime? deactivatedAt,
       String email});
 }
 
@@ -72,6 +75,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? profile = null,
     Object? avatarUrl = null,
     Object? friendId = null,
+    Object? deactivatedAt = freezed,
     Object? email = null,
   }) {
     return _then(_value.copyWith(
@@ -95,6 +99,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
           ? _value.friendId
           : friendId // ignore: cast_nullable_to_non_nullable
               as int,
+      deactivatedAt: freezed == deactivatedAt
+          ? _value.deactivatedAt
+          : deactivatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -116,6 +124,7 @@ abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       String profile,
       @JsonKey(name: 'avatar_url') String avatarUrl,
       @JsonKey(name: 'friend_id') int friendId,
+      @JsonKey(name: 'deactivated_at') DateTime? deactivatedAt,
       String email});
 }
 
@@ -137,6 +146,7 @@ class __$$AppUserImplCopyWithImpl<$Res>
     Object? profile = null,
     Object? avatarUrl = null,
     Object? friendId = null,
+    Object? deactivatedAt = freezed,
     Object? email = null,
   }) {
     return _then(_$AppUserImpl(
@@ -160,6 +170,10 @@ class __$$AppUserImplCopyWithImpl<$Res>
           ? _value.friendId
           : friendId // ignore: cast_nullable_to_non_nullable
               as int,
+      deactivatedAt: freezed == deactivatedAt
+          ? _value.deactivatedAt
+          : deactivatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -177,6 +191,7 @@ class _$AppUserImpl extends _AppUser {
       required this.profile,
       @JsonKey(name: 'avatar_url') required this.avatarUrl,
       @JsonKey(name: 'friend_id') required this.friendId,
+      @JsonKey(name: 'deactivated_at') this.deactivatedAt,
       this.email = ""})
       : super._();
 
@@ -196,33 +211,16 @@ class _$AppUserImpl extends _AppUser {
   @JsonKey(name: 'friend_id')
   final int friendId;
   @override
+  @JsonKey(name: 'deactivated_at')
+  final DateTime? deactivatedAt;
+  @override
   @JsonKey()
   final String email;
 
   @override
   String toString() {
-    return 'AppUser(id: $id, name: $name, profile: $profile, avatarUrl: $avatarUrl, friendId: $friendId, email: $email)';
+    return 'AppUser(id: $id, name: $name, profile: $profile, avatarUrl: $avatarUrl, friendId: $friendId, deactivatedAt: $deactivatedAt, email: $email)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AppUserImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.profile, profile) || other.profile == profile) &&
-            (identical(other.avatarUrl, avatarUrl) ||
-                other.avatarUrl == avatarUrl) &&
-            (identical(other.friendId, friendId) ||
-                other.friendId == friendId) &&
-            (identical(other.email, email) || other.email == email));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, profile, avatarUrl, friendId, email);
 
   /// Create a copy of AppUser
   /// with the given fields replaced by the non-null parameter values.
@@ -247,6 +245,7 @@ abstract class _AppUser extends AppUser {
       required final String profile,
       @JsonKey(name: 'avatar_url') required final String avatarUrl,
       @JsonKey(name: 'friend_id') required final int friendId,
+      @JsonKey(name: 'deactivated_at') final DateTime? deactivatedAt,
       final String email}) = _$AppUserImpl;
   const _AppUser._() : super._();
 
@@ -264,6 +263,9 @@ abstract class _AppUser extends AppUser {
   @override
   @JsonKey(name: 'friend_id')
   int get friendId;
+  @override
+  @JsonKey(name: 'deactivated_at')
+  DateTime? get deactivatedAt;
   @override
   String get email;
 

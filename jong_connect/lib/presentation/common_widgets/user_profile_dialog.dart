@@ -61,6 +61,7 @@ class _RemoveFriendButton extends ConsumerWidget {
           context: context,
           message: 'ともだちを解除するとグループへの招待、成績の閲覧ができなくなります',
           okLabel: '解除',
+          isDestructiveAction: true,
         );
 
         if (result.name != 'ok') {

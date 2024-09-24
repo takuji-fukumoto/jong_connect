@@ -12,6 +12,7 @@ import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/domain/provider/group_matches.dart';
 import 'package:jong_connect/util/app_sizes.dart';
+import 'package:jong_connect/util/constants.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../util/format_date.dart';
@@ -134,6 +135,7 @@ class _MatchHistoryItem extends StatelessWidget {
           color: Theme.of(context).colorScheme.surfaceContainerHigh,
           leading: CachedNetworkImage(
             imageUrl: match.createdBy?.avatarUrl ?? '',
+            errorWidget: (_, __, ___) => unknownUserIcon,
             width: 30,
             height: 30,
           ),

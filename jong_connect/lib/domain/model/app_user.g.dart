@@ -13,6 +13,9 @@ _$AppUserImpl _$$AppUserImplFromJson(Map<String, dynamic> json) =>
       profile: json['profile'] as String,
       avatarUrl: json['avatar_url'] as String,
       friendId: (json['friend_id'] as num).toInt(),
+      deactivatedAt: json['deactivated_at'] == null
+          ? null
+          : DateTime.parse(json['deactivated_at'] as String),
       email: json['email'] as String? ?? "",
     );
 
@@ -23,5 +26,6 @@ Map<String, dynamic> _$$AppUserImplToJson(_$AppUserImpl instance) =>
       'profile': instance.profile,
       'avatar_url': instance.avatarUrl,
       'friend_id': instance.friendId,
+      'deactivated_at': instance.deactivatedAt?.toIso8601String(),
       'email': instance.email,
     };

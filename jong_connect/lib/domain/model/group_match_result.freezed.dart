@@ -280,7 +280,7 @@ class __$$GroupMatchResultImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$GroupMatchResultImpl implements _GroupMatchResult {
+class _$GroupMatchResultImpl extends _GroupMatchResult {
   const _$GroupMatchResultImpl(
       {required this.id,
       required this.score,
@@ -292,7 +292,8 @@ class _$GroupMatchResultImpl implements _GroupMatchResult {
       @JsonKey(name: 'group_match_id') this.groupMatchId,
       @JsonKey(name: 'group_matches') this.groupMatch,
       @JsonKey(name: 'user_id') this.userId,
-      @JsonKey(name: 'users') this.user});
+      @JsonKey(name: 'users') this.user})
+      : super._();
 
   factory _$GroupMatchResultImpl.fromJson(Map<String, dynamic> json) =>
       _$$GroupMatchResultImplFromJson(json);
@@ -379,7 +380,7 @@ class _$GroupMatchResultImpl implements _GroupMatchResult {
   }
 }
 
-abstract class _GroupMatchResult implements GroupMatchResult {
+abstract class _GroupMatchResult extends GroupMatchResult {
   const factory _GroupMatchResult(
       {required final int id,
       required final int score,
@@ -392,6 +393,7 @@ abstract class _GroupMatchResult implements GroupMatchResult {
       @JsonKey(name: 'group_matches') final GroupMatch? groupMatch,
       @JsonKey(name: 'user_id') final String? userId,
       @JsonKey(name: 'users') final AppUser? user}) = _$GroupMatchResultImpl;
+  const _GroupMatchResult._() : super._();
 
   factory _GroupMatchResult.fromJson(Map<String, dynamic> json) =
       _$GroupMatchResultImpl.fromJson;

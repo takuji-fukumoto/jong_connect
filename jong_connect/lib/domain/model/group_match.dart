@@ -35,7 +35,7 @@ class GroupMatch with _$GroupMatch {
     return endAt != null;
   }
 
-  /// ユーザーID => トータルスコア
+  /// ユーザーID(退会済みのユーザは含めない） => トータルスコア
   Map<String, int> get totalPointsPerUser {
     if (results == null || results!.isEmpty) {
       return {};
@@ -43,6 +43,9 @@ class GroupMatch with _$GroupMatch {
     Map<String, int> totalResults = {};
 
     for (var result in results!) {
+      if (result.userId == null) {
+        continue;
+      }
       var userKey = result.userId!;
       totalResults[userKey] = (totalResults[userKey] ?? 0) + result.totalPoints;
     }
@@ -50,13 +53,16 @@ class GroupMatch with _$GroupMatch {
     return totalResults;
   }
 
-  /// ユーザーID -> ラウンド別対局結果
+  /// ユーザーID（退会済みのユーザは含めない） -> ラウンド別対局結果
   Map<String, List<GroupMatchResult?>> get resultsPerRound {
     if (results == null || results!.isEmpty) {
       return {};
     }
 
-    var playerKeys = results!.map<String>((result) => result.userId!).toSet();
+    var playerKeys = results!
+        .where((result) => result.userId != null)
+        .map<String>((result) => result.userId!)
+        .toSet();
     var totalResults = <String, List<GroupMatchResult?>>{};
 
     // 初期化
@@ -72,8 +78,8 @@ class GroupMatch with _$GroupMatch {
     print(uniqueMatchOrders);
 
     for (var i = 0; i < uniqueMatchOrders.length; i++) {
-      var targets =
-          results!.where((result) => result.matchOrder == uniqueMatchOrders[i]);
+      var targets = results!.where((result) =>
+          result.matchOrder == uniqueMatchOrders[i] && result.userId != null);
       for (var target in targets) {
         totalResults[target.userId!]?[i] ??= target;
       }
@@ -104,16 +110,10 @@ class GroupMatch with _$GroupMatch {
       return [];
     }
 
-    // 退会しているユーザーがいる場合仮のユーザーを追加
+    // 退会しているユーザーは含めない
     var allUsers = results!
-        .map<AppUser>((result) =>
-            result.user ??
-            AppUser(
-                id: result.userName,
-                name: result.userName,
-                profile: '',
-                avatarUrl: '',
-                friendId: 0))
+        .where((result) => result.userId != null)
+        .map<AppUser>((result) => result.user!)
         .toList();
     return expect(allUsers, (AppUser element) => element.id);
   }

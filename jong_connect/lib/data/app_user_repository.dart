@@ -22,4 +22,10 @@ class AppUserRepository {
   Future<void> update(AppUser user) async {
     throw UnimplementedError();
   }
+
+  Future<void> deactivate() async {
+    throw UnimplementedError();
+  }
+
+// FIXME: auth系の処理はusecaseの依存度が高いのでここに持っていくかauth用のrepositoryを用意する
 }

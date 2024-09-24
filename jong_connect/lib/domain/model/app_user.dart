@@ -16,12 +16,15 @@ class AppUser with _$AppUser {
       required String profile,
       @JsonKey(name: 'avatar_url') required String avatarUrl,
       @JsonKey(name: 'friend_id') required int friendId,
+      @JsonKey(name: 'deactivated_at') DateTime? deactivatedAt,
       @Default("") String email}) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>
       _$AppUserFromJson(json);
 
   String get hashedFriendId => hashids.encode(friendId);
+
+  bool get isDeactivated => deactivatedAt != null;
 
   @override
   bool operator ==(Object other) =>
