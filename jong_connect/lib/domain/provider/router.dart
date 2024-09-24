@@ -4,6 +4,7 @@ import 'package:jong_connect/presentation/pages/create_group/create_group_page.d
 import 'package:jong_connect/presentation/pages/edit_group/edit_group_page.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
 import 'package:jong_connect/presentation/pages/game_config/game_config_page.dart';
+import 'package:jong_connect/presentation/pages/group_members/group_members_page.dart';
 import 'package:jong_connect/presentation/pages/input_group_match_score/input_match_score_page.dart';
 import 'package:jong_connect/presentation/pages/invite_friend/invite_friend_page.dart';
 import 'package:jong_connect/presentation/pages/record/record_page.dart';
@@ -147,6 +148,19 @@ final routerProvider = Provider(
                           final groupId =
                               int.parse(state.pathParameters['groupId']!);
                           return EditGroupPage(
+                            groupId: groupId,
+                          );
+                        },
+                        routes: [],
+                      ),
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        name: RoutingPath.groupMembers,
+                        path: RoutingPath.groupMembers,
+                        builder: (context, state) {
+                          final groupId =
+                              int.parse(state.pathParameters['groupId']!);
+                          return GroupMembersPage(
                             groupId: groupId,
                           );
                         },

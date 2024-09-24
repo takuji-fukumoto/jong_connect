@@ -50,6 +50,12 @@ class _FloatingGroupMenuState extends ConsumerState<FloatingGroupMenuButton>
               fontSize: 16, color: Theme.of(context).colorScheme.surface),
           onPress: () {
             _animationController.reverse();
+            context.goNamed(
+              RoutingPath.groupMembers,
+              pathParameters: {
+                'groupId': widget.groupId.toString(),
+              },
+            );
           },
         ),
         Bubble(
