@@ -258,7 +258,7 @@ class _InputScoreFormState extends ConsumerState<EditGroupMatchScorePage> {
                             FormBuilderValidators.numeric(
                                 checkNullOrEmpty: false),
                           ]),
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.url,
                         ),
                       ),
                     ],
