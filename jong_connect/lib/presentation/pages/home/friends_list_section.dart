@@ -47,18 +47,30 @@ class _TitleSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text('ともだち一覧'),
+        const Text(
+          'ともだちリスト',
+          style: TextStyle(fontSize: Sizes.p16),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
               onPressed: () => context.goNamed(RoutingPath.inviteFriend),
-              icon: const Icon(Icons.group_add),
+              icon: Icon(
+                Icons.person_add,
+                color: Theme.of(context).colorScheme.surface,
+              ),
+              style: TextButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
             gapW8,
             TextButton(
-              onPressed: () => {},
-              child: const Text('もっと見る'),
+              onPressed: () => {context.goNamed(RoutingPath.friends)},
+              child: const Text('全て見る'),
             ),
           ],
         ),
