@@ -24,8 +24,8 @@ class MyFriendIdSection extends ConsumerWidget {
           children: [
             const Text('あなたのフレンドID'),
             gapH16,
-            Text('ここにQRコード表示'),
-            gapH16,
+            // Text('ここにQRコード表示'),
+            // gapH16,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

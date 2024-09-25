@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/presentation/pages/create_group/create_group_page.dart';
 import 'package:jong_connect/presentation/pages/edit_group/edit_group_page.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
+import 'package:jong_connect/presentation/pages/friends/friends_page.dart';
 import 'package:jong_connect/presentation/pages/game_config/game_config_page.dart';
 import 'package:jong_connect/presentation/pages/group_members/group_members_page.dart';
 import 'package:jong_connect/presentation/pages/input_group_match_score/input_match_score_page.dart';
@@ -52,6 +53,13 @@ final routerProvider = Provider(
                     name: RoutingPath.inviteFriend,
                     path: RoutingPath.inviteFriend,
                     builder: (context, state) => const InviteFriendPage(),
+                    routes: [],
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    name: RoutingPath.friends,
+                    path: RoutingPath.friends,
+                    builder: (context, state) => const FriendsPage(),
                     routes: [],
                   ),
                 ],

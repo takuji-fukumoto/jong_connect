@@ -47,7 +47,10 @@ class _TitleSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text('ともだち一覧'),
+        const Text(
+          'ともだちリスト',
+          style: TextStyle(fontSize: Sizes.p16),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -57,8 +60,8 @@ class _TitleSection extends StatelessWidget {
             ),
             gapW8,
             TextButton(
-              onPressed: () => {},
-              child: const Text('もっと見る'),
+              onPressed: () => {context.goNamed(RoutingPath.friends)},
+              child: const Text('全て見る'),
             ),
           ],
         ),
