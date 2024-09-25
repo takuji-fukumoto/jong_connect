@@ -56,7 +56,16 @@ class _TitleSection extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () => context.goNamed(RoutingPath.inviteFriend),
-              icon: const Icon(Icons.group_add),
+              icon: Icon(
+                Icons.person_add,
+                color: Theme.of(context).colorScheme.surface,
+              ),
+              style: TextButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
             gapW8,
             TextButton(

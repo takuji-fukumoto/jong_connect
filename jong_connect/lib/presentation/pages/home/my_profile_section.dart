@@ -47,6 +47,7 @@ class MyProfileSection extends ConsumerWidget {
           ],
         );
       },
+      loadingWidget: const SizedBox(),
     );
   }
 }
