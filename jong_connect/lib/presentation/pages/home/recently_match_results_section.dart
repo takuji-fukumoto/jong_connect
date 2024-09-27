@@ -106,17 +106,18 @@ class _ResultListTile extends StatelessWidget {
                   crossAxisCellCount: 1,
                   mainAxisCellCount: 0.5,
                   child: Container(
+                    padding: paddingV8H8,
                     decoration: BoxDecoration(
                       color:
                           Theme.of(context).colorScheme.surfaceContainerHighest,
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
                     ),
-                    child: Padding(
-                      padding: paddingV8H8,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               if (result.rank == 1)
@@ -137,12 +138,17 @@ class _ResultListTile extends StatelessWidget {
                               const Expanded(child: SizedBox()),
                             ],
                           ),
-                          gapW4,
-                          CircleAvatar(
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: CircleAvatar(
                             child: CachedNetworkImage(
                                 imageUrl: result.user!.avatarUrl),
                           ),
-                          Column(
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               AutoSizeText(
@@ -157,25 +163,24 @@ class _ResultListTile extends StatelessWidget {
                               ),
                             ],
                           ),
-                          gapW4,
-                          SizedBox(
-                            width: Sizes.p24,
-                            child: Text(
-                              result.totalPoints.toString(),
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                color: result.totalPoints > 0
-                                    ? Colors.blueAccent
-                                    : result.totalPoints < 0
-                                        ? Colors.redAccent
-                                        : Theme.of(context)
-                                            .colorScheme
-                                            .inverseSurface,
-                              ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            result.totalPoints.toString(),
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: result.totalPoints > 0
+                                  ? Colors.blueAccent
+                                  : result.totalPoints < 0
+                                      ? Colors.redAccent
+                                      : Theme.of(context)
+                                          .colorScheme
+                                          .inverseSurface,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
