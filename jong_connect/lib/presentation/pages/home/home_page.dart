@@ -15,18 +15,16 @@ class HomePage extends StatelessWidget {
         foregroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('ホーム'),
       ),
-      body: const Padding(
+      body: const SingleChildScrollView(
         padding: paddingV20H16,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              MyProfileSection(),
-              gapH8,
-              RecentlyMatchResultsSection(),
-              gapH8,
-              FriendsListSection(),
-            ],
-          ),
+        child: Column(
+          children: [
+            MyProfileSection(),
+            gapH8,
+            RecentlyMatchResultsSection(),
+            gapH8,
+            FriendsListSection(),
+          ],
         ),
       ),
     );
