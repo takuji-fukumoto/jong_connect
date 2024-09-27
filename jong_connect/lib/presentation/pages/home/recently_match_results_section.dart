@@ -104,7 +104,7 @@ class _ResultListTile extends StatelessWidget {
               for (var result in roundResult.resultsOrderByRank) ...[
                 StaggeredGridTile.count(
                   crossAxisCellCount: 1,
-                  mainAxisCellCount: 0.5,
+                  mainAxisCellCount: 0.4,
                   child: Container(
                     padding: paddingV8H8,
                     decoration: BoxDecoration(
@@ -133,7 +133,7 @@ class _ResultListTile extends StatelessWidget {
                               Text(
                                 result.rank.toString(),
                                 style: const TextStyle(
-                                  fontSize: Sizes.p24,
+                                  fontSize: Sizes.p16,
                                 ),
                               ),
                               Expanded(
@@ -142,6 +142,7 @@ class _ResultListTile extends StatelessWidget {
                                   result.totalPoints.toString(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
+                                    fontSize: Sizes.p12,
                                     color: result.totalPoints > 0
                                         ? Colors.blueAccent
                                         : result.totalPoints < 0
