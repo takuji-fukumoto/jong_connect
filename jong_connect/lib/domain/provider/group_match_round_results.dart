@@ -7,6 +7,7 @@ import '../model/group_match_result.dart';
 
 part 'group_match_round_results.g.dart';
 
+// FIXME: GroupRoundMatchResult型に変えたほうがいいかも
 @riverpod
 Future<List<GroupMatchResult>> groupMatchRoundResults(
     GroupMatchRoundResultsRef ref,

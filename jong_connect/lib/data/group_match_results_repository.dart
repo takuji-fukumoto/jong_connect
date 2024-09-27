@@ -2,6 +2,7 @@ import 'package:jong_connect/domain/model/group_match_result.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/model/group_match_result_raw.dart';
+import '../domain/model/group_round_match_result.dart';
 import '../util/constants.dart';
 import 'group_match_results_repository_impl.dart';
 
@@ -30,6 +31,11 @@ class GroupMatchResultsRepository {
   Future<List<GroupMatchResult>> getUserGroupResults(
       String userId, MatchType type, int groupId,
       {int limit = 500}) async {
+    throw UnimplementedError();
+  }
+
+  Future<List<GroupRoundMatchResult>> getRecentlyResults(String userId,
+      {int limit = 3}) async {
     throw UnimplementedError();
   }
 

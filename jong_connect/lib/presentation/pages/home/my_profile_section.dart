@@ -23,14 +23,14 @@ class MyProfileSection extends ConsumerWidget {
                 Text(
                   user?.name ?? '-',
                   style: const TextStyle(
-                    fontSize: Sizes.p24,
+                    fontSize: Sizes.p20,
                   ),
                 ),
                 gapH8,
                 Text(
                   user?.profile ?? '',
                   style: TextStyle(
-                    fontSize: Sizes.p16,
+                    fontSize: Sizes.p12,
                     color: Theme.of(context).colorScheme.outlineVariant,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -38,7 +38,7 @@ class MyProfileSection extends ConsumerWidget {
               ],
             ),
             CircleAvatar(
-              radius: 50,
+              radius: 30,
               child: CachedNetworkImage(
                 imageUrl: user?.avatarUrl ?? '',
                 errorWidget: (_, __, ___) => unknownUserIcon,

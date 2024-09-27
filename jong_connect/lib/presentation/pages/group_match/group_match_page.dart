@@ -14,6 +14,7 @@ import 'package:jong_connect/util/expect.dart';
 import '../../../domain/model/app_user.dart';
 import '../../../domain/model/group_match.dart';
 import '../../../util/app_icon_urls.dart';
+import '../../../util/format_date.dart';
 import '../../../util/routing_path.dart';
 
 class GroupMatchPage extends ConsumerWidget {
@@ -30,10 +31,13 @@ class GroupMatchPage extends ConsumerWidget {
       ref.watch(groupMatchProvider(groupMatchId: groupMatchId)),
     ).when(
       data: (values) {
+        final dateFormatter = DateFormatter(values.$2.createdAt);
+
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.surface,
+            title: Text('${dateFormatter.formatToMMDD()}の対局'),
             actions: [
               if (!values.$2.isFinish)
                 TextButton(
@@ -140,7 +144,7 @@ class _ResultTable extends ConsumerWidget {
           ? Colors.blue
           : score < 0
               ? Colors.redAccent
-              : Colors.white;
+              : Theme.of(context).colorScheme.inverseSurface;
     }
 
     return Padding(

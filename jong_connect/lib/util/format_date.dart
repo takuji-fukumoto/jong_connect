@@ -1,12 +1,25 @@
 import 'package:intl/intl.dart';
 
 class DateFormatter {
-  final DateTime _date;
+  late final DateTime _date;
 
-  const DateFormatter(this._date);
+  DateFormatter(DateTime date) {
+    // MEMO: ここでローカル時間に戻す
+    _date = date.toLocal();
+  }
+
+  String formatToYYYYMMDDHHmm() {
+    DateFormat outputFormat = DateFormat('yyyy年MM月dd日 HH:mm');
+    return outputFormat.format(_date);
+  }
 
   String formatToYYYYMMDD() {
     DateFormat outputFormat = DateFormat('yyyy年MM月dd日');
+    return outputFormat.format(_date);
+  }
+
+  String formatToMMDD() {
+    DateFormat outputFormat = DateFormat('MM月dd日');
     return outputFormat.format(_date);
   }
 
