@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../util/constants.dart';
+import '../util/routing_path.dart';
 
 part 'user_auth_use_case.g.dart';
 
@@ -32,7 +33,12 @@ class UserAuthUseCase {
   }
 
   Future<AuthResponse> signUp(String email, String password) async {
-    return await supabase.auth.signUp(email: email, password: password);
+    // MEMO: アプリとして展開する場合はここで向き先を変える
+    return await supabase.auth.signUp(
+      email: email,
+      password: password,
+      emailRedirectTo: '$domainProduction/#/${RoutingPath.profile}',
+    );
   }
 
   Future<void> signOut() async {
