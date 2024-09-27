@@ -98,8 +98,8 @@ class _ResultListTile extends StatelessWidget {
           StaggeredGrid.count(
             axisDirection: AxisDirection.down,
             crossAxisCount: 2,
-            mainAxisSpacing: Sizes.p8,
-            crossAxisSpacing: Sizes.p8,
+            mainAxisSpacing: Sizes.p4,
+            crossAxisSpacing: Sizes.p4,
             children: [
               for (var result in roundResult.resultsOrderByRank) ...[
                 StaggeredGridTile.count(
@@ -116,26 +116,42 @@ class _ResultListTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               if (result.rank == 1)
                                 Expanded(
+                                  flex: 1,
                                   child: CachedNetworkImage(
                                       width: Sizes.p16,
                                       height: Sizes.p16,
                                       imageUrl: AppIconUrls.crown),
                                 )
                               else
-                                const Expanded(child: SizedBox()),
+                                const Expanded(flex: 1, child: SizedBox()),
                               Text(
                                 result.rank.toString(),
                                 style: const TextStyle(
                                   fontSize: Sizes.p24,
                                 ),
                               ),
-                              const Expanded(child: SizedBox()),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  result.totalPoints.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: result.totalPoints > 0
+                                        ? Colors.blueAccent
+                                        : result.totalPoints < 0
+                                            ? Colors.redAccent
+                                            : Theme.of(context)
+                                                .colorScheme
+                                                .inverseSurface,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -147,7 +163,7 @@ class _ResultListTile extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          flex: 3,
+                          flex: 4,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -162,22 +178,6 @@ class _ResultListTile extends StatelessWidget {
                                 minFontSize: Sizes.p8,
                               ),
                             ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            result.totalPoints.toString(),
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: result.totalPoints > 0
-                                  ? Colors.blueAccent
-                                  : result.totalPoints < 0
-                                      ? Colors.redAccent
-                                      : Theme.of(context)
-                                          .colorScheme
-                                          .inverseSurface,
-                            ),
                           ),
                         ),
                       ],
