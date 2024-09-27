@@ -3,6 +3,9 @@ import 'package:hashids2/hashids2.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+/// 本番環境のドメイン
+const domainProduction = 'https://jong-connect.vercel.app';
+
 /// Supabase client
 final supabase = Supabase.instance.client;
 
