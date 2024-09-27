@@ -10,6 +10,11 @@ class DateFormatter {
     return outputFormat.format(_date);
   }
 
+  String formatToMMDD() {
+    DateFormat outputFormat = DateFormat('MM月dd日');
+    return outputFormat.format(_date);
+  }
+
   String formatToHm() {
     DateFormat outputFormat = DateFormat('H:m');
     return outputFormat.format(_date);
