@@ -88,7 +88,12 @@ class _ResultListTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(dateFormatter.formatToYYYYMMDDHHmm()),
+          Text(
+            dateFormatter.formatToYYYYMMDDHHmm(),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.outline,
+            ),
+          ),
           gapH4,
           StaggeredGrid.count(
             axisDirection: AxisDirection.down,
@@ -122,14 +127,14 @@ class _ResultListTile extends StatelessWidget {
                                       imageUrl: AppIconUrls.crown),
                                 )
                               else
-                                Expanded(child: SizedBox()),
+                                const Expanded(child: SizedBox()),
                               Text(
                                 result.rank.toString(),
                                 style: const TextStyle(
                                   fontSize: Sizes.p24,
                                 ),
                               ),
-                              Expanded(child: SizedBox()),
+                              const Expanded(child: SizedBox()),
                             ],
                           ),
                           gapW4,
@@ -140,22 +145,33 @@ class _ResultListTile extends StatelessWidget {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              AutoSizeText(result.user!.name),
+                              AutoSizeText(
+                                result.user!.name,
+                                minFontSize: Sizes.p8,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                               gapH8,
-                              AutoSizeText(result.score.toString()),
+                              AutoSizeText(
+                                result.score.toString(),
+                                minFontSize: Sizes.p8,
+                              ),
                             ],
                           ),
                           gapW4,
-                          Text(
-                            result.totalPoints.toString(),
-                            style: TextStyle(
-                              color: result.totalPoints > 0
-                                  ? Colors.blueAccent
-                                  : result.totalPoints < 0
-                                      ? Colors.redAccent
-                                      : Theme.of(context)
-                                          .colorScheme
-                                          .inverseSurface,
+                          SizedBox(
+                            width: Sizes.p24,
+                            child: Text(
+                              result.totalPoints.toString(),
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: result.totalPoints > 0
+                                    ? Colors.blueAccent
+                                    : result.totalPoints < 0
+                                        ? Colors.redAccent
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .inverseSurface,
+                              ),
                             ),
                           ),
                         ],
