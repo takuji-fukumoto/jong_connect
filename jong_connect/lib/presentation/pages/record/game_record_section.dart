@@ -267,7 +267,7 @@ class _Recent20RankLineChart extends StatelessWidget {
 
     return Column(
       children: [
-        const Text('直近20戦の順位'),
+        const Text('最近の対局順位'),
         gapH8,
         Expanded(
           child: LineChart(

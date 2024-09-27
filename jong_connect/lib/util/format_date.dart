@@ -5,6 +5,11 @@ class DateFormatter {
 
   const DateFormatter(this._date);
 
+  String formatToYYYYMMDDHHmm() {
+    DateFormat outputFormat = DateFormat('yyyy年MM月dd日 HH:mm');
+    return outputFormat.format(_date);
+  }
+
   String formatToYYYYMMDD() {
     DateFormat outputFormat = DateFormat('yyyy年MM月dd日');
     return outputFormat.format(_date);

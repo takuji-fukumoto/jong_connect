@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jong_connect/presentation/pages/home/friends_list_section.dart';
 import 'package:jong_connect/presentation/pages/home/my_profile_section.dart';
+import 'package:jong_connect/presentation/pages/home/recently_match_results_section.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,6 +21,8 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: [
               MyProfileSection(),
+              gapH8,
+              RecentlyMatchResultsSection(),
               gapH8,
               FriendsListSection(),
             ],

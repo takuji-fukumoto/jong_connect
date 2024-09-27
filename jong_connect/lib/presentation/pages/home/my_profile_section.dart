@@ -38,7 +38,7 @@ class MyProfileSection extends ConsumerWidget {
               ],
             ),
             CircleAvatar(
-              radius: 50,
+              radius: 40,
               child: CachedNetworkImage(
                 imageUrl: user?.avatarUrl ?? '',
                 errorWidget: (_, __, ___) => unknownUserIcon,

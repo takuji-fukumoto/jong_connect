@@ -1,3 +1,5 @@
+import 'package:jong_connect/domain/model/group_round_match_result.dart';
+
 import '../domain/model/group_match_result.dart';
 import '../domain/model/group_match_result_raw.dart';
 import '../util/constants.dart';
@@ -96,6 +98,54 @@ class GroupMatchResultsRepositoryImpl implements GroupMatchResultsRepository {
     return json
         .map<GroupMatchResult>((result) => GroupMatchResult.fromJson(result))
         .toList();
+  }
+
+  @override
+  Future<List<GroupRoundMatchResult>> getRecentlyResults(String userId,
+      {int limit = 3}) async {
+    // 他の対局者の情報も取得し、GroupRoundMatchResultに変換
+    final json = await supabase
+        .from('group_match_results')
+        .select('''
+          *,
+          group_matches!inner  (
+            *,
+            group_match_results!inner  (
+              *,
+              users  (
+                *
+              )
+            )
+          )        
+          ''')
+        .eq('user_id', userId)
+        .order('created_at', ascending: false)
+        .limit(limit);
+
+    final userResults = json
+        .map<GroupMatchResult>((result) => GroupMatchResult.fromJson(result))
+        .toList();
+
+    var roundResults = <GroupRoundMatchResult>[];
+    for (var userResult in userResults) {
+      var groupMatchId = userResult.groupMatchId!;
+      var matchOrder = userResult.matchOrder;
+      var results = <GroupMatchResult>[];
+      for (var roundResult in userResult.groupMatch!.results!) {
+        // match_orderが異なる場合は含めない
+        if (roundResult.matchOrder != userResult.matchOrder) {
+          continue;
+        }
+        results.add(roundResult);
+      }
+      roundResults.add(GroupRoundMatchResult(
+        groupMatchId: groupMatchId,
+        matchOrder: matchOrder,
+        results: results,
+      ));
+    }
+
+    return roundResults;
   }
 
   @override

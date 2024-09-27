@@ -144,7 +144,7 @@ class _ResultTable extends ConsumerWidget {
           ? Colors.blue
           : score < 0
               ? Colors.redAccent
-              : Colors.white;
+              : Theme.of(context).colorScheme.inverseSurface;
     }
 
     return Padding(

@@ -10,7 +10,7 @@ import 'package:jong_connect/util/routing_path.dart';
 class FriendsListSection extends ConsumerWidget {
   const FriendsListSection({super.key});
 
-  final int maxDispCount = 10; // 最大表示件数
+  final int maxDispCount = 3; // 最大表示件数
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,7 +21,7 @@ class FriendsListSection extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const _TitleSection(),
-            gapH16,
+            gapH8,
             if (friends.isEmpty) ...[
               const Text('ともだちがいません'),
             ] else ...[
@@ -49,7 +49,10 @@ class _TitleSection extends StatelessWidget {
       children: [
         const Text(
           'ともだちリスト',
-          style: TextStyle(fontSize: Sizes.p16),
+          style: TextStyle(
+            fontSize: Sizes.p24,
+            fontWeight: FontWeight.w300,
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
