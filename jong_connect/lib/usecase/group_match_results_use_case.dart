@@ -143,8 +143,9 @@ class GroupMatchResultsUseCase {
       }
     }
 
+    var totalPointsWithoutTop = 0;
     var outputResults = <GroupMatchResultRaw>[];
-    for (var i = 0; i < inputScores.length; i++) {
+    for (var i = inputScores.length - 1; i > 0; i--) {
       var rank = i + 1;
 
       final gameConfig = await _ref.read(gameConfigProvider.future);
@@ -155,14 +156,7 @@ class GroupMatchResultsUseCase {
 
       // ウマ加点
       totalPoints += gameConfig.positionPoints[i];
-
-      // オカ加点
-      if (rank == 1) {
-        final oka =
-            (gameConfig.settlementScore - gameConfig.initialStartingPoint) *
-                type.playableNumber;
-        totalPoints += (oka / 1000) as int;
-      }
+      totalPointsWithoutTop += totalPoints;
 
       outputResults.add(GroupMatchResultRaw(
         user: inputScores[i].user,
@@ -171,6 +165,14 @@ class GroupMatchResultsUseCase {
         totalPoints: totalPoints,
       ));
     }
+
+    // トップの人は他の人のマイナス分総取り
+    outputResults.add(GroupMatchResultRaw(
+      user: inputScores[0].user,
+      score: inputScores[0].score,
+      rank: 1,
+      totalPoints: totalPointsWithoutTop.abs(),
+    ));
 
     return outputResults;
   }
