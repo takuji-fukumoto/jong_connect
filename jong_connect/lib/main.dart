@@ -12,6 +12,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  print('test');
 
   if (kDebugMode) {
     final localUrl = !kIsWeb && Platform.isAndroid
