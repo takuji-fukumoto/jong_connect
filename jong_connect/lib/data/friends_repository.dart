@@ -1,14 +1,16 @@
 import 'package:jong_connect/domain/model/app_user.dart';
+import 'package:jong_connect/domain/model/user_friend_request.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../util/constants.dart';
 import 'friends_repository_impl.dart';
 
 part 'friends_repository.g.dart';
 
 @riverpod
 FriendsRepository friendsRepository(FriendsRepositoryRef ref) =>
-    FriendsRepositoryImpl();
+    FriendsRepositoryImpl(ref);
 
 class FriendsRepository {
   Future<List<AppUser>> fetch() async {
@@ -19,11 +21,24 @@ class FriendsRepository {
     throw UnimplementedError();
   }
 
-  Future<void> sendFriendRequestsFromFriendId(int friendId) async {
+  Future<List<UserFriendRequest>> fetchFriendRequests(
+      FriendRequestStatus status) async {
     throw UnimplementedError();
   }
 
-  Future<void> acceptFriendRequest(AppUser requestedUser) async {
+  Stream<List<UserFriendRequest>> fetchPendingFriendRequestsStream() async* {
+    throw UnimplementedError();
+  }
+
+  Future<void> sendFriendRequest(AppUser targetUser) async {
+    throw UnimplementedError();
+  }
+
+  Future<void> acceptFriendRequest(int friendRequestId) async {
+    throw UnimplementedError();
+  }
+
+  Future<void> rejectFriendRequest(int friendRequestId) async {
     throw UnimplementedError();
   }
 

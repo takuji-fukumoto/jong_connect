@@ -12,7 +12,8 @@ _$UserFriendRequestImpl _$$UserFriendRequestImplFromJson(
       id: (json['id'] as num).toInt(),
       userId: json['user_id'] as String,
       targetUserId: json['target_user_id'] as String,
-      status: json['status'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      status: $enumDecode(_$FriendRequestStatusEnumMap, json['status']),
     );
 
 Map<String, dynamic> _$$UserFriendRequestImplToJson(
@@ -21,5 +22,12 @@ Map<String, dynamic> _$$UserFriendRequestImplToJson(
       'id': instance.id,
       'user_id': instance.userId,
       'target_user_id': instance.targetUserId,
-      'status': instance.status,
+      'created_at': instance.createdAt.toIso8601String(),
+      'status': _$FriendRequestStatusEnumMap[instance.status]!,
     };
+
+const _$FriendRequestStatusEnumMap = {
+  FriendRequestStatus.pending: 'pending',
+  FriendRequestStatus.accepted: 'accepted',
+  FriendRequestStatus.rejected: 'rejected',
+};

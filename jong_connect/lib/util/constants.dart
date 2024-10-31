@@ -80,6 +80,12 @@ abstract final class SnackBarService {
   }
 }
 
+enum FriendRequestStatus {
+  pending,
+  accepted,
+  rejected,
+}
+
 enum MatchType {
   four('4麻', 4),
   three('3麻', 3),

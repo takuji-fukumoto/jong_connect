@@ -1,26 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'friends_repository.dart';
+part of 'pending_friend_requests.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$friendsRepositoryHash() => r'3ab53cfb189089bfef6e510dcc6a4d445d51e9eb';
+String _$pendingFriendRequestsHash() =>
+    r'6de3938c2074fe2ae04fbcc6da750c9771a4ed8d';
 
-/// See also [friendsRepository].
-@ProviderFor(friendsRepository)
-final friendsRepositoryProvider =
-    AutoDisposeProvider<FriendsRepository>.internal(
-  friendsRepository,
-  name: r'friendsRepositoryProvider',
+/// See also [pendingFriendRequests].
+@ProviderFor(pendingFriendRequests)
+final pendingFriendRequestsProvider =
+    AutoDisposeFutureProvider<List<UserFriendRequest>>.internal(
+  pendingFriendRequests,
+  name: r'pendingFriendRequestsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$friendsRepositoryHash,
+      : _$pendingFriendRequestsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef FriendsRepositoryRef = AutoDisposeProviderRef<FriendsRepository>;
+typedef PendingFriendRequestsRef
+    = AutoDisposeFutureProviderRef<List<UserFriendRequest>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

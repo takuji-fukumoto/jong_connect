@@ -25,7 +25,9 @@ mixin _$UserFriendRequest {
   String get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'target_user_id')
   String get targetUserId => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  FriendRequestStatus get status => throw _privateConstructorUsedError;
 
   /// Serializes this UserFriendRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,7 +49,8 @@ abstract class $UserFriendRequestCopyWith<$Res> {
       {int id,
       @JsonKey(name: 'user_id') String userId,
       @JsonKey(name: 'target_user_id') String targetUserId,
-      String status});
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      FriendRequestStatus status});
 }
 
 /// @nodoc
@@ -68,6 +71,7 @@ class _$UserFriendRequestCopyWithImpl<$Res, $Val extends UserFriendRequest>
     Object? id = null,
     Object? userId = null,
     Object? targetUserId = null,
+    Object? createdAt = null,
     Object? status = null,
   }) {
     return _then(_value.copyWith(
@@ -83,10 +87,14 @@ class _$UserFriendRequestCopyWithImpl<$Res, $Val extends UserFriendRequest>
           ? _value.targetUserId
           : targetUserId // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as FriendRequestStatus,
     ) as $Val);
   }
 }
@@ -103,7 +111,8 @@ abstract class _$$UserFriendRequestImplCopyWith<$Res>
       {int id,
       @JsonKey(name: 'user_id') String userId,
       @JsonKey(name: 'target_user_id') String targetUserId,
-      String status});
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      FriendRequestStatus status});
 }
 
 /// @nodoc
@@ -122,6 +131,7 @@ class __$$UserFriendRequestImplCopyWithImpl<$Res>
     Object? id = null,
     Object? userId = null,
     Object? targetUserId = null,
+    Object? createdAt = null,
     Object? status = null,
   }) {
     return _then(_$UserFriendRequestImpl(
@@ -137,10 +147,14 @@ class __$$UserFriendRequestImplCopyWithImpl<$Res>
           ? _value.targetUserId
           : targetUserId // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as FriendRequestStatus,
     ));
   }
 }
@@ -152,6 +166,7 @@ class _$UserFriendRequestImpl implements _UserFriendRequest {
       {required this.id,
       @JsonKey(name: 'user_id') required this.userId,
       @JsonKey(name: 'target_user_id') required this.targetUserId,
+      @JsonKey(name: 'created_at') required this.createdAt,
       required this.status});
 
   factory _$UserFriendRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -166,11 +181,14 @@ class _$UserFriendRequestImpl implements _UserFriendRequest {
   @JsonKey(name: 'target_user_id')
   final String targetUserId;
   @override
-  final String status;
+  @JsonKey(name: 'created_at')
+  final DateTime createdAt;
+  @override
+  final FriendRequestStatus status;
 
   @override
   String toString() {
-    return 'UserFriendRequest(id: $id, userId: $userId, targetUserId: $targetUserId, status: $status)';
+    return 'UserFriendRequest(id: $id, userId: $userId, targetUserId: $targetUserId, createdAt: $createdAt, status: $status)';
   }
 
   @override
@@ -182,13 +200,15 @@ class _$UserFriendRequestImpl implements _UserFriendRequest {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.targetUserId, targetUserId) ||
                 other.targetUserId == targetUserId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.status, status) || other.status == status));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, userId, targetUserId, status);
+      Object.hash(runtimeType, id, userId, targetUserId, createdAt, status);
 
   /// Create a copy of UserFriendRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -212,7 +232,8 @@ abstract class _UserFriendRequest implements UserFriendRequest {
       {required final int id,
       @JsonKey(name: 'user_id') required final String userId,
       @JsonKey(name: 'target_user_id') required final String targetUserId,
-      required final String status}) = _$UserFriendRequestImpl;
+      @JsonKey(name: 'created_at') required final DateTime createdAt,
+      required final FriendRequestStatus status}) = _$UserFriendRequestImpl;
 
   factory _UserFriendRequest.fromJson(Map<String, dynamic> json) =
       _$UserFriendRequestImpl.fromJson;
@@ -226,7 +247,10 @@ abstract class _UserFriendRequest implements UserFriendRequest {
   @JsonKey(name: 'target_user_id')
   String get targetUserId;
   @override
-  String get status;
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt;
+  @override
+  FriendRequestStatus get status;
 
   /// Create a copy of UserFriendRequest
   /// with the given fields replaced by the non-null parameter values.
