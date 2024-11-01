@@ -13,6 +13,9 @@ create policy "users can update user_friend_requests themselves"
 create policy "users can update user_friend_requests that other users requested"
   on public.user_friend_requests for update using ( friend_id = (select friend_id from public.users where id = auth.uid() limit 1) );
 
+create policy "users can delete user_friend_requests themselves"
+  on public.user_friend_requests for delete using ( user_id = auth.uid() );
+
 CREATE OR REPLACE FUNCTION "public"."accept_friend_request"(friend_request_id int) RETURNS void
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$
@@ -21,23 +24,23 @@ DECLARE
   my_friend_id int;       -- 自身のフレンドID
   target_friend_id int;   -- 申請元ユーザーのフレンドID
 begin
-  select 
-    friend_id into my_friend_id
-  from public.users
-  where public.users.id = auth.uid()
-  limit 1;
-
-  select 
-    friend_id into target_friend_id
-  from public.users
-  where public.users.id = requested_user_id
-  limit 1;
-
   update public.user_friend_requests 
   set
     status = 'accepted'::"public"."status"
   where id = friend_request_id
   returning user_id into requested_user_id;
+
+  select 
+    friend_id into my_friend_id
+  from public.users
+  where id = auth.uid()
+  limit 1;
+
+  select 
+    friend_id into target_friend_id
+  from public.users
+  where id = requested_user_id
+  limit 1;
 
   -- こちらからもフレンド申請していた場合はそちらもacceptedにする
   update public.user_friend_requests 

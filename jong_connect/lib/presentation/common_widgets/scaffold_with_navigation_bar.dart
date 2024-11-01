@@ -17,7 +17,8 @@ class ScaffoldWithNavbar extends StatelessWidget {
           NavigationDestination(icon: Icon(Icons.home_filled), label: 'ホーム'),
           NavigationDestination(icon: Icon(Icons.meeting_room), label: 'ルーム'),
           NavigationDestination(icon: Icon(Icons.analytics), label: '成績'),
-          NavigationDestination(icon: Icon(Icons.settings), label: '設定'),
+          NavigationDestination(
+              icon: Icon(Icons.account_circle_sharp), label: 'マイページ'),
         ],
         onDestinationSelected: _onTap,
       ),

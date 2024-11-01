@@ -3,7 +3,6 @@ import 'package:jong_connect/domain/model/user_friend_request.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../util/constants.dart';
 import 'friends_repository_impl.dart';
 
 part 'friends_repository.g.dart';
@@ -21,8 +20,12 @@ class FriendsRepository {
     throw UnimplementedError();
   }
 
-  Future<List<UserFriendRequest>> fetchFriendRequests(
-      FriendRequestStatus status) async {
+  Future<List<UserFriendRequest>> fetchFriendRequestsInProgress() async {
+    throw UnimplementedError();
+  }
+
+  Future<List<UserFriendRequest>>
+      fetchFriendRequestsWaitingForApproval() async {
     throw UnimplementedError();
   }
 
@@ -31,6 +34,10 @@ class FriendsRepository {
   }
 
   Future<void> sendFriendRequest(AppUser targetUser) async {
+    throw UnimplementedError();
+  }
+
+  Future<void> deleteFriendRequest(int friendRequestId) async {
     throw UnimplementedError();
   }
 

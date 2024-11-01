@@ -30,8 +30,7 @@ class FriendsRepositoryImpl implements FriendsRepository {
   }
 
   @override
-  Future<List<UserFriendRequest>> fetchFriendRequests(
-      FriendRequestStatus status) async {
+  Future<List<UserFriendRequest>> fetchFriendRequestsInProgress() async {
     final user = await _ref.read(currentUserProvider.future);
 
     final response = await supabase.from('user_friend_requests').select('''
@@ -39,7 +38,8 @@ class FriendsRepositoryImpl implements FriendsRepository {
       created_at, 
       user_id, 
       status,
-      friends (
+      friend_id,
+      user:friend_id (
         id,
         name, 
         profile, 
@@ -47,8 +47,36 @@ class FriendsRepositoryImpl implements FriendsRepository {
         friend_id
       )
     ''').match({
-      'friends.id': user!.id,
-      'status': status,
+      'user_id': user!.id,
+      'status': FriendRequestStatus.pending.name,
+    });
+
+    return response
+        .map<UserFriendRequest>((json) => UserFriendRequest.fromJson(json))
+        .toList();
+  }
+
+  @override
+  Future<List<UserFriendRequest>>
+      fetchFriendRequestsWaitingForApproval() async {
+    final user = await _ref.read(currentUserProvider.future);
+
+    final response = await supabase.from('user_friend_requests').select('''
+      id, 
+      created_at, 
+      user_id,
+      user:user_id (
+        id,
+        name, 
+        profile, 
+        avatar_url,
+        friend_id
+      ),
+      status,
+      friend_id
+    ''').match({
+      'friend_id': user!.friendId,
+      'status': FriendRequestStatus.pending.name,
     });
 
     return response
@@ -66,9 +94,17 @@ class FriendsRepositoryImpl implements FriendsRepository {
     final user = await _ref.read(currentUserProvider.future);
     await supabase.from('user_friend_requests').upsert({
       'user_id': user!.id,
-      'status': FriendRequestStatus.pending,
+      'status': FriendRequestStatus.pending.name,
       'friend_id': targetUser.friendId,
     });
+  }
+
+  @override
+  Future<void> deleteFriendRequest(int friendRequestId) async {
+    await supabase
+        .from('user_friend_requests')
+        .delete()
+        .eq('id', friendRequestId);
   }
 
   @override
@@ -81,7 +117,7 @@ class FriendsRepositoryImpl implements FriendsRepository {
   @override
   Future<void> rejectFriendRequest(int friendRequestId) async {
     await supabase.from('user_friend_requests').update({
-      'status': FriendRequestStatus.rejected,
+      'status': FriendRequestStatus.rejected.name,
     }).eq('id', friendRequestId);
   }
 

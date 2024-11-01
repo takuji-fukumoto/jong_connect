@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:jong_connect/data/friends_repository.dart';
 import 'package:jong_connect/domain/provider/current_friends.dart';
-import 'package:jong_connect/domain/provider/pending_friend_requests.dart';
+import 'package:jong_connect/domain/provider/friend_requests_waiting_for_approval.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -42,19 +42,25 @@ class FriendUseCase {
     await _ref.read(friendsRepositoryProvider).sendFriendRequest(targetUser);
   }
 
+  Future<void> deleteFriendRequest(int friendRequestId) async {
+    await _ref
+        .read(friendsRepositoryProvider)
+        .deleteFriendRequest(friendRequestId);
+  }
+
   Future<void> acceptFriendRequest(int friendRequestId) async {
     await _ref
         .read(friendsRepositoryProvider)
         .acceptFriendRequest(friendRequestId);
     _ref.invalidate(currentFriendsProvider);
-    _ref.invalidate(pendingFriendRequestsProvider);
+    _ref.invalidate(friendRequestsWaitingForApprovalProvider);
   }
 
   Future<void> rejectFriendRequest(int friendRequestId) async {
     await _ref
         .read(friendsRepositoryProvider)
         .rejectFriendRequest(friendRequestId);
-    _ref.invalidate(pendingFriendRequestsProvider);
+    _ref.invalidate(friendRequestsWaitingForApprovalProvider);
   }
 
   Future<void> removeFriend(AppUser targetUser) async {
