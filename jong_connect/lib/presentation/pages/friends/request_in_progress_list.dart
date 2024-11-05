@@ -29,23 +29,22 @@ class RequestInProgressList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: リフレッシュがうまく動いていないのでよう修正
-    return RefreshIndicator(
-      onRefresh: () async {
-        ref.invalidate(friendRequestsInProgressProvider);
-      },
-      child: AsyncValueWidget(
-        asyncValue: ref.watch(friendRequestsInProgressProvider),
-        data: (requests) {
-          if (requests.isEmpty) {
-            return const Center(
-              child: Text('申請中のユーザーはいません'),
-            );
-          }
-
-          return ListView(
+    return AsyncValueWidget(
+      asyncValue: ref.watch(friendRequestsInProgressProvider),
+      data: (requests) {
+        return RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(friendRequestsInProgressProvider);
+          },
+          child: ListView(
             padding: paddingV8H8,
             children: [
+              if (requests.isEmpty) ...[
+                gapH16,
+                const Center(
+                  child: Text('申請中のユーザーはいません'),
+                ),
+              ],
               for (var request in requests)
                 ListTile(
                   leading: SizedBox(
@@ -78,9 +77,9 @@ class RequestInProgressList extends ConsumerWidget {
                   ),
                 ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

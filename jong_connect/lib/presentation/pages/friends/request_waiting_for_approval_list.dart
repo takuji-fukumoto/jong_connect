@@ -34,64 +34,69 @@ class RequestWaitingForApprovalList extends ConsumerWidget {
       child: AsyncValueWidget(
         asyncValue: ref.watch(friendRequestsWaitingForApprovalProvider),
         data: (requests) {
-          if (requests.isEmpty) {
-            return const Center(
-              child: Text('承認待ちのユーザーはいません'),
-            );
-          }
-
-          return ListView(
-            padding: paddingV8H8,
-            children: [
-              for (var request in requests)
-                Row(
-                  children: [
-                    Expanded(
-                      child: ListTile(
-                        leading: SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: CachedNetworkImage(
-                            imageUrl: request.targetUser!.avatarUrl,
-                            imageBuilder: (context, imageProvider) =>
-                                CircleAvatar(
-                              radius: 40,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
+          return RefreshIndicator(
+            onRefresh: () async {
+              ref.invalidate(friendRequestsWaitingForApprovalProvider);
+            },
+            child: ListView(
+              padding: paddingV8H8,
+              children: [
+                if (requests.isEmpty) ...[
+                  gapH16,
+                  const Center(
+                    child: Text('承認待ちのユーザーはいません'),
+                  ),
+                ],
+                for (var request in requests)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ListTile(
+                          leading: SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: CachedNetworkImage(
+                              imageUrl: request.targetUser!.avatarUrl,
+                              imageBuilder: (context, imageProvider) =>
+                                  CircleAvatar(
+                                radius: 40,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  unknownUserIcon,
                             ),
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                unknownUserIcon,
                           ),
+                          title: Text(request.targetUser!.name),
+                          subtitle: Text(request.targetUser!.profile),
                         ),
-                        title: Text(request.targetUser!.name),
-                        subtitle: Text(request.targetUser!.profile),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () => acceptRequest(
-                          ref, request.id, request.targetUser!.name),
-                      child: const Text('承認'),
-                    ),
-                    TextButton(
-                      onPressed: () => rejectRequest(
-                          ref, request.id, request.targetUser!.name),
-                      child: Text(
-                        '拒否',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.error),
+                      TextButton(
+                        onPressed: () => acceptRequest(
+                            ref, request.id, request.targetUser!.name),
+                        child: const Text('承認'),
                       ),
-                    ),
-                  ],
-                ),
-            ],
+                      TextButton(
+                        onPressed: () => rejectRequest(
+                            ref, request.id, request.targetUser!.name),
+                        child: Text(
+                          '拒否',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.error),
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
           );
         },
       ),

@@ -13,21 +13,26 @@ class FriendList extends ConsumerWidget {
     return AsyncValueWidget(
       asyncValue: ref.watch(currentFriendsProvider),
       data: (friends) {
-        if (friends.isEmpty) {
-          return const Center(
-            child: Text('ともだちを追加して対局結果を記録しましょう！'),
-          );
-        }
-
-        return ListView(
-          padding: paddingV8H8,
-          children: [
-            for (var friend in friends)
-              UserListTile(
-                user: friend,
-                isFriend: true, // MEMO: ともだちリストなので固定でtrue
-              ),
-          ],
+        return RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(currentFriendsProvider);
+          },
+          child: ListView(
+            padding: paddingV8H8,
+            children: [
+              if (friends.isEmpty) ...[
+                gapH16,
+                const Center(
+                  child: Text('ともだちを追加して対局結果を記録しましょう！'),
+                ),
+              ],
+              for (var friend in friends)
+                UserListTile(
+                  user: friend,
+                  isFriend: true, // MEMO: ともだちリストなので固定でtrue
+                ),
+            ],
+          ),
         );
       },
     );
