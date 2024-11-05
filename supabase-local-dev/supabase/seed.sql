@@ -4,7 +4,8 @@ WITH credentials(id, mail, pass) AS (
     ('123e4567-e89b-12d3-a456-426614174001', 'user2@example.com', 'password2'), 
     ('123e4567-e89b-12d3-a456-426614174002', 'user3@example.com', 'password3'), 
     ('123e4567-e89b-12d3-a456-426614174003', 'user4@example.com', 'password4'),
-    ('123e4567-e89b-12d3-a456-426614174004', 'user5@example.com', 'password5')
+    ('123e4567-e89b-12d3-a456-426614174004', 'user5@example.com', 'password5'),
+    ('123e4567-e89b-12d3-a456-426614174005', 'user6@example.com', 'password6')
   ) AS users(id, mail, pass)
 ),
 create_user AS (
@@ -82,6 +83,15 @@ SET
 where
   id = '123e4567-e89b-12d3-a456-426614174004';
 
+UPDATE "public"."users"
+SET
+  "name" = 'user006',
+  "profile" = '強くなりたい',
+  "friend_id" = 6,
+  "avatar_url" = 'https://nauixhzrluaiydfkhlch.supabase.co/storage/v1/object/public/avatars/cat.png'
+where
+  id = '123e4567-e89b-12d3-a456-426614174005';
+
 
 INSERT INTO "public"."friends" ("user_id", "friend_id") 
 VALUES 
@@ -93,6 +103,10 @@ VALUES
   ('123e4567-e89b-12d3-a456-426614174002', 1),
   ('123e4567-e89b-12d3-a456-426614174003', 1),
   ('123e4567-e89b-12d3-a456-426614174004', 1);
+
+INSERT INTO "public"."user_friend_requests" ("id", "user_id", "friend_id") 
+VALUES 
+  (101, '123e4567-e89b-12d3-a456-426614174000', 6);
 
 INSERT INTO "public"."groups" ("id", "name", "description", "image_url") 
 VALUES 

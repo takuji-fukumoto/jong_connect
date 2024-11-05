@@ -1,42 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jong_connect/domain/provider/current_friends.dart';
-import 'package:jong_connect/presentation/common_widgets/async_value_widget.dart';
-import 'package:jong_connect/presentation/common_widgets/user_list_tile.dart';
+import 'package:go_router/go_router.dart';
+import 'package:jong_connect/presentation/pages/friends/request_in_progress_list.dart';
+import 'package:jong_connect/presentation/pages/friends/request_waiting_for_approval_list.dart';
 import 'package:jong_connect/util/app_sizes.dart';
+import 'package:jong_connect/util/routing_path.dart';
+
+import 'friend_list.dart';
 
 class FriendsPage extends ConsumerWidget {
   const FriendsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Theme.of(context).colorScheme.surface,
-        title: const Text('ともだちリスト'),
-      ),
-      body: AsyncValueWidget(
-        asyncValue: ref.watch(currentFriendsProvider),
-        data: (friends) {
-          return ListView(
-            padding: paddingV8H8,
-            children: [
-              gapH16,
-              if (friends.isEmpty) ...[
-                const Center(
-                  child: Text('ともだちを追加して対局結果を記録しましょう！'),
-                ),
-              ] else ...[
-                for (var friend in friends)
-                  UserListTile(
-                    user: friend,
-                    isFriend: true, // MEMO: ともだちリストなので固定でtrue
-                  ),
-              ],
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.surface,
+          title: const Text('フレンド'),
+          bottom: TabBar(
+            indicatorPadding: const EdgeInsets.symmetric(
+              horizontal: Sizes.p8,
+              vertical: Sizes.p8,
+            ),
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorWeight: Sizes.p8,
+            indicator: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            labelColor: Theme.of(context).colorScheme.inverseSurface,
+            unselectedLabelColor: Theme.of(context).colorScheme.surface,
+            tabs: const [
+              Tab(child: Text('フレンド')),
+              Tab(child: Text('申請中')),
+              Tab(child: Text('承認')),
             ],
-          );
-        },
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            FriendList(),
+            RequestInProgressList(),
+            RequestWaitingForApprovalList(),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => context.goNamed(RoutingPath.inviteFriend),
+          child: const Icon(Icons.person_add),
+        ),
       ),
     );
   }

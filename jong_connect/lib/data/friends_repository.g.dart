@@ -6,7 +6,7 @@ part of 'friends_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$friendsRepositoryHash() => r'f7cfacdbe66692855f78c00f6d515f36c789b4b9';
+String _$friendsRepositoryHash() => r'3ab53cfb189089bfef6e510dcc6a4d445d51e9eb';
 
 /// See also [friendsRepository].
 @ProviderFor(friendsRepository)

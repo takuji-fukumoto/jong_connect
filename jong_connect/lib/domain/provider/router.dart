@@ -47,22 +47,7 @@ final routerProvider = Provider(
               GoRoute(
                 path: RoutingPath.home,
                 builder: (context, state) => const HomePage(),
-                routes: [
-                  GoRoute(
-                    parentNavigatorKey: _rootNavigatorKey,
-                    name: RoutingPath.inviteFriend,
-                    path: RoutingPath.inviteFriend,
-                    builder: (context, state) => const InviteFriendPage(),
-                    routes: [],
-                  ),
-                  GoRoute(
-                    parentNavigatorKey: _rootNavigatorKey,
-                    name: RoutingPath.friends,
-                    path: RoutingPath.friends,
-                    builder: (context, state) => const FriendsPage(),
-                    routes: [],
-                  ),
-                ],
+                routes: [],
               ),
             ],
           ),
@@ -209,6 +194,21 @@ final routerProvider = Provider(
                     path: RoutingPath.editProfile,
                     builder: (context, state) => const EditProfilePage(),
                     routes: [],
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    name: RoutingPath.friends,
+                    path: RoutingPath.friends,
+                    builder: (context, state) => const FriendsPage(),
+                    routes: [
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        name: RoutingPath.inviteFriend,
+                        path: RoutingPath.inviteFriend,
+                        builder: (context, state) => const InviteFriendPage(),
+                        routes: [],
+                      ),
+                    ],
                   ),
                 ],
               ),

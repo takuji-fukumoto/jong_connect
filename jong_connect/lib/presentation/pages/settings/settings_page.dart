@@ -17,7 +17,7 @@ class SettingsPage extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.surface,
-        title: const Text('設定'),
+        title: const Text('マイページ'),
       ),
       body: ListView(
         padding: paddingV8H8,
@@ -28,9 +28,14 @@ class SettingsPage extends ConsumerWidget {
             onTap: () => context.goNamed(RoutingPath.gameConfig),
           ),
           ListTile(
-            leading: const Icon(Icons.account_circle_rounded),
+            leading: const Icon(Icons.portrait_rounded),
             title: const Text('プロフィール'),
             onTap: () => context.goNamed(RoutingPath.editProfile),
+          ),
+          ListTile(
+            leading: const Icon(Icons.groups),
+            title: const Text('フレンド'),
+            onTap: () => context.goNamed(RoutingPath.friends),
           ),
           ListTile(
             leading: const Icon(Icons.logout),

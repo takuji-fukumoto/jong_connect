@@ -1,11 +1,14 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:async_value_group/async_value_group.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jong_connect/domain/provider/is_requested_friend_user.dart';
 import 'package:jong_connect/usecase/friend_use_case.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import '../../domain/model/app_user.dart';
+import '../../domain/provider/current_user.dart';
 import '../../util/constants.dart';
 
 class UserProfileDialog extends Dialog {
@@ -42,7 +45,10 @@ class UserProfileDialog extends Dialog {
         ],
       ),
       actions: [
-        if (isFriend) _RemoveFriendButton(user: user),
+        if (isFriend)
+          _RemoveFriendButton(user: user)
+        else
+          _RequestFriendButton(user: user),
       ],
     );
   }
@@ -73,6 +79,52 @@ class _RemoveFriendButton extends ConsumerWidget {
         SnackBarService.showSnackBar(content: 'ともだち解除しました');
       },
       child: const Text('ともだち解除'),
+    );
+  }
+}
+
+class _RequestFriendButton extends ConsumerWidget {
+  const _RequestFriendButton({super.key, required this.user});
+
+  final AppUser user;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AsyncValueGroup.group2(
+      ref.watch(currentUserProvider),
+      ref.watch(isRequestedFriendUserProvider(user.friendId)),
+    ).when(
+      data: (value) {
+        // MEMO: 自分自身の場合はなにも表示しない
+        if (value.$1!.id == user.id) {
+          return const SizedBox();
+        }
+
+        if (value.$2) {
+          return ElevatedButton(
+            onPressed: () {},
+            child: const Text('フレンド申請済み'),
+          );
+        }
+        return ElevatedButton(
+          onPressed: () async {
+            try {
+              await ref.read(friendUseCaseProvider).sendFriendRequest(user);
+              context.pop();
+              SnackBarService.showSnackBar(content: 'フレンド申請しました');
+            } catch (e) {
+              SnackBarService.showErrorSnackBar(
+                  content: unexpectedErrorMessage);
+            }
+          },
+          child: const Text('フレンド申請'),
+        );
+      },
+      loading: () => ElevatedButton(
+        onPressed: () {},
+        child: const CircularProgressIndicator(),
+      ),
+      error: (error, st) => const Center(child: Text(unexpectedErrorMessage)),
     );
   }
 }
