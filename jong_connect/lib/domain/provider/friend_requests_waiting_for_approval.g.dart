@@ -7,7 +7,7 @@ part of 'friend_requests_waiting_for_approval.dart';
 // **************************************************************************
 
 String _$friendRequestsWaitingForApprovalHash() =>
-    r'530079ce83a6a60f0e43769c2c37fffa4c1afdb6';
+    r'1a483da00f75bcc25161ec0b1b1fccb6099838a9';
 
 /// See also [friendRequestsWaitingForApproval].
 @ProviderFor(friendRequestsWaitingForApproval)

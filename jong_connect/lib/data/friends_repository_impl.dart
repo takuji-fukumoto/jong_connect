@@ -100,6 +100,18 @@ class FriendsRepositoryImpl implements FriendsRepository {
   }
 
   @override
+  Future<bool> isRequestedFriendUser(int targetFriendId) async {
+    final user = await _ref.read(currentUserProvider.future);
+    var count = await supabase.from('user_friend_requests').count().match({
+      'user_id': user!.id,
+      'friend_id': targetFriendId,
+      'status': FriendRequestStatus.pending.name,
+    });
+
+    return count >= 1;
+  }
+
+  @override
   Future<void> deleteFriendRequest(int friendRequestId) async {
     await supabase
         .from('user_friend_requests')

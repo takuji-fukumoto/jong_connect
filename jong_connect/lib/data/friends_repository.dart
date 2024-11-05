@@ -37,6 +37,10 @@ class FriendsRepository {
     throw UnimplementedError();
   }
 
+  Future<bool> isRequestedFriendUser(int targetFriendId) async {
+    throw UnimplementedError();
+  }
+
   Future<void> deleteFriendRequest(int friendRequestId) async {
     throw UnimplementedError();
   }
