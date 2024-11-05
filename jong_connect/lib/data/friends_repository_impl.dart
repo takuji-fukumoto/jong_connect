@@ -92,11 +92,35 @@ class FriendsRepositoryImpl implements FriendsRepository {
   @override
   Future<void> sendFriendRequest(AppUser targetUser) async {
     final user = await _ref.read(currentUserProvider.future);
-    await supabase.from('user_friend_requests').upsert({
+
+    // MEMO: すでにリクエストがあればそこに上書きする
+    final response = await supabase.from('user_friend_requests').select('''
+      id
+    ''').match({
       'user_id': user!.id,
-      'status': FriendRequestStatus.pending.name,
       'friend_id': targetUser.friendId,
-    });
+    }).limit(1);
+
+    int? alreadyFriendRequestId =
+        response.isNotEmpty ? response.first['id'] : null;
+
+    if (alreadyFriendRequestId != null) {
+      // FIXME: これだとあまりupsertの意味がないが、upsertのonConflictで複合キーの指定の仕方がわからないため一旦このまま
+      await supabase.from('user_friend_requests').upsert(
+        {
+          'id': alreadyFriendRequestId,
+          'user_id': user!.id,
+          'status': FriendRequestStatus.pending.name,
+          'friend_id': targetUser.friendId,
+        },
+      );
+    } else {
+      await supabase.from('user_friend_requests').insert({
+        'user_id': user!.id,
+        'status': FriendRequestStatus.pending.name,
+        'friend_id': targetUser.friendId,
+      });
+    }
   }
 
   @override
@@ -106,7 +130,7 @@ class FriendsRepositoryImpl implements FriendsRepository {
       'user_id': user!.id,
       'friend_id': targetFriendId,
       'status': FriendRequestStatus.pending.name,
-    });
+    }).limit(1);
 
     return count >= 1;
   }

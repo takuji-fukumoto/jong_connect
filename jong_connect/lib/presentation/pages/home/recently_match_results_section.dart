@@ -48,27 +48,23 @@ class _ResultsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final deviceSize = MediaQuery.of(context).size;
     return AsyncValueWidget(
       asyncValue: ref.watch(recentlyMatchResultsProvider(limit: maxDispCount)),
       data: (roundResults) {
-        return SizedBox(
-          height: deviceSize.height / 3.0,
-          child: ListView(
-            children: [
-              if (roundResults.isEmpty) ...[
-                const Center(
-                  child: Text('対局結果がありません'),
+        return Column(
+          children: [
+            if (roundResults.isEmpty) ...[
+              const Center(
+                child: Text('直近の対局結果はありません'),
+              ),
+            ] else ...[
+              for (var roundResult in roundResults) ...{
+                _ResultListTile(
+                  roundResult: roundResult,
                 ),
-              ] else ...[
-                for (var roundResult in roundResults) ...{
-                  _ResultListTile(
-                    roundResult: roundResult,
-                  ),
-                },
-              ],
+              },
             ],
-          ),
+          ],
         );
       },
     );
