@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jong_connect/presentation/pages/friends/request_in_progress_list.dart';
 import 'package:jong_connect/presentation/pages/friends/request_waiting_for_approval_list.dart';
 import 'package:jong_connect/util/app_sizes.dart';
+import 'package:jong_connect/util/routing_path.dart';
 
 import 'friend_list.dart';
 
@@ -45,6 +47,10 @@ class FriendsPage extends ConsumerWidget {
             RequestInProgressList(),
             RequestWaitingForApprovalList(),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => context.goNamed(RoutingPath.inviteFriend),
+          child: const Icon(Icons.person_add),
         ),
       ),
     );

@@ -23,7 +23,7 @@ class FriendList extends ConsumerWidget {
               if (friends.isEmpty) ...[
                 gapH16,
                 const Center(
-                  child: Text('ともだちを追加して対局結果を記録しましょう！'),
+                  child: Text('右下の追加ボタンからフレンドを追加しましょう！'),
                 ),
               ],
               for (var friend in friends)
