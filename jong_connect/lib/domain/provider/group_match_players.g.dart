@@ -6,7 +6,7 @@ part of 'group_match_players.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$groupMatchPlayersHash() => r'e47877d8648a7063fdf471971be19d4895493c89';
+String _$groupMatchPlayersHash() => r'36c1b3a9df938d3d4d5f99a3cbc68c565c0997ea';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,30 +29,33 @@ class _SystemHash {
   }
 }
 
-abstract class _$GroupMatchPlayers
-    extends BuildlessAutoDisposeAsyncNotifier<List<AppUser>> {
-  late final int groupId;
-
-  FutureOr<List<AppUser>> build(
-    int groupId,
-  );
-}
-
-/// See also [GroupMatchPlayers].
-@ProviderFor(GroupMatchPlayers)
+/// グループマッチに参加しているユーザー
+/// group_membersとの違いはグループマッチの参加者に選ばれているかどうか（group_membersはグループ内の全てのユーザー）
+///
+/// Copied from [groupMatchPlayers].
+@ProviderFor(groupMatchPlayers)
 const groupMatchPlayersProvider = GroupMatchPlayersFamily();
 
-/// See also [GroupMatchPlayers].
+/// グループマッチに参加しているユーザー
+/// group_membersとの違いはグループマッチの参加者に選ばれているかどうか（group_membersはグループ内の全てのユーザー）
+///
+/// Copied from [groupMatchPlayers].
 class GroupMatchPlayersFamily extends Family<AsyncValue<List<AppUser>>> {
-  /// See also [GroupMatchPlayers].
+  /// グループマッチに参加しているユーザー
+  /// group_membersとの違いはグループマッチの参加者に選ばれているかどうか（group_membersはグループ内の全てのユーザー）
+  ///
+  /// Copied from [groupMatchPlayers].
   const GroupMatchPlayersFamily();
 
-  /// See also [GroupMatchPlayers].
+  /// グループマッチに参加しているユーザー
+  /// group_membersとの違いはグループマッチの参加者に選ばれているかどうか（group_membersはグループ内の全てのユーザー）
+  ///
+  /// Copied from [groupMatchPlayers].
   GroupMatchPlayersProvider call(
-    int groupId,
+    int groupMatchId,
   ) {
     return GroupMatchPlayersProvider(
-      groupId,
+      groupMatchId,
     );
   }
 
@@ -61,7 +64,7 @@ class GroupMatchPlayersFamily extends Family<AsyncValue<List<AppUser>>> {
     covariant GroupMatchPlayersProvider provider,
   ) {
     return call(
-      provider.groupId,
+      provider.groupMatchId,
     );
   }
 
@@ -80,14 +83,23 @@ class GroupMatchPlayersFamily extends Family<AsyncValue<List<AppUser>>> {
   String? get name => r'groupMatchPlayersProvider';
 }
 
-/// See also [GroupMatchPlayers].
-class GroupMatchPlayersProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    GroupMatchPlayers, List<AppUser>> {
-  /// See also [GroupMatchPlayers].
+/// グループマッチに参加しているユーザー
+/// group_membersとの違いはグループマッチの参加者に選ばれているかどうか（group_membersはグループ内の全てのユーザー）
+///
+/// Copied from [groupMatchPlayers].
+class GroupMatchPlayersProvider
+    extends AutoDisposeFutureProvider<List<AppUser>> {
+  /// グループマッチに参加しているユーザー
+  /// group_membersとの違いはグループマッチの参加者に選ばれているかどうか（group_membersはグループ内の全てのユーザー）
+  ///
+  /// Copied from [groupMatchPlayers].
   GroupMatchPlayersProvider(
-    int groupId,
+    int groupMatchId,
   ) : this._internal(
-          () => GroupMatchPlayers()..groupId = groupId,
+          (ref) => groupMatchPlayers(
+            ref as GroupMatchPlayersRef,
+            groupMatchId,
+          ),
           from: groupMatchPlayersProvider,
           name: r'groupMatchPlayersProvider',
           debugGetCreateSourceHash:
@@ -97,7 +109,7 @@ class GroupMatchPlayersProvider extends AutoDisposeAsyncNotifierProviderImpl<
           dependencies: GroupMatchPlayersFamily._dependencies,
           allTransitiveDependencies:
               GroupMatchPlayersFamily._allTransitiveDependencies,
-          groupId: groupId,
+          groupMatchId: groupMatchId,
         );
 
   GroupMatchPlayersProvider._internal(
@@ -107,69 +119,61 @@ class GroupMatchPlayersProvider extends AutoDisposeAsyncNotifierProviderImpl<
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.groupId,
+    required this.groupMatchId,
   }) : super.internal();
 
-  final int groupId;
+  final int groupMatchId;
 
   @override
-  FutureOr<List<AppUser>> runNotifierBuild(
-    covariant GroupMatchPlayers notifier,
+  Override overrideWith(
+    FutureOr<List<AppUser>> Function(GroupMatchPlayersRef provider) create,
   ) {
-    return notifier.build(
-      groupId,
-    );
-  }
-
-  @override
-  Override overrideWith(GroupMatchPlayers Function() create) {
     return ProviderOverride(
       origin: this,
       override: GroupMatchPlayersProvider._internal(
-        () => create()..groupId = groupId,
+        (ref) => create(ref as GroupMatchPlayersRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        groupId: groupId,
+        groupMatchId: groupMatchId,
       ),
     );
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<GroupMatchPlayers, List<AppUser>>
-      createElement() {
+  AutoDisposeFutureProviderElement<List<AppUser>> createElement() {
     return _GroupMatchPlayersProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GroupMatchPlayersProvider && other.groupId == groupId;
+    return other is GroupMatchPlayersProvider &&
+        other.groupMatchId == groupMatchId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, groupId.hashCode);
+    hash = _SystemHash.combine(hash, groupMatchId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin GroupMatchPlayersRef
-    on AutoDisposeAsyncNotifierProviderRef<List<AppUser>> {
-  /// The parameter `groupId` of this provider.
-  int get groupId;
+mixin GroupMatchPlayersRef on AutoDisposeFutureProviderRef<List<AppUser>> {
+  /// The parameter `groupMatchId` of this provider.
+  int get groupMatchId;
 }
 
 class _GroupMatchPlayersProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<GroupMatchPlayers,
-        List<AppUser>> with GroupMatchPlayersRef {
+    extends AutoDisposeFutureProviderElement<List<AppUser>>
+    with GroupMatchPlayersRef {
   _GroupMatchPlayersProviderElement(super.provider);
 
   @override
-  int get groupId => (origin as GroupMatchPlayersProvider).groupId;
+  int get groupMatchId => (origin as GroupMatchPlayersProvider).groupMatchId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

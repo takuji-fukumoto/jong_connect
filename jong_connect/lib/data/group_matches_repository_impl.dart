@@ -107,4 +107,31 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
   Future<void> delete(int groupMatchId) async {
     await supabase.from('group_matches').delete().eq('id', groupMatchId);
   }
+
+  @override
+  Future<List<AppUser>> getGroupMatchPlayers(int groupMatchId) async {
+    final json = await supabase.from('joined_group_match_players').select('''
+      id, 
+      user:user_id (
+        id,
+        name, 
+        profile, 
+        avatar_url,
+        friend_id
+      )
+    ''').eq('id', groupMatchId);
+
+    return json
+        .map<AppUser>((record) => AppUser.fromJson(record['user']))
+        .toList();
+  }
+
+  @override
+  Future<void> updateGroupMatchPlayers(
+      int groupMatchId, List<String> playerIds) async {
+    return await supabase.rpc('edit_group_match_players', params: {
+      'group_match_id': groupMatchId,
+      'join_player_ids': playerIds,
+    });
+  }
 }

@@ -6,19 +6,17 @@ import '../model/app_user.dart';
 
 part 'group_match_players.g.dart';
 
+/// グループマッチに参加しているユーザー
+/// group_membersとの違いはグループマッチの参加者に選ばれているかどうか（group_membersはグループ内の全てのユーザー）
 @riverpod
-class GroupMatchPlayers extends _$GroupMatchPlayers {
-  @override
-  FutureOr<List<AppUser>> build(int groupId) async {
-    var group = await ref.read(groupDetailsProvider(groupId: groupId).future);
-    var players = group.joinedUsers
-            ?.map<AppUser>((joinUser) => joinUser.user!)
-            .toList() ??
-        [];
-    return players;
-  }
-
-  void updatePlayers(List<AppUser> players) {
-    state = AsyncData(players);
-  }
+Future<List<AppUser>> groupMatchPlayers(
+    GroupMatchPlayersRef ref, int groupMatchId) async {
+  // TODO: 参加者を取得、返却する
+  // TODO: 参加者がいない場合、グループ内のユーザー全てを返す
+  var group =
+      await ref.read(groupDetailsProvider(groupId: groupMatchId).future);
+  var members =
+      group.joinedUsers?.map<AppUser>((joinUser) => joinUser.user!).toList() ??
+          [];
+  return members;
 }
