@@ -151,8 +151,12 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
         ref.read(groupMatchPlayersProvider(widget.groupId)),
       ).when(
         data: (values) {
-          targetPlayers ??=
-              values.$2.take(values.$1.matchType.playableNumber).toList();
+          /// 直近対局したプレイヤーを初期選択状態にする。直近対局がない場合はグループ内のメンバーを先頭からピックアップ
+          targetPlayers ??= values.$1.latestResults.isNotEmpty
+              ? values.$1.latestResults
+                  .map<AppUser>((result) => result.user!)
+                  .toList()
+              : values.$2.take(values.$1.matchType.playableNumber).toList();
           return FormBuilder(
             key: _formKey,
             child: ListView(
