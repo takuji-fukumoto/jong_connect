@@ -150,13 +150,8 @@ class _ResultTable extends ConsumerWidget {
           child: Text('右下の追加ボタンから対局結果を追加できます'),
         ),
         columns: [
-          DataColumn2(
-            label: IconButton(
-              onPressed: () {
-                print('参加者編集ページへ遷移');
-              },
-              icon: const Icon(Icons.manage_accounts),
-            ),
+          const DataColumn2(
+            label: SizedBox(),
             size: ColumnSize.S,
             fixedWidth: 50,
           ),
