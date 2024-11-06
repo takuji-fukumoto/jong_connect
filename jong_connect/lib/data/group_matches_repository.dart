@@ -43,4 +43,13 @@ class GroupMatchesRepository {
   Future<void> delete(int groupMatchId) async {
     throw UnimplementedError();
   }
+
+  Future<List<AppUser>> getGroupMatchPlayers(int groupMatchId) async {
+    throw UnimplementedError();
+  }
+
+  Future<void> updateGroupMatchPlayers(
+      int groupMatchId, List<String> playerIds) async {
+    throw UnimplementedError();
+  }
 }

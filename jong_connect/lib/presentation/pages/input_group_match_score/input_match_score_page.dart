@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/domain/model/input_user_score.dart';
 import 'package:jong_connect/domain/provider/game_config.dart';
+import 'package:jong_connect/domain/provider/group_members.dart';
 import 'package:jong_connect/presentation/common_widgets/user_section_item_vertical.dart';
 import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/app_sizes.dart';
@@ -148,7 +149,8 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
       ),
       body: AsyncValueGroup.group2(
         ref.watch(groupMatchProvider(groupMatchId: widget.groupMatchId)),
-        ref.read(groupMatchPlayersProvider(widget.groupId)),
+        // TODO: groupMatchPlayersに差し替える
+        ref.read(groupMembersProvider(widget.groupId)),
       ).when(
         data: (values) {
           targetPlayers ??=

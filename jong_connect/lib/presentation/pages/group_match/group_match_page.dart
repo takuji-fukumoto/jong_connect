@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/provider/group_match.dart';
-import 'package:jong_connect/domain/provider/group_match_players.dart';
+import 'package:jong_connect/domain/provider/group_members.dart';
 import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/constants.dart';
 
@@ -26,7 +26,7 @@ class GroupMatchPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AsyncValueGroup.group2(
-      ref.watch(groupMatchPlayersProvider(groupId)),
+      ref.watch(groupMembersProvider(groupId)),
       ref.watch(groupMatchProvider(groupMatchId: groupMatchId)),
     ).when(
       data: (values) {
@@ -85,7 +85,7 @@ class GroupMatchPage extends ConsumerWidget {
             ],
           ),
           body: _ResultTable(
-            players: values.$1,
+            initialMembers: values.$1,
             groupId: groupId,
             groupMatch: values.$2,
           ),
@@ -120,11 +120,11 @@ class GroupMatchPage extends ConsumerWidget {
 class _ResultTable extends ConsumerWidget {
   const _ResultTable(
       {super.key,
-      required this.players,
+      required this.initialMembers,
       required this.groupId,
       required this.groupMatch});
 
-  final List<AppUser> players;
+  final List<AppUser> initialMembers;
   final int groupId;
   final GroupMatch groupMatch;
 
@@ -162,9 +162,9 @@ class _ResultTable extends ConsumerWidget {
           ),
 
           /// 記録に残っているユーザーのみ表示する（退会済みのユーザーは除く）
-          /// 何も記録がない場合見栄えが悪いのでユーザー全員表示
+          /// 何も記録がない場合見栄えが悪いのでグループのユーザー全員表示
           for (var player in groupMatch.joinUsers.isEmpty
-              ? players
+              ? initialMembers
               : groupMatch.joinUsers) ...[
             DataColumn2(
               label: Center(

@@ -9,6 +9,7 @@ import 'package:jong_connect/util/extensions/round56.dart';
 import 'package:jong_connect/util/extensions/swap.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../domain/model/app_user.dart';
 import '../domain/model/group_match.dart';
 import '../domain/model/group_match_result.dart';
 import '../domain/model/group_match_result_raw.dart';
@@ -37,6 +38,14 @@ class GroupMatchResultsUseCase {
     return await _ref
         .read(groupMatchesRepositoryProvider)
         .create(groupId, user, type);
+  }
+
+  Future<void> editJoinedGroupMatchPlayers(
+      int groupMatchId, List<AppUser> players) async {
+    var playerIds = players.map<String>((player) => player.id).toList();
+    await _ref
+        .read(groupMatchesRepositoryProvider)
+        .updateGroupMatchPlayers(groupMatchId, playerIds);
   }
 
   Future<void> addRoundResults(GroupMatch groupMatch,
