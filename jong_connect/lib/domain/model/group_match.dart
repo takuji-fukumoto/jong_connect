@@ -117,4 +117,8 @@ class GroupMatch with _$GroupMatch {
         .toList();
     return expect(allUsers, (AppUser element) => element.id);
   }
+
+  List<GroupMatchResult> get latestResults {
+    return results!.where((result) => result.matchOrder == maxRounds).toList();
+  }
 }
