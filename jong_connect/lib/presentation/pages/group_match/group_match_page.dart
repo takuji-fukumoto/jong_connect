@@ -9,7 +9,6 @@ import 'package:jong_connect/domain/provider/group_match.dart';
 import 'package:jong_connect/domain/provider/group_match_players.dart';
 import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/constants.dart';
-import 'package:jong_connect/util/expect.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../domain/model/group_match.dart';
@@ -111,8 +110,7 @@ class GroupMatchPage extends ConsumerWidget {
         );
       },
       error: (error, st) {
-        print(st);
-        return const Center(child: Text('Oops, something unexpected happened'));
+        return const Center(child: Text(unexpectedErrorMessage));
       },
       loading: () => const Center(child: CircularProgressIndicator()),
     );
@@ -135,10 +133,6 @@ class _ResultTable extends ConsumerWidget {
     final totalPointsPerUser = groupMatch.totalPointsPerUser;
     final resultsPerRounds = groupMatch.resultsPerRound;
 
-    /// グループに参加しているユーザーとグループから退会したが記録に残っているユーザーを全て表示する
-    var allPlayers = <AppUser>[...players, ...groupMatch.joinUsers];
-    allPlayers = expect(allPlayers, (player) => player.id);
-
     Color scoreColor(int score) {
       return score > 0
           ? Colors.blue
@@ -152,6 +146,9 @@ class _ResultTable extends ConsumerWidget {
       child: DataTable2(
         columnSpacing: 0,
         horizontalMargin: 0,
+        empty: const Center(
+          child: Text('右下の追加ボタンから対局結果を追加できます'),
+        ),
         columns: [
           DataColumn2(
             label: IconButton(
@@ -163,7 +160,12 @@ class _ResultTable extends ConsumerWidget {
             size: ColumnSize.S,
             fixedWidth: 50,
           ),
-          for (var player in allPlayers) ...[
+
+          /// 記録に残っているユーザーのみ表示する（退会済みのユーザーは除く）
+          /// 何も記録がない場合見栄えが悪いのでユーザー全員表示
+          for (var player in groupMatch.joinUsers.isEmpty
+              ? players
+              : groupMatch.joinUsers) ...[
             DataColumn2(
               label: Center(
                 child: Column(
@@ -193,73 +195,76 @@ class _ResultTable extends ConsumerWidget {
             ),
           ],
         ],
-        rows: List<DataRow>.generate(
-          groupMatch.roundsCount,
-          (index) => DataRow2(
-            onTap: () {
-              var targetUser = resultsPerRounds.keys
-                  .firstWhere((user) => resultsPerRounds[user]?[index] != null);
-              var matchOrder = resultsPerRounds[targetUser]![index]!.matchOrder;
-              context.goNamed(
-                RoutingPath.editGroupMatchScore,
-                pathParameters: {
-                  'groupId': groupId.toString(),
-                  'groupMatchId': groupMatch.id.toString(),
-                  'matchOrder': matchOrder.toString(),
-                },
-              );
-            },
-            cells: [
-              DataCell(
-                Center(
-                  child: Text((index + 1).toString()),
-                ),
-              ),
-              for (var player in allPlayers) ...[
+        rows: [
+          ...List<DataRow>.generate(
+            groupMatch.roundsCount,
+            (index) => DataRow2(
+              onTap: () {
+                var targetUser = resultsPerRounds.keys.firstWhere(
+                    (user) => resultsPerRounds[user]?[index] != null);
+                var matchOrder =
+                    resultsPerRounds[targetUser]![index]!.matchOrder;
+                context.goNamed(
+                  RoutingPath.editGroupMatchScore,
+                  pathParameters: {
+                    'groupId': groupId.toString(),
+                    'groupMatchId': groupMatch.id.toString(),
+                    'matchOrder': matchOrder.toString(),
+                  },
+                );
+              },
+              cells: [
                 DataCell(
                   Center(
-                    child: Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: [
-                        if (resultsPerRounds[player.id]?[index] != null &&
-                            resultsPerRounds[player.id]![index]!.rank == 1)
-                          Positioned(
-                            top: 5,
-                            child: CachedNetworkImage(
-                              imageUrl: AppIconUrls.crown,
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                height: 10,
-                                width: 10,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
+                    child: Text((index + 1).toString()),
+                  ),
+                ),
+                for (var player in groupMatch.joinUsers) ...[
+                  DataCell(
+                    Center(
+                      child: Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          if (resultsPerRounds[player.id]?[index] != null &&
+                              resultsPerRounds[player.id]![index]!.rank == 1)
+                            Positioned(
+                              top: 5,
+                              child: CachedNetworkImage(
+                                imageUrl: AppIconUrls.crown,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  height: 10,
+                                  width: 10,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        Center(
-                          child: Text(
-                            '${resultsPerRounds[player.id]?[index] != null ? resultsPerRounds[player.id]![index]!.totalPoints : ''}',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: scoreColor(resultsPerRounds[player.id]
-                                          ?[index]
-                                      ?.totalPoints ??
-                                  0),
+                          Center(
+                            child: Text(
+                              '${resultsPerRounds[player.id]?[index] != null ? resultsPerRounds[player.id]![index]!.totalPoints : ''}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: scoreColor(resultsPerRounds[player.id]
+                                            ?[index]
+                                        ?.totalPoints ??
+                                    0),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
