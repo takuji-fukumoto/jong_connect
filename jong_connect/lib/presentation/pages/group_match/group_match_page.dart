@@ -195,76 +195,73 @@ class _ResultTable extends ConsumerWidget {
             ),
           ],
         ],
-        rows: [
-          ...List<DataRow>.generate(
-            groupMatch.roundsCount,
-            (index) => DataRow2(
-              onTap: () {
-                var targetUser = resultsPerRounds.keys.firstWhere(
-                    (user) => resultsPerRounds[user]?[index] != null);
-                var matchOrder =
-                    resultsPerRounds[targetUser]![index]!.matchOrder;
-                context.goNamed(
-                  RoutingPath.editGroupMatchScore,
-                  pathParameters: {
-                    'groupId': groupId.toString(),
-                    'groupMatchId': groupMatch.id.toString(),
-                    'matchOrder': matchOrder.toString(),
-                  },
-                );
-              },
-              cells: [
+        rows: List<DataRow>.generate(
+          groupMatch.roundsCount,
+          (index) => DataRow2(
+            onTap: () {
+              var targetUser = resultsPerRounds.keys
+                  .firstWhere((user) => resultsPerRounds[user]?[index] != null);
+              var matchOrder = resultsPerRounds[targetUser]![index]!.matchOrder;
+              context.goNamed(
+                RoutingPath.editGroupMatchScore,
+                pathParameters: {
+                  'groupId': groupId.toString(),
+                  'groupMatchId': groupMatch.id.toString(),
+                  'matchOrder': matchOrder.toString(),
+                },
+              );
+            },
+            cells: [
+              DataCell(
+                Center(
+                  child: Text((index + 1).toString()),
+                ),
+              ),
+              for (var player in groupMatch.joinUsers) ...[
                 DataCell(
                   Center(
-                    child: Text((index + 1).toString()),
-                  ),
-                ),
-                for (var player in groupMatch.joinUsers) ...[
-                  DataCell(
-                    Center(
-                      child: Stack(
-                        alignment: AlignmentDirectional.center,
-                        children: [
-                          if (resultsPerRounds[player.id]?[index] != null &&
-                              resultsPerRounds[player.id]![index]!.rank == 1)
-                            Positioned(
-                              top: 5,
-                              child: CachedNetworkImage(
-                                imageUrl: AppIconUrls.crown,
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  height: 10,
-                                  width: 10,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                    ),
+                    child: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        if (resultsPerRounds[player.id]?[index] != null &&
+                            resultsPerRounds[player.id]![index]!.rank == 1)
+                          Positioned(
+                            top: 5,
+                            child: CachedNetworkImage(
+                              imageUrl: AppIconUrls.crown,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
                             ),
-                          Center(
-                            child: Text(
-                              '${resultsPerRounds[player.id]?[index] != null ? resultsPerRounds[player.id]![index]!.totalPoints : ''}',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: scoreColor(resultsPerRounds[player.id]
-                                            ?[index]
-                                        ?.totalPoints ??
-                                    0),
-                              ),
+                          ),
+                        Center(
+                          child: Text(
+                            '${resultsPerRounds[player.id]?[index] != null ? resultsPerRounds[player.id]![index]!.totalPoints : ''}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: scoreColor(resultsPerRounds[player.id]
+                                          ?[index]
+                                      ?.totalPoints ??
+                                  0),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ],
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
