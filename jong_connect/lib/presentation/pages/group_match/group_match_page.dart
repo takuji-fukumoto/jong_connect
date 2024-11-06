@@ -9,7 +9,6 @@ import 'package:jong_connect/domain/provider/group_match.dart';
 import 'package:jong_connect/domain/provider/group_match_players.dart';
 import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/constants.dart';
-import 'package:jong_connect/util/expect.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../domain/model/group_match.dart';
@@ -111,8 +110,7 @@ class GroupMatchPage extends ConsumerWidget {
         );
       },
       error: (error, st) {
-        print(st);
-        return const Center(child: Text('Oops, something unexpected happened'));
+        return const Center(child: Text(unexpectedErrorMessage));
       },
       loading: () => const Center(child: CircularProgressIndicator()),
     );
@@ -135,10 +133,6 @@ class _ResultTable extends ConsumerWidget {
     final totalPointsPerUser = groupMatch.totalPointsPerUser;
     final resultsPerRounds = groupMatch.resultsPerRound;
 
-    /// グループに参加しているユーザーとグループから退会したが記録に残っているユーザーを全て表示する
-    var allPlayers = <AppUser>[...players, ...groupMatch.joinUsers];
-    allPlayers = expect(allPlayers, (player) => player.id);
-
     Color scoreColor(int score) {
       return score > 0
           ? Colors.blue
@@ -152,6 +146,9 @@ class _ResultTable extends ConsumerWidget {
       child: DataTable2(
         columnSpacing: 0,
         horizontalMargin: 0,
+        empty: const Center(
+          child: Text('右下の追加ボタンから対局結果を追加できます'),
+        ),
         columns: [
           DataColumn2(
             label: IconButton(
@@ -163,7 +160,12 @@ class _ResultTable extends ConsumerWidget {
             size: ColumnSize.S,
             fixedWidth: 50,
           ),
-          for (var player in allPlayers) ...[
+
+          /// 記録に残っているユーザーのみ表示する（退会済みのユーザーは除く）
+          /// 何も記録がない場合見栄えが悪いのでユーザー全員表示
+          for (var player in groupMatch.joinUsers.isEmpty
+              ? players
+              : groupMatch.joinUsers) ...[
             DataColumn2(
               label: Center(
                 child: Column(
@@ -215,7 +217,7 @@ class _ResultTable extends ConsumerWidget {
                   child: Text((index + 1).toString()),
                 ),
               ),
-              for (var player in allPlayers) ...[
+              for (var player in groupMatch.joinUsers) ...[
                 DataCell(
                   Center(
                     child: Stack(
