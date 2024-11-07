@@ -21,6 +21,10 @@ class GroupMatchesRepository {
     throw UnimplementedError();
   }
 
+  Stream<GroupMatch?> getLatestGroupMatchStream(int groupId) {
+    throw UnimplementedError();
+  }
+
   Future<GroupMatch> create(
       int groupId, AppUser createdUser, MatchType type) async {
     throw UnimplementedError();

@@ -17,7 +17,6 @@ class AuthStateNotifier extends ChangeNotifier {
   }
 
   void _updateState(AuthState state) {
-    print('state更新: ${state.session?.user.id}');
     authState = state;
     notifyListeners();
   }
