@@ -22,6 +22,10 @@ class GroupMatchResultsRepository {
     throw UnimplementedError();
   }
 
+  Stream<List<GroupMatchResult>> getGroupMatchResultsStream(int groupMatchId) {
+    throw UnimplementedError();
+  }
+
   Future<List<GroupMatchResult>> getUserAllResults(
       String userId, MatchType type,
       {int limit = 500}) async {
