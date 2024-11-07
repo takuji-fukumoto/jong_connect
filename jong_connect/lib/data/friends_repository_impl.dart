@@ -85,8 +85,20 @@ class FriendsRepositoryImpl implements FriendsRepository {
   }
 
   @override
-  Stream<List<UserFriendRequest>> fetchPendingFriendRequestsStream() async* {
-    throw UnimplementedError();
+  Stream<List<UserFriendRequest>> fetchPendingFriendRequestsStream(
+      int currentUserFriendId) {
+    return supabase
+        .from('user_friend_requests')
+        .stream(primaryKey: ['id'])
+        .eq('status', FriendRequestStatus.pending.name)
+        .map((events) {
+          /// 相手から申請がきたもののみフィルタして返却
+          return events
+              .map<UserFriendRequest>(
+                  (json) => UserFriendRequest.fromJson(json))
+              .where((request) => request.friendId == currentUserFriendId)
+              .toList();
+        });
   }
 
   @override
@@ -109,14 +121,14 @@ class FriendsRepositoryImpl implements FriendsRepository {
       await supabase.from('user_friend_requests').upsert(
         {
           'id': alreadyFriendRequestId,
-          'user_id': user!.id,
+          'user_id': user.id,
           'status': FriendRequestStatus.pending.name,
           'friend_id': targetUser.friendId,
         },
       );
     } else {
       await supabase.from('user_friend_requests').insert({
-        'user_id': user!.id,
+        'user_id': user.id,
         'status': FriendRequestStatus.pending.name,
         'friend_id': targetUser.friendId,
       });

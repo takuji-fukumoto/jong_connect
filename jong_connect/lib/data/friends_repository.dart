@@ -29,7 +29,8 @@ class FriendsRepository {
     throw UnimplementedError();
   }
 
-  Stream<List<UserFriendRequest>> fetchPendingFriendRequestsStream() async* {
+  Stream<List<UserFriendRequest>> fetchPendingFriendRequestsStream(
+      int currentUserFriendId) {
     throw UnimplementedError();
   }
 

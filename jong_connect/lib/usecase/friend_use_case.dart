@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:jong_connect/data/friends_repository.dart';
 import 'package:jong_connect/domain/provider/current_friends.dart';
 import 'package:jong_connect/domain/provider/friend_requests_waiting_for_approval.dart';
+import 'package:jong_connect/domain/provider/new_friend_request_subscription.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -54,6 +55,7 @@ class FriendUseCase {
         .acceptFriendRequest(friendRequestId);
     _ref.invalidate(currentFriendsProvider);
     _ref.invalidate(friendRequestsWaitingForApprovalProvider);
+    _ref.invalidate(newFriendRequestSubscriptionProvider);
   }
 
   Future<void> rejectFriendRequest(int friendRequestId) async {
@@ -61,6 +63,7 @@ class FriendUseCase {
         .read(friendsRepositoryProvider)
         .rejectFriendRequest(friendRequestId);
     _ref.invalidate(friendRequestsWaitingForApprovalProvider);
+    _ref.invalidate(newFriendRequestSubscriptionProvider);
   }
 
   Future<void> removeFriend(AppUser targetUser) async {

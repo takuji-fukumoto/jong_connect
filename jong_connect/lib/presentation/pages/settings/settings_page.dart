@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:jong_connect/util/app_sizes.dart';
 
 import '../../../util/constants.dart';
 import '../../../util/routing_path.dart';
+import '../../common_widgets/new_friend_request_badge_widget.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -32,10 +34,13 @@ class SettingsPage extends ConsumerWidget {
             title: const Text('プロフィール'),
             onTap: () => context.goNamed(RoutingPath.editProfile),
           ),
-          ListTile(
-            leading: const Icon(Icons.groups),
-            title: const Text('フレンド'),
-            onTap: () => context.goNamed(RoutingPath.friends),
+          NewFriendRequestBadgeWidget(
+            position: BadgePosition.topEnd(top: 16, end: 16),
+            child: ListTile(
+              leading: const Icon(Icons.groups),
+              title: const Text('フレンド'),
+              onTap: () => context.goNamed(RoutingPath.friends),
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.logout),
