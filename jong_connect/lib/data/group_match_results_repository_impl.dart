@@ -52,6 +52,19 @@ class GroupMatchResultsRepositoryImpl implements GroupMatchResultsRepository {
   }
 
   @override
+  Stream<List<GroupMatchResult>> getGroupMatchResultsStream(int groupMatchId) {
+    return supabase
+        .from('group_match_results')
+        .stream(primaryKey: ['id'])
+        .eq('group_match_id', groupMatchId)
+        .map((events) {
+          return events
+              .map<GroupMatchResult>((json) => GroupMatchResult.fromJson(json))
+              .toList();
+        });
+  }
+
+  @override
   Future<List<GroupMatchResult>> getUserAllResults(
       String userId, MatchType type,
       {int limit = 500}) async {

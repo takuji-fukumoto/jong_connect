@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:async_value_group/async_value_group.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/provider/group_match.dart';
 import 'package:jong_connect/domain/provider/group_match_players.dart';
+import 'package:jong_connect/domain/provider/group_match_results_stream.dart';
 import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/constants.dart';
 
@@ -25,18 +27,24 @@ class GroupMatchPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncValueGroup.group2(
+    return AsyncValueGroup.group3(
       ref.watch(groupMatchPlayersProvider(groupId)),
       ref.watch(groupMatchProvider(groupMatchId: groupMatchId)),
+      ref.watch(groupMatchResultsStreamProvider(groupMatchId)),
     ).when(
       data: (values) {
+        /// リアルタイムに対局結果を監視し、追加・削除あればUI更新
+        if ((values.$2.results?.length ?? 0) != values.$3.length) {
+          ref.invalidate(groupMatchProvider(groupMatchId: groupMatchId));
+        }
+
         final dateFormatter = DateFormatter(values.$2.createdAt);
 
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.surface,
-            title: Text('${dateFormatter.formatToMMDD()}の対局'),
+            title: AutoSizeText('${dateFormatter.formatToMMDD()}の対局'),
             actions: [
               if (!values.$2.isFinish)
                 TextButton(
@@ -54,7 +62,7 @@ class GroupMatchPage extends ConsumerWidget {
                     context.pop();
                     SnackBarService.showSnackBar(content: '対局結果を記録しました');
                   },
-                  child: Text(
+                  child: AutoSizeText(
                     '対局終了',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.surface,

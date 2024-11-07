@@ -7,7 +7,7 @@ part of 'latest_group_match_stream.dart';
 // **************************************************************************
 
 String _$latestGroupMatchStreamHash() =>
-    r'245257f9bdf11308c670ca305c551e7e1aa3e544';
+    r'45fe2b69204d1a73727c0591341a96e858aeffa0';
 
 /// Copied from Dart SDK
 class _SystemHash {
