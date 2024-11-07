@@ -55,6 +55,7 @@ class GroupMatchHistoriesSection extends ConsumerWidget {
             match: match,
             user: values.$2!,
           ),
+          sort: false,
           floatingHeader: true,
           physics: const BouncingScrollPhysics(),
         );
