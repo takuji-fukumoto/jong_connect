@@ -11,6 +11,7 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/domain/provider/group_matches.dart';
+import 'package:jong_connect/domain/provider/latest_group_match_stream.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/constants.dart';
 
@@ -25,11 +26,22 @@ class GroupMatchHistoriesSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncValueGroup.group2(
+    return AsyncValueGroup.group3(
       ref.watch(groupMatchesProvider(groupId: id)),
       ref.watch(currentUserProvider),
+      ref.watch(latestGroupMatchStreamProvider(id)),
     ).when(
       data: (values) {
+        /// 最新のグループマッチをウォッチ
+        /// 最新のマッチIDかend_atが異なる（対局が終了）場合リストを更新
+        if (values.$1.isEmpty && values.$3 != null) {
+          ref.invalidate(groupMatchesProvider(groupId: id));
+        } else if (values.$1.isNotEmpty &&
+            (values.$1.first.id != values.$3?.id ||
+                values.$1.first.endAt != values.$3?.endAt)) {
+          ref.invalidate(groupMatchesProvider(groupId: id));
+        }
+
         return GroupedListView<GroupMatch, String>(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 64),
           elements: values.$1,

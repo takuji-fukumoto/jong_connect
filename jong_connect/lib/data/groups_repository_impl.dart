@@ -73,7 +73,6 @@ class GroupsRepositoryImpl implements GroupsRepository {
         .eq('id', groupId)
         .limit(1);
 
-    print('group: $json');
     if (json.isEmpty) {
       return null;
     }

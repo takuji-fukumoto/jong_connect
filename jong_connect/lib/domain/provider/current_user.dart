@@ -15,7 +15,5 @@ Future<AppUser?> currentUser(CurrentUserRef ref) async {
     return null;
   }
 
-  print('current_user更新');
-
   return await ref.read(appUserRepositoryProvider).fetch(session.user.id);
 }

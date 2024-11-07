@@ -58,10 +58,25 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
         .from('group_matches')
         .select(_columns)
         .eq('group_id', groupId)
-        .order('created_at', ascending: true)
+        .order('created_at', ascending: false)
         .limit(limit);
 
     return json.map<GroupMatch>((match) => GroupMatch.fromJson(match)).toList();
+  }
+
+  @override
+  Stream<GroupMatch?> getLatestGroupMatchStream(int groupId) {
+    return supabase
+        .from('group_matches')
+        .stream(primaryKey: ['id'])
+        .eq('group_id', groupId)
+        .order('created_at', ascending: false)
+        .limit(1)
+        .map((events) {
+          return events
+              .map<GroupMatch>((match) => GroupMatch.fromJson(match))
+              .firstOrNull;
+        });
   }
 
   @override

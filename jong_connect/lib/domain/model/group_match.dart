@@ -75,7 +75,6 @@ class GroupMatch with _$GroupMatch {
     orderedResults.sort((a, b) => a.matchOrder.compareTo(b.matchOrder));
     var uniqueMatchOrders =
         orderedResults.map<int>((result) => result.matchOrder).toSet().toList();
-    print(uniqueMatchOrders);
 
     for (var i = 0; i < uniqueMatchOrders.length; i++) {
       var targets = results!.where((result) =>

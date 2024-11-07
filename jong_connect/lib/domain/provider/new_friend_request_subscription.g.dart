@@ -7,7 +7,7 @@ part of 'new_friend_request_subscription.dart';
 // **************************************************************************
 
 String _$newFriendRequestSubscriptionHash() =>
-    r'938075795fb694c7ec0c63fb6d5186f00641ffd0';
+    r'2781a0e0edb3dc7b5ac68df998cd69f438ffd249';
 
 /// See also [newFriendRequestSubscription].
 @ProviderFor(newFriendRequestSubscription)

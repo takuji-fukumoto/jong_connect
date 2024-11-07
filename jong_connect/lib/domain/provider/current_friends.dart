@@ -16,7 +16,6 @@ Future<List<AppUser>> currentFriends(CurrentFriendsRef ref) async {
     return [];
   }
 
-  print('current_friends更新');
   final friends = await ref.read(friendsRepositoryProvider).fetch();
 
   return friends;
