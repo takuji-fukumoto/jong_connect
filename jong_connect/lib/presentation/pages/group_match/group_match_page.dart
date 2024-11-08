@@ -9,14 +9,17 @@ import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/provider/group_match.dart';
 import 'package:jong_connect/domain/provider/group_match_players.dart';
 import 'package:jong_connect/domain/provider/group_match_results_stream.dart';
+import 'package:jong_connect/presentation/pages/group_match/check_settlement_form.dart';
 import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/constants.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../domain/model/group_match.dart';
 import '../../../util/app_icon_urls.dart';
+import '../../../util/app_sizes.dart';
 import '../../../util/format_date.dart';
 import '../../../util/routing_path.dart';
+import '../../../util/score_color.dart';
 
 class GroupMatchPage extends ConsumerWidget {
   const GroupMatchPage(
@@ -132,138 +135,162 @@ class _ResultTable extends ConsumerWidget {
       required this.groupId,
       required this.groupMatch});
 
+  static const horizontalMargin = Sizes.p12;
   final List<AppUser> players;
   final int groupId;
   final GroupMatch groupMatch;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mediaSize = MediaQuery.of(context).size;
     final totalPointsPerUser = groupMatch.totalPointsPerUser;
     final resultsPerRounds = groupMatch.resultsPerRound;
 
-    Color scoreColor(int score) {
-      return score > 0
-          ? Colors.blue
-          : score < 0
-              ? Colors.redAccent
-              : Theme.of(context).colorScheme.inverseSurface;
-    }
+    /// ちょうど4人分表示されるよう幅調整。ラウンド数のカラムも含めている
+    final columnWidth = (mediaSize.width - (horizontalMargin * 2)) / 5.0;
+    final dispPlayers =
+        groupMatch.joinUsers.isEmpty ? players : groupMatch.joinUsers;
 
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: DataTable2(
-        columnSpacing: 0,
-        horizontalMargin: 0,
-        empty: const Center(
-          child: Text('右下の追加ボタンから対局結果を追加できます'),
-        ),
-        columns: [
-          const DataColumn2(
-            label: SizedBox(),
-            size: ColumnSize.S,
-            fixedWidth: 50,
-          ),
-
-          /// 記録に残っているユーザーのみ表示する（退会済みのユーザーは除く）
-          /// 何も記録がない場合見栄えが悪いのでユーザー全員表示
-          for (var player in groupMatch.joinUsers.isEmpty
-              ? players
-              : groupMatch.joinUsers) ...[
-            DataColumn2(
-              label: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      player.name,
-                      style: const TextStyle(
-                        fontSize: 10,
-                      ),
-                      overflow: TextOverflow.ellipsis,
+    return DataTable2(
+      columnSpacing: 0,
+      fixedLeftColumns: 1,
+      horizontalMargin: Sizes.p12,
+      minWidth: columnWidth * (dispPlayers.length + 1),
+      isVerticalScrollBarVisible: true,
+      isHorizontalScrollBarVisible: true,
+      empty: const Center(
+        child: Text('右下の追加ボタンから対局結果を追加できます'),
+      ),
+      columns: [
+        DataColumn2(
+          label: TextButton(
+            onPressed: () {
+              showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    title: const Text("収支確認"),
+                    scrollable: true,
+                    content: CheckSettlementForm(
+                      match: groupMatch,
                     ),
-                    Text(
-                      totalPointsPerUser.keys.contains(player.id)
-                          ? totalPointsPerUser[player.id].toString()
-                          : 0.toString(),
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: scoreColor(totalPointsPerUser[player.id] ?? 0),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => context.pop(),
+                        child: const Text('閉じる'),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              size: ColumnSize.S,
-              numeric: true,
-            ),
-          ],
-        ],
-        rows: List<DataRow>.generate(
-          groupMatch.roundsCount,
-          (index) => DataRow2(
-            onTap: () {
-              var targetUser = resultsPerRounds.keys
-                  .firstWhere((user) => resultsPerRounds[user]?[index] != null);
-              var matchOrder = resultsPerRounds[targetUser]![index]!.matchOrder;
-              context.goNamed(
-                RoutingPath.editGroupMatchScore,
-                pathParameters: {
-                  'groupId': groupId.toString(),
-                  'groupMatchId': groupMatch.id.toString(),
-                  'matchOrder': matchOrder.toString(),
+                    ],
+                  );
                 },
               );
             },
-            cells: [
+            child: const AutoSizeText(
+              '収支確認',
+              minFontSize: Sizes.p8,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          size: ColumnSize.S,
+          fixedWidth: 50,
+        ),
+
+        /// 記録に残っているユーザーのみ表示する（退会済みのユーザーは除く）
+        /// 何も記録がない場合見栄えが悪いのでユーザー全員表示
+        for (var player in dispPlayers) ...[
+          DataColumn2(
+            label: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    player.name,
+                    style: const TextStyle(
+                      fontSize: 10,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    totalPointsPerUser.keys.contains(player.id)
+                        ? totalPointsPerUser[player.id].toString()
+                        : 0.toString(),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: scoreColor(
+                          context, totalPointsPerUser[player.id] ?? 0),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ],
+      rows: List<DataRow>.generate(
+        groupMatch.roundsCount,
+        (index) => DataRow2(
+          onTap: () {
+            var targetUser = resultsPerRounds.keys
+                .firstWhere((user) => resultsPerRounds[user]?[index] != null);
+            var matchOrder = resultsPerRounds[targetUser]![index]!.matchOrder;
+            context.goNamed(
+              RoutingPath.editGroupMatchScore,
+              pathParameters: {
+                'groupId': groupId.toString(),
+                'groupMatchId': groupMatch.id.toString(),
+                'matchOrder': matchOrder.toString(),
+              },
+            );
+          },
+          cells: [
+            DataCell(
+              Center(
+                child: Text((index + 1).toString()),
+              ),
+            ),
+            for (var player in groupMatch.joinUsers) ...[
               DataCell(
                 Center(
-                  child: Text((index + 1).toString()),
-                ),
-              ),
-              for (var player in groupMatch.joinUsers) ...[
-                DataCell(
-                  Center(
-                    child: Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: [
-                        if (resultsPerRounds[player.id]?[index] != null &&
-                            resultsPerRounds[player.id]![index]!.rank == 1)
-                          Positioned(
-                            top: 5,
-                            child: CachedNetworkImage(
-                              imageUrl: AppIconUrls.crown,
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                height: 10,
-                                width: 10,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      if (resultsPerRounds[player.id]?[index] != null &&
+                          resultsPerRounds[player.id]![index]!.rank == 1)
+                        Positioned(
+                          top: 5,
+                          child: CachedNetworkImage(
+                            imageUrl: AppIconUrls.crown,
+                            imageBuilder: (context, imageProvider) => Container(
+                              height: 10,
+                              width: 10,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                           ),
-                        Center(
-                          child: Text(
-                            '${resultsPerRounds[player.id]?[index] != null ? resultsPerRounds[player.id]![index]!.totalPoints : ''}',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: scoreColor(resultsPerRounds[player.id]
-                                          ?[index]
-                                      ?.totalPoints ??
-                                  0),
-                            ),
+                        ),
+                      Center(
+                        child: Text(
+                          '${resultsPerRounds[player.id]?[index] != null ? resultsPerRounds[player.id]![index]!.totalPoints : ''}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: scoreColor(
+                                context,
+                                resultsPerRounds[player.id]?[index]
+                                        ?.totalPoints ??
+                                    0),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ],
-          ),
+          ],
         ),
       ),
     );
