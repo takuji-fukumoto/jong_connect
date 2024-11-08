@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/domain/provider/group_details.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
