@@ -135,18 +135,27 @@ class _ResultTable extends ConsumerWidget {
       required this.groupId,
       required this.groupMatch});
 
+  static const horizontalMargin = Sizes.p12;
   final List<AppUser> players;
   final int groupId;
   final GroupMatch groupMatch;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mediaSize = MediaQuery.of(context).size;
     final totalPointsPerUser = groupMatch.totalPointsPerUser;
     final resultsPerRounds = groupMatch.resultsPerRound;
 
+    /// ちょうど4人分表示されるよう幅調整。ラウンド数のカラムも含めている
+    final columnWidth = (mediaSize.width - (horizontalMargin * 2)) / 5.0;
+    final dispPlayers =
+        groupMatch.joinUsers.isEmpty ? players : groupMatch.joinUsers;
+
     return DataTable2(
       columnSpacing: 0,
+      fixedLeftColumns: 1,
       horizontalMargin: Sizes.p12,
+      minWidth: columnWidth * (dispPlayers.length + 1),
       isVerticalScrollBarVisible: true,
       isHorizontalScrollBarVisible: true,
       empty: const Center(
@@ -157,6 +166,7 @@ class _ResultTable extends ConsumerWidget {
           label: TextButton(
             onPressed: () {
               showDialog(
+                barrierDismissible: false,
                 context: context,
                 builder: (_) {
                   return AlertDialog(
@@ -187,9 +197,7 @@ class _ResultTable extends ConsumerWidget {
 
         /// 記録に残っているユーザーのみ表示する（退会済みのユーザーは除く）
         /// 何も記録がない場合見栄えが悪いのでユーザー全員表示
-        for (var player in groupMatch.joinUsers.isEmpty
-            ? players
-            : groupMatch.joinUsers) ...[
+        for (var player in dispPlayers) ...[
           DataColumn2(
             label: Center(
               child: Column(
