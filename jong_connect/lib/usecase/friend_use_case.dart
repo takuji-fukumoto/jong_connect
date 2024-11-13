@@ -20,10 +20,7 @@ class FriendUseCase {
 
   FriendUseCase(this._ref);
 
-  /// フレンドIDを入力した場合はすぐにフレンド関係にする
-  Future<void> makeFriendFromFriendId(String hashedFriendId) async {
-    // TODO: 既にフレンド関係の場合例外吐く
-
+  Future<AppUser> findUserFromFriendId(String hashedFriendId) async {
     final friendId = hashids.decode(hashedFriendId).first;
     final targetUser =
         await _ref.read(appUserRepositoryProvider).fetchFromFriendId(friendId);
@@ -32,13 +29,13 @@ class FriendUseCase {
       throw Exception('存在しないフレンドIDです');
     }
 
-    await _ref.read(friendsRepositoryProvider).makeFriend(targetUser);
-    _ref.invalidate(currentFriendsProvider);
+    return targetUser;
   }
 
-  /// 間接的にユーザーを知った場合は一度フレンド申請を挟む（例： ユーザー詳細ページからともだち追加する場合など）
   Future<void> sendFriendRequest(AppUser targetUser) async {
-    // FIXME: 既にフレンド関係の場合例外吐く
+    if (await _isAlreadyFriends(targetUser)) {
+      throw Exception('既にフレンドになっています');
+    }
 
     await _ref.read(friendsRepositoryProvider).sendFriendRequest(targetUser);
   }
@@ -69,5 +66,10 @@ class FriendUseCase {
   Future<void> removeFriend(AppUser targetUser) async {
     await _ref.read(friendsRepositoryProvider).removeFriend(targetUser);
     _ref.invalidate(currentFriendsProvider);
+  }
+
+  Future<bool> _isAlreadyFriends(AppUser user) async {
+    final friends = await _ref.read(currentFriendsProvider.future);
+    return friends.contains(user);
   }
 }
