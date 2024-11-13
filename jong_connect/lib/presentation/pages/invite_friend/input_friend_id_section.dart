@@ -72,28 +72,28 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
                 height: 40,
                 width: 200,
                 // TODO: https://stackoverflow.com/questions/77045105/copy-paste-interaction-not-working-in-formbuildertextfield
-                child: GestureDetector(
-                  onTap: () {
-                    final FocusScopeNode currentScope = FocusScope.of(context);
-                    if (!currentScope.hasPrimaryFocus &&
-                        currentScope.hasFocus) {
-                      FocusManager.instance.primaryFocus!.unfocus();
-                    }
-                  },
-                  child: FormBuilderTextField(
-                    name: "friend_id",
-                    autovalidateMode: AutovalidateMode.onUnfocus,
-                    decoration: const InputDecoration(labelText: 'フレンドIDで検索'),
-                    contextMenuBuilder: (context, editableTextState) {
-                      return AdaptiveTextSelectionToolbar.editableText(
+                child: FormBuilderTextField(
+                  name: "friend_id",
+                  autovalidateMode: AutovalidateMode.onUnfocus,
+                  decoration: const InputDecoration(labelText: 'フレンドIDで検索'),
+                  contextMenuBuilder: (BuildContext context,
+                      EditableTextState editableTextState) {
+                    // 可能な場合はシステムコンテキストメニューを利用する
+                    if (SystemContextMenu.isSupported(context)) {
+                      return SystemContextMenu.editableText(
                         editableTextState: editableTextState,
                       );
-                    },
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
-                      FormBuilderValidators.minLength(8),
-                    ]),
-                  ),
+                    }
+
+                    // flutter-rendered なコンテキストメニューを利用する
+                    return AdaptiveTextSelectionToolbar.editableText(
+                      editableTextState: editableTextState,
+                    );
+                  },
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.minLength(8),
+                  ]),
                 ),
               ),
               gapW8,
