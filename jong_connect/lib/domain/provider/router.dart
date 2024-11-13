@@ -27,6 +27,7 @@ import 'auth_state.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _roomsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'rooms');
+final _recordsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'records');
 final _settingsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'settings');
 final _sectionNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'section');
 
@@ -166,12 +167,17 @@ final routerProvider = Provider(
             ],
           ),
           StatefulShellBranch(
+            navigatorKey: _recordsNavigatorKey,
             routes: [
               GoRoute(
+                name: RoutingPath.record,
                 path: RoutingPath.record,
                 builder: (context, state) {
-                  final query = state.uri.queryParameters['default_friend_id'];
-                  return RecordPage(defaultHashedFriendId: query);
+                  final query = state
+                      .uri.queryParameters[QueryParameters.defaultFriendId];
+                  // MEMO: ユーザーの詳細ダイアログから遷移した際にページを更新したいためユニークキーをセット。セットしないとページが更新されない
+                  return RecordPage(
+                      key: UniqueKey(), defaultHashedFriendId: query);
                 },
                 routes: const [],
               ),

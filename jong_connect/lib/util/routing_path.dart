@@ -22,3 +22,7 @@ abstract final class RoutingPath {
   static const String gameConfig = 'game_config';
   static const String editProfile = 'profile/edit';
 }
+
+abstract final class QueryParameters {
+  static const String defaultFriendId = 'default_friend_id';
+}
