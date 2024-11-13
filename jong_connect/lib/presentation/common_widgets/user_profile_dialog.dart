@@ -144,7 +144,7 @@ class _ViewRecordButton extends StatelessWidget {
           QueryParameters.defaultFriendId: user.hashedFriendId,
         });
       },
-      child: const Text('戦績'),
+      child: const Text('成績'),
     );
   }
 }
