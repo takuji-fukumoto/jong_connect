@@ -65,6 +65,29 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
         children: [
           const Text('ユーザーを検索'),
           gapH8,
+          SizedBox(
+            height: 40,
+            width: 200,
+            child: TextField(
+              keyboardType: const TextInputType.numberWithOptions(signed: true),
+              decoration: const InputDecoration(labelText: 'フレンドIDで検索'),
+              contextMenuBuilder:
+                  (BuildContext context, EditableTextState editableTextState) {
+                // 可能な場合はシステムコンテキストメニューを利用する
+                if (SystemContextMenu.isSupported(context)) {
+                  return SystemContextMenu.editableText(
+                    editableTextState: editableTextState,
+                  );
+                }
+
+                // flutter-rendered なコンテキストメニューを利用する
+                return AdaptiveTextSelectionToolbar.editableText(
+                  editableTextState: editableTextState,
+                );
+              },
+            ),
+          ),
+          gapH8,
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
