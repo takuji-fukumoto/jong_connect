@@ -75,6 +75,11 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
                   name: "friend_id",
                   autovalidateMode: AutovalidateMode.onUnfocus,
                   decoration: const InputDecoration(labelText: 'フレンドIDで検索'),
+                  contextMenuBuilder: (context, editableTextState) {
+                    return AdaptiveTextSelectionToolbar.editableText(
+                      editableTextState: editableTextState,
+                    );
+                  },
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),
                     FormBuilderValidators.minLength(8),
