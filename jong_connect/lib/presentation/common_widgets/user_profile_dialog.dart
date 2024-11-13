@@ -10,6 +10,7 @@ import 'package:jong_connect/util/app_sizes.dart';
 import '../../domain/model/app_user.dart';
 import '../../domain/provider/current_user.dart';
 import '../../util/constants.dart';
+import '../../util/routing_path.dart';
 
 class UserProfileDialog extends Dialog {
   const UserProfileDialog(
@@ -45,9 +46,10 @@ class UserProfileDialog extends Dialog {
         ],
       ),
       actions: [
-        if (isFriend)
-          _RemoveFriendButton(user: user)
-        else
+        if (isFriend) ...[
+          _ViewRecordButton(user: user),
+          _RemoveFriendButton(user: user),
+        ] else
           _RequestFriendButton(user: user),
       ],
     );
@@ -125,6 +127,24 @@ class _RequestFriendButton extends ConsumerWidget {
         child: const CircularProgressIndicator(),
       ),
       error: (error, st) => const Center(child: Text(unexpectedErrorMessage)),
+    );
+  }
+}
+
+class _ViewRecordButton extends StatelessWidget {
+  const _ViewRecordButton({super.key, required this.user});
+
+  final AppUser user;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () async {
+        context.goNamed(RoutingPath.record, queryParameters: {
+          QueryParameters.defaultFriendId: user.hashedFriendId,
+        });
+      },
+      child: const Text('成績'),
     );
   }
 }
