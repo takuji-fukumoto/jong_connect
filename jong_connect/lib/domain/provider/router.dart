@@ -169,7 +169,10 @@ final routerProvider = Provider(
             routes: [
               GoRoute(
                 path: RoutingPath.record,
-                builder: (context, state) => const RecordPage(),
+                builder: (context, state) {
+                  final query = state.uri.queryParameters['default_friend_id'];
+                  return RecordPage(defaultHashedFriendId: query);
+                },
                 routes: const [],
               ),
             ],

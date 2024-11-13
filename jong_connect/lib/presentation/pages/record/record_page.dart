@@ -8,9 +8,13 @@ import 'package:jong_connect/presentation/common_widgets/user_section_item_verti
 import 'package:jong_connect/presentation/pages/record/game_record_section.dart';
 
 import '../../../domain/provider/current_friends.dart';
+import '../../../util/constants.dart';
 
 class RecordPage extends ConsumerWidget {
-  const RecordPage({super.key});
+  const RecordPage({super.key, this.defaultHashedFriendId});
+
+  /// 初期表示するユーザーのフレンドID（nullの場合は先頭を表示）
+  final String? defaultHashedFriendId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,8 +30,19 @@ class RecordPage extends ConsumerWidget {
         ref.watch(joinedGroupsProvider),
       ).when(
         data: (values) {
+          var initialDispUserIndex = 0;
+          if (defaultHashedFriendId != null) {
+            final targetFriendId =
+                hashids.decode(defaultHashedFriendId!).firstOrNull;
+            var targetIndex = values.$2
+                .indexWhere((friend) => friend.friendId == targetFriendId);
+            // MEMO: 先頭は自身になっているため+1してずらす
+            initialDispUserIndex = targetIndex != -1 ? targetIndex + 1 : 0;
+          }
+
           return DefaultTabController(
             length: values.$2.length + 1,
+            initialIndex: initialDispUserIndex,
             child: Column(
               children: <Widget>[
                 ButtonsTabBar(
