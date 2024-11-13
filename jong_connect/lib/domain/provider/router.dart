@@ -47,7 +47,7 @@ final routerProvider = Provider(
               GoRoute(
                 path: RoutingPath.home,
                 builder: (context, state) => const HomePage(),
-                routes: [],
+                routes: const [],
               ),
             ],
           ),
@@ -63,7 +63,7 @@ final routerProvider = Provider(
                     name: RoutingPath.createGroup,
                     path: RoutingPath.createGroup,
                     builder: (context, state) => const CreateGroupPage(),
-                    routes: [],
+                    routes: const [],
                   ),
                   GoRoute(
                     parentNavigatorKey: _rootNavigatorKey,
@@ -109,7 +109,7 @@ final routerProvider = Provider(
                                 groupMatchId: groupMatchId,
                               );
                             },
-                            routes: [],
+                            routes: const [],
                           ),
                           GoRoute(
                             parentNavigatorKey: _rootNavigatorKey,
@@ -129,7 +129,7 @@ final routerProvider = Provider(
                                 matchOrder: matchOrder,
                               );
                             },
-                            routes: [],
+                            routes: const [],
                           ),
                         ],
                       ),
@@ -144,7 +144,7 @@ final routerProvider = Provider(
                             groupId: groupId,
                           );
                         },
-                        routes: [],
+                        routes: const [],
                       ),
                       GoRoute(
                         parentNavigatorKey: _rootNavigatorKey,
@@ -157,7 +157,7 @@ final routerProvider = Provider(
                             groupId: groupId,
                           );
                         },
-                        routes: [],
+                        routes: const [],
                       ),
                     ],
                   ),
@@ -170,7 +170,7 @@ final routerProvider = Provider(
               GoRoute(
                 path: RoutingPath.record,
                 builder: (context, state) => const RecordPage(),
-                routes: [],
+                routes: const [],
               ),
             ],
           ),
@@ -186,14 +186,14 @@ final routerProvider = Provider(
                     name: RoutingPath.gameConfig,
                     path: RoutingPath.gameConfig,
                     builder: (context, state) => const GameConfigPage(),
-                    routes: [],
+                    routes: const [],
                   ),
                   GoRoute(
                     parentNavigatorKey: _rootNavigatorKey,
                     name: RoutingPath.editProfile,
                     path: RoutingPath.editProfile,
                     builder: (context, state) => const EditProfilePage(),
-                    routes: [],
+                    routes: const [],
                   ),
                   GoRoute(
                     parentNavigatorKey: _rootNavigatorKey,
@@ -206,7 +206,7 @@ final routerProvider = Provider(
                         name: RoutingPath.inviteFriend,
                         path: RoutingPath.inviteFriend,
                         builder: (context, state) => const InviteFriendPage(),
-                        routes: [],
+                        routes: const [],
                       ),
                     ],
                   ),
@@ -241,9 +241,7 @@ final routerProvider = Provider(
       ),
     ),
     redirect: (BuildContext context, GoRouterState state) async {
-      print('リダイレクト発生。fullPath: ${state.fullPath}');
       final session = ref.read(authStateNotifierProvider).authState?.session;
-      print('session user id: ${session?.user.id}');
 
       if (session == null) {
         return state.fullPath == RoutingPath.signIn ||

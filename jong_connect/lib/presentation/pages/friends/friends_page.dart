@@ -54,6 +54,8 @@ class FriendsPage extends ConsumerWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.surface,
           onPressed: () => context.goNamed(RoutingPath.inviteFriend),
           child: const Icon(Icons.person_add),
         ),
