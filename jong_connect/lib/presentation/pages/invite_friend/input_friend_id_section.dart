@@ -69,7 +69,7 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
           FormBuilderTextField(
             name: "friend_id",
             autovalidateMode: AutovalidateMode.onUnfocus,
-            decoration: const InputDecoration(labelText: 'フレンドIDで検索'),
+            decoration: const InputDecoration(labelText: 'フレンドIDを入力'),
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(),
               FormBuilderValidators.minLength(8),
