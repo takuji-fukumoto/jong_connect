@@ -29,7 +29,6 @@ class FriendList extends ConsumerWidget {
               for (var friend in friends)
                 UserListTile(
                   user: friend,
-                  isFriend: true, // MEMO: ともだちリストなので固定でtrue
                 ),
             ],
           ),

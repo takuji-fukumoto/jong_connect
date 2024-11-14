@@ -4,55 +4,70 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jong_connect/domain/provider/current_friends.dart';
 import 'package:jong_connect/domain/provider/is_requested_friend_user.dart';
 import 'package:jong_connect/usecase/friend_use_case.dart';
 import 'package:jong_connect/util/app_sizes.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../domain/model/app_user.dart';
 import '../../domain/provider/current_user.dart';
 import '../../util/constants.dart';
 import '../../util/routing_path.dart';
 
 class UserProfileDialog extends Dialog {
-  const UserProfileDialog(
-      {super.key, required this.user, required this.isFriend});
+  const UserProfileDialog({super.key, required this.user});
 
   final AppUser user;
-  final bool isFriend;
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Column(
-        children: [
-          CircleAvatar(
-            radius: 30,
-            child: CachedNetworkImage(imageUrl: user.avatarUrl),
+    return Consumer(builder: (context, ref, _) {
+      final friends = ref.watch(currentFriendsProvider);
+
+      if (!friends.hasValue) {
+        return Center(
+          child: LoadingAnimationWidget.staggeredDotsWave(
+            color: Colors.grey,
+            size: 50,
           ),
-          gapH4,
-          Text(
-            user.name,
-            style: const TextStyle(
-              fontSize: Sizes.p24,
+        );
+      }
+
+      var isFriend = friends.value!.contains(user);
+
+      return AlertDialog(
+        title: Column(
+          children: [
+            CircleAvatar(
+              radius: 30,
+              child: CachedNetworkImage(imageUrl: user.avatarUrl),
             ),
-          ),
-          gapH8,
-          Text(
-            user.profile,
-            style: TextStyle(
-              fontSize: Sizes.p16,
-              color: Theme.of(context).colorScheme.outline,
+            gapH4,
+            Text(
+              user.name,
+              style: const TextStyle(
+                fontSize: Sizes.p24,
+              ),
             ),
-          ),
+            gapH8,
+            Text(
+              user.profile,
+              style: TextStyle(
+                fontSize: Sizes.p16,
+                color: Theme.of(context).colorScheme.outline,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          if (isFriend) ...[
+            _ViewRecordButton(user: user),
+            _RemoveFriendButton(user: user),
+          ] else
+            _RequestFriendButton(user: user),
         ],
-      ),
-      actions: [
-        if (isFriend) ...[
-          _ViewRecordButton(user: user),
-          _RemoveFriendButton(user: user),
-        ] else
-          _RequestFriendButton(user: user),
-      ],
-    );
+      );
+    });
   }
 }
 
@@ -140,6 +155,7 @@ class _ViewRecordButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
+        context.pop();
         context.goNamed(RoutingPath.record, queryParameters: {
           QueryParameters.defaultFriendId: user.hashedFriendId,
         });

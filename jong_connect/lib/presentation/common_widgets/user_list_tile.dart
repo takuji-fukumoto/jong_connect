@@ -6,10 +6,9 @@ import '../../domain/model/app_user.dart';
 import '../../util/constants.dart';
 
 class UserListTile extends StatelessWidget {
-  const UserListTile({super.key, required this.user, required this.isFriend});
+  const UserListTile({super.key, required this.user});
 
   final AppUser user;
-  final bool isFriend;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,6 @@ class UserListTile extends StatelessWidget {
           context: context,
           builder: (context) => UserProfileDialog(
             user: user,
-            isFriend: isFriend,
           ),
         );
       },
