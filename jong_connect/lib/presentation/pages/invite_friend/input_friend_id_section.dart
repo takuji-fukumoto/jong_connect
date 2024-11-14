@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -57,6 +60,22 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (kIsWeb) {
+      BrowserContextMenu.disableContextMenu();
+    }
+  }
+
+  @override
+  void dispose() {
+    if (kIsWeb) {
+      BrowserContextMenu.enableContextMenu();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FormBuilder(
       key: _formKey,
@@ -71,18 +90,32 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
             child: TextField(
               keyboardType: const TextInputType.numberWithOptions(signed: true),
               decoration: const InputDecoration(labelText: 'フレンドIDで検索'),
+              enableInteractiveSelection: true,
               contextMenuBuilder:
                   (BuildContext context, EditableTextState editableTextState) {
-                // 可能な場合はシステムコンテキストメニューを利用する
-                if (SystemContextMenu.isSupported(context)) {
-                  return SystemContextMenu.editableText(
-                    editableTextState: editableTextState,
-                  );
-                }
-
-                // flutter-rendered なコンテキストメニューを利用する
-                return AdaptiveTextSelectionToolbar.editableText(
-                  editableTextState: editableTextState,
+                return AdaptiveTextSelectionToolbar(
+                  anchors: editableTextState.contextMenuAnchors,
+                  // Build the default buttons, but make them look custom.
+                  // In a real project you may want to build different
+                  // buttons depending on the platform.
+                  children: editableTextState.contextMenuButtonItems
+                      .map((ContextMenuButtonItem buttonItem) {
+                    return CupertinoButton(
+                      borderRadius: null,
+                      color: const Color(0xffaaaa00),
+                      disabledColor: const Color(0xffaaaaff),
+                      onPressed: buttonItem.onPressed,
+                      padding: const EdgeInsets.all(10.0),
+                      pressedOpacity: 0.7,
+                      child: SizedBox(
+                        width: 200.0,
+                        child: Text(
+                          CupertinoTextSelectionToolbarButton.getButtonLabel(
+                              context, buttonItem),
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 );
               },
             ),
@@ -94,23 +127,35 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
               SizedBox(
                 height: 40,
                 width: 200,
-                // TODO: https://stackoverflow.com/questions/77045105/copy-paste-interaction-not-working-in-formbuildertextfield
                 child: FormBuilderTextField(
                   name: "friend_id",
                   autovalidateMode: AutovalidateMode.onUnfocus,
                   decoration: const InputDecoration(labelText: 'フレンドIDで検索'),
                   contextMenuBuilder: (BuildContext context,
                       EditableTextState editableTextState) {
-                    // 可能な場合はシステムコンテキストメニューを利用する
-                    if (SystemContextMenu.isSupported(context)) {
-                      return SystemContextMenu.editableText(
-                        editableTextState: editableTextState,
-                      );
-                    }
-
-                    // flutter-rendered なコンテキストメニューを利用する
-                    return AdaptiveTextSelectionToolbar.editableText(
-                      editableTextState: editableTextState,
+                    return AdaptiveTextSelectionToolbar(
+                      anchors: editableTextState.contextMenuAnchors,
+                      // Build the default buttons, but make them look custom.
+                      // In a real project you may want to build different
+                      // buttons depending on the platform.
+                      children: editableTextState.contextMenuButtonItems
+                          .map((ContextMenuButtonItem buttonItem) {
+                        return CupertinoButton(
+                          borderRadius: null,
+                          color: const Color(0xffaaaa00),
+                          disabledColor: const Color(0xffaaaaff),
+                          onPressed: buttonItem.onPressed,
+                          padding: const EdgeInsets.all(10.0),
+                          pressedOpacity: 0.7,
+                          child: SizedBox(
+                            width: 200.0,
+                            child: Text(
+                              CupertinoTextSelectionToolbarButton
+                                  .getButtonLabel(context, buttonItem),
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     );
                   },
                   validator: FormBuilderValidators.compose([
