@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:jong_connect/domain/provider/current_friends.dart';
 import 'package:jong_connect/usecase/friend_use_case.dart';
 
 import 'package:jong_connect/util/app_sizes.dart';
@@ -34,7 +33,6 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
       var user = await ref
           .read(friendUseCaseProvider)
           .findUserFromFriendId(_formKey.currentState!.value["friend_id"]);
-      var friends = await ref.read(currentFriendsProvider.future);
 
       if (!mounted) {
         return;
@@ -44,7 +42,6 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
         context: context,
         builder: (context) => UserProfileDialog(
           user: user,
-          isFriend: friends.contains(user),
         ),
       );
 
@@ -77,8 +74,6 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
           gapH8,
           RoundedLoadingButton(
             color: Theme.of(context).colorScheme.primary,
-            // height: 40,
-            // width: 50,
             successIcon: Icons.check,
             failedIcon: Icons.cottage,
             controller: _btnController,

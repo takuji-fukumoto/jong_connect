@@ -10,6 +10,8 @@ import 'package:jong_connect/util/app_icon_urls.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/format_date.dart';
 
+import '../../common_widgets/user_profile_dialog.dart';
+
 class RecentlyMatchResultsSection extends ConsumerWidget {
   const RecentlyMatchResultsSection({super.key});
 
@@ -44,7 +46,7 @@ class _TitleSection extends StatelessWidget {
 class _ResultsList extends ConsumerWidget {
   const _ResultsList({super.key});
 
-  final int maxDispCount = 3; // 最大表示件数
+  final int maxDispCount = 10; // 最大表示件数
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -101,83 +103,94 @@ class _ResultListTile extends StatelessWidget {
                 StaggeredGridTile.count(
                   crossAxisCellCount: 1,
                   mainAxisCellCount: 0.4,
-                  child: Container(
-                    padding: paddingV8H8,
-                    decoration: BoxDecoration(
-                      color:
-                          Theme.of(context).colorScheme.surfaceContainerHighest,
-                      borderRadius: const BorderRadius.all(Radius.circular(15)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            // mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              if (result.rank == 1)
-                                Expanded(
-                                  flex: 1,
-                                  child: CachedNetworkImage(
-                                      width: Sizes.p16,
-                                      height: Sizes.p16,
-                                      imageUrl: AppIconUrls.crown),
-                                )
-                              else
-                                const Expanded(flex: 1, child: SizedBox()),
-                              Text(
-                                result.rank.toString(),
-                                style: const TextStyle(
-                                  fontSize: Sizes.p16,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Text(
-                                  result.totalPoints.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: Sizes.p12,
-                                    color: result.totalPoints > 0
-                                        ? Colors.blueAccent
-                                        : result.totalPoints < 0
-                                            ? Colors.redAccent
-                                            : Theme.of(context)
-                                                .colorScheme
-                                                .inverseSurface,
+                  child: GestureDetector(
+                    onTap: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (context) => UserProfileDialog(
+                          user: result.user!,
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: paddingV8H8,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              children: [
+                                if (result.rank == 1)
+                                  Expanded(
+                                    flex: 1,
+                                    child: CachedNetworkImage(
+                                        width: Sizes.p16,
+                                        height: Sizes.p16,
+                                        imageUrl: AppIconUrls.crown),
+                                  )
+                                else
+                                  const Expanded(flex: 1, child: SizedBox()),
+                                Text(
+                                  result.rank.toString(),
+                                  style: const TextStyle(
+                                    fontSize: Sizes.p16,
                                   ),
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    result.totalPoints.toString(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: Sizes.p12,
+                                      color: result.totalPoints > 0
+                                          ? Colors.blueAccent
+                                          : result.totalPoints < 0
+                                              ? Colors.redAccent
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .inverseSurface,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: CircleAvatar(
-                            child: CachedNetworkImage(
-                                imageUrl: result.user!.avatarUrl),
+                          Expanded(
+                            flex: 2,
+                            child: CircleAvatar(
+                              child: CachedNetworkImage(
+                                  imageUrl: result.user!.avatarUrl),
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              AutoSizeText(
-                                result.user!.name,
-                                minFontSize: Sizes.p8,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              gapH8,
-                              AutoSizeText(
-                                result.score.toString(),
-                                minFontSize: Sizes.p8,
-                              ),
-                            ],
+                          Expanded(
+                            flex: 4,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                AutoSizeText(
+                                  result.user!.name,
+                                  minFontSize: Sizes.p8,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                gapH8,
+                                AutoSizeText(
+                                  result.score.toString(),
+                                  minFontSize: Sizes.p8,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

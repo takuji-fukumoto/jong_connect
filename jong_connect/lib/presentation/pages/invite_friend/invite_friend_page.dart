@@ -3,7 +3,7 @@ import 'package:jong_connect/presentation/pages/invite_friend/input_friend_id_se
 
 import 'package:jong_connect/util/app_sizes.dart';
 
-import '../home/my_friend_id_section.dart';
+import 'my_friend_id_section.dart';
 
 class InviteFriendPage extends StatelessWidget {
   const InviteFriendPage({super.key, this.fullPath});
