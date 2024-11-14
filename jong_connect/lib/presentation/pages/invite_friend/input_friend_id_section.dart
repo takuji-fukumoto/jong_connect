@@ -63,39 +63,30 @@ class _InputFriendIdSectionState extends ConsumerState<InputFriendIdSection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('ユーザーを検索'),
+          const Text('ユーザーを探す'),
           gapH8,
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 40,
-                width: 200,
-                child: FormBuilderTextField(
-                  name: "friend_id",
-                  autovalidateMode: AutovalidateMode.onUnfocus,
-                  decoration: const InputDecoration(labelText: 'フレンドIDで検索'),
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(),
-                    FormBuilderValidators.minLength(8),
-                  ]),
-                ),
-              ),
-              gapW8,
-              RoundedLoadingButton(
-                color: Theme.of(context).colorScheme.primary,
-                height: 40,
-                width: 50,
-                successIcon: Icons.check,
-                failedIcon: Icons.cottage,
-                controller: _btnController,
-                onPressed: () => _searchUser(),
-                child: Icon(
-                  Icons.search,
-                  color: Theme.of(context).colorScheme.surface,
-                ),
-              ),
-            ],
+          FormBuilderTextField(
+            name: "friend_id",
+            autovalidateMode: AutovalidateMode.onUnfocus,
+            decoration: const InputDecoration(labelText: 'フレンドIDを入力'),
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(),
+              FormBuilderValidators.minLength(8),
+            ]),
+          ),
+          gapH8,
+          RoundedLoadingButton(
+            color: Theme.of(context).colorScheme.primary,
+            // height: 40,
+            // width: 50,
+            successIcon: Icons.check,
+            failedIcon: Icons.cottage,
+            controller: _btnController,
+            onPressed: () => _searchUser(),
+            child: Icon(
+              Icons.search,
+              color: Theme.of(context).colorScheme.surface,
+            ),
           ),
         ],
       ),

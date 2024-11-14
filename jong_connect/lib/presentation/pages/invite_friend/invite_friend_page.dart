@@ -17,13 +17,15 @@ class InviteFriendPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.surface,
       ),
-      body: ListView(
+      body: const SingleChildScrollView(
         padding: paddingV20H16,
-        children: const [
-          MyFriendIdSection(),
-          gapH16,
-          InputFriendIdSection(),
-        ],
+        child: Column(
+          children: [
+            MyFriendIdSection(),
+            gapH16,
+            InputFriendIdSection(),
+          ],
+        ),
       ),
     );
   }
