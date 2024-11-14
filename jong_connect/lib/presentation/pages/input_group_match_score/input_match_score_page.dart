@@ -217,7 +217,7 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                             FormBuilderValidators.numeric(
                                 checkNullOrEmpty: false),
                           ]),
-                          keyboardType: TextInputType.url,
+                          keyboardType: TextInputType.datetime,
                         ),
                       ),
                     ],

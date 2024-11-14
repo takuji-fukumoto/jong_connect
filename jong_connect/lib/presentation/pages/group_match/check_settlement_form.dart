@@ -176,7 +176,7 @@ class _CheckSettlementFormState extends State<CheckSettlementForm> {
                           FormBuilderValidators.required(),
                           FormBuilderValidators.numeric(),
                         ]),
-                        keyboardType: TextInputType.visiblePassword,
+                        keyboardType: TextInputType.datetime,
                         onChanged: (value) {
                           var input = int.tryParse(value ?? '');
                           if (input == null) {
