@@ -11,6 +11,7 @@ abstract final class Sizes {
   static const p32 = 32.0;
   static const p48 = 48.0;
   static const p64 = 64.0;
+  static const p128 = 128.0;
 }
 
 const paddingV0H8 = EdgeInsets.symmetric(vertical: 0, horizontal: 8);
@@ -29,6 +30,7 @@ const gapW24 = SizedBox(width: Sizes.p24);
 const gapW32 = SizedBox(width: Sizes.p32);
 const gapW48 = SizedBox(width: Sizes.p48);
 const gapW64 = SizedBox(width: Sizes.p64);
+const gapW128 = SizedBox(width: Sizes.p128);
 
 /// Constant gap heights
 const gapH4 = SizedBox(height: Sizes.p4);
@@ -40,3 +42,4 @@ const gapH24 = SizedBox(height: Sizes.p24);
 const gapH32 = SizedBox(height: Sizes.p32);
 const gapH48 = SizedBox(height: Sizes.p48);
 const gapH64 = SizedBox(height: Sizes.p64);
+const gapH128 = SizedBox(height: Sizes.p128);

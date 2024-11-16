@@ -232,7 +232,6 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                               width: deviceSize.width / 2.5,
                               child: KeyboardCustomInput<String>(
                                 focusNode: textNodes[i],
-                                height: 65,
                                 notifier: stringNotifier[i],
                                 builder: (context, str, hasFocus) {
                                   return Container(
@@ -270,6 +269,10 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                         onPressed: () => register(values.$1),
                         child: const Text('保存'),
                       ),
+
+                      /// スコア入力時にキーボードで隠れないように下に余白を追加
+                      gapH128,
+                      gapH128,
                     ],
                   ),
                 ),

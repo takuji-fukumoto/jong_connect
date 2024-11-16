@@ -11,7 +11,7 @@ class CustomNumberKeyboard extends StatelessWidget
   CustomNumberKeyboard({super.key, required this.notifier});
 
   @override
-  Size get preferredSize => const Size.fromHeight(250);
+  Size get preferredSize => const Size.fromHeight(200);
 
   @override
   Widget build(BuildContext context) {
@@ -168,8 +168,7 @@ class _CustomKeyContainer extends StatelessWidget {
       child: Text(
         label,
         style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: Sizes.p24,
+          fontSize: Sizes.p20,
           color: Theme.of(context).colorScheme.inverseSurface,
         ),
       ),
