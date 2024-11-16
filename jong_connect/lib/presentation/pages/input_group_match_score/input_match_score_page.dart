@@ -7,11 +7,14 @@ import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/domain/model/input_user_score.dart';
 import 'package:jong_connect/domain/provider/game_config.dart';
+import 'package:jong_connect/presentation/common_widgets/custom_number_keyboard.dart';
 import 'package:jong_connect/presentation/common_widgets/user_section_item_vertical.dart';
 import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:jong_connect/util/exceptions/calc_match_results_exception.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:keyboard_actions/keyboard_actions_config.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 import '../../../domain/model/app_user.dart';
@@ -38,6 +41,18 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
       RoundedLoadingButtonController();
   final _formKey = GlobalKey<FormBuilderState>();
   List<AppUser>? targetPlayers;
+  final List<FocusNode> textNodes = [
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+  ];
+  final List<ValueNotifier<String>> stringNotifier = [
+    ValueNotifier<String>(''),
+    ValueNotifier<String>(''),
+    ValueNotifier<String>(''),
+    ValueNotifier<String>(''),
+  ];
 
   Future<void> register(GroupMatch groupMatch) async {
     if (!_formKey.currentState!.saveAndValidate()) {
@@ -157,82 +172,108 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                   .map<AppUser>((result) => result.user!)
                   .toList()
               : values.$2.take(values.$1.matchType.playableNumber).toList();
-          return FormBuilder(
-            key: _formKey,
-            child: ListView(
-              padding: formPadding,
-              children: [
-                FormBuilderFilterChip(
-                  name: 'player',
-                  decoration: const InputDecoration(labelText: '参加者'),
-                  initialValue: targetPlayers,
-                  maxChips: values.$1.matchType.playableNumber,
-                  validator: (selectors) {
-                    var diff = (selectors?.length ?? 0) -
-                        values.$1.matchType.playableNumber;
-                    if (diff == 0) {
-                      return null;
-                    }
-
-                    return '参加者を選択してください';
-                  },
-                  onChanged: (users) => setState(() {
-                    targetPlayers = users ?? [];
-                  }),
-                  showCheckmark: false,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  options: [
-                    for (var player in values.$2) ...[
-                      FormBuilderChipOption(
-                        value: player,
-                        child: UserSectionItemVertical(user: player),
-                      ),
-                    ],
-                  ],
-                ),
-                gapH16,
-                for (var i = 0;
-                    i < values.$1.matchType.playableNumber;
-                    i++) ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          return KeyboardActions(
+            config: _keyboardActionConfig(values.$1.matchType.playableNumber),
+            tapOutsideBehavior: TapOutsideBehavior.opaqueDismiss,
+            child: FormBuilder(
+              key: _formKey,
+              child: Padding(
+                padding: formPadding,
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
-                      SizedBox(
-                        width: deviceSize.width / 3,
-                        child: Text(
-                          targetPlayers!.length <= i
-                              ? ''
-                              : targetPlayers![i].name,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
+                      FormBuilderFilterChip(
+                        name: 'player',
+                        decoration: const InputDecoration(labelText: '参加者'),
+                        initialValue: targetPlayers,
+                        maxChips: values.$1.matchType.playableNumber,
+                        validator: (selectors) {
+                          var diff = (selectors?.length ?? 0) -
+                              values.$1.matchType.playableNumber;
+                          if (diff == 0) {
+                            return null;
+                          }
+
+                          return '参加者を選択してください';
+                        },
+                        onChanged: (users) => setState(() {
+                          targetPlayers = users ?? [];
+                        }),
+                        showCheckmark: false,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        options: [
+                          for (var player in values.$2) ...[
+                            FormBuilderChipOption(
+                              value: player,
+                              child: UserSectionItemVertical(user: player),
+                            ),
+                          ],
+                        ],
                       ),
-                      gapW12,
-                      SizedBox(
-                        width: deviceSize.width / 2.5,
-                        child: FormBuilderTextField(
-                          name: "player$i",
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.numeric(
-                                checkNullOrEmpty: false),
-                          ]),
-                          keyboardType: TextInputType.datetime,
+                      gapH16,
+                      for (var i = 0;
+                          i < values.$1.matchType.playableNumber;
+                          i++) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: deviceSize.width / 3,
+                              child: Text(
+                                targetPlayers!.length <= i
+                                    ? ''
+                                    : targetPlayers![i].name,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            gapW12,
+                            SizedBox(
+                              width: deviceSize.width / 2.5,
+                              child: KeyboardCustomInput<String>(
+                                focusNode: textNodes[i],
+                                height: 65,
+                                notifier: stringNotifier[i],
+                                builder: (context, str, hasFocus) {
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      str,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            // SizedBox(
+                            //   width: deviceSize.width / 2.5,
+                            //   child: FormBuilderTextField(
+                            //     focusNode: textNodes[i],
+                            //     name: "player$i",
+                            //     autovalidateMode:
+                            //         AutovalidateMode.onUserInteraction,
+                            //     validator: FormBuilderValidators.compose([
+                            //       FormBuilderValidators.numeric(
+                            //           checkNullOrEmpty: false),
+                            //     ]),
+                            //     keyboardType: TextInputType.datetime,
+                            //   ),
+                            // ),
+                          ],
                         ),
+                      ],
+                      gapH24,
+                      RoundedLoadingButton(
+                        color: Theme.of(context).colorScheme.tertiaryContainer,
+                        successIcon: Icons.check,
+                        failedIcon: Icons.cottage,
+                        controller: _btnController,
+                        onPressed: () => register(values.$1),
+                        child: const Text('保存'),
                       ),
                     ],
                   ),
-                ],
-                gapH24,
-                RoundedLoadingButton(
-                  color: Theme.of(context).colorScheme.tertiaryContainer,
-                  successIcon: Icons.check,
-                  failedIcon: Icons.cottage,
-                  controller: _btnController,
-                  onPressed: () => register(values.$1),
-                  child: const Text('保存'),
                 ),
-              ],
+              ),
             ),
           );
         },
@@ -243,6 +284,23 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
         },
         loading: () => const Center(child: CircularProgressIndicator()),
       ),
+    );
+  }
+
+  KeyboardActionsConfig _keyboardActionConfig(int playableNumber) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardBarColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+      nextFocus: true,
+      actions: [
+        for (var i = 0; i < playableNumber; i++) ...[
+          KeyboardActionsItem(
+            focusNode: textNodes[i],
+            footerBuilder: (_) =>
+                CustomNumberKeyboard(notifier: stringNotifier[i]),
+          ),
+        ],
+      ],
     );
   }
 }

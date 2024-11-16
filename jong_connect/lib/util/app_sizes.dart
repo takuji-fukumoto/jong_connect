@@ -14,6 +14,7 @@ abstract final class Sizes {
 }
 
 const paddingV0H8 = EdgeInsets.symmetric(vertical: 0, horizontal: 8);
+const paddingV4H4 = EdgeInsets.symmetric(vertical: 4, horizontal: 4);
 const paddingV8H8 = EdgeInsets.symmetric(vertical: 8, horizontal: 8);
 const paddingV12H12 = EdgeInsets.symmetric(vertical: 12, horizontal: 12);
 const paddingV20H16 = EdgeInsets.symmetric(vertical: 20, horizontal: 16);
