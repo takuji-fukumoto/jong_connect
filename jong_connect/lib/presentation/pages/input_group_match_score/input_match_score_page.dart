@@ -2,7 +2,6 @@ import 'package:async_value_group/async_value_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/domain/model/input_user_score.dart';
@@ -14,7 +13,6 @@ import 'package:jong_connect/util/app_sizes.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:jong_connect/util/exceptions/calc_match_results_exception.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:keyboard_actions/keyboard_actions_config.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 import '../../../domain/model/app_user.dart';
@@ -67,23 +65,21 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
           groupMatch.matchType.playableNumber;
       int totalScore = 0;
       for (var i = 0; i < targetPlayers!.length; i++) {
-        if (_formKey.currentState!.value["player$i"] == null ||
-            _formKey.currentState!.value["player$i"].toString().isEmpty) {
+        if (stringNotifier[i].value.isEmpty) {
           blankCount++;
           // 2人以上入力していない場合エラー
           if (blankCount >= 2) {
             throw const CalcMatchResultsException('スコアを入力してください');
           }
         } else {
-          totalScore += int.parse(_formKey.currentState!.value["player$i"]);
+          totalScore += int.parse(stringNotifier[i].value);
         }
       }
 
       // 一人入力していない場合はここで自動保管する
       var inputScores = <InputUserScore>[];
       for (var i = 0; i < targetPlayers!.length; i++) {
-        if (_formKey.currentState!.value["player$i"] == null ||
-            _formKey.currentState!.value["player$i"].toString().isEmpty) {
+        if (stringNotifier[i].value.isEmpty) {
           var score = maxTotalScore - totalScore;
           totalScore += score;
           inputScores.add(
@@ -92,7 +88,7 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
         } else {
           inputScores.add(InputUserScore(
             user: targetPlayers![i],
-            score: int.parse(_formKey.currentState!.value["player$i"]),
+            score: int.parse(stringNotifier[i].value),
           ));
         }
       }
@@ -174,7 +170,6 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
               : values.$2.take(values.$1.matchType.playableNumber).toList();
           return KeyboardActions(
             config: _keyboardActionConfig(values.$1.matchType.playableNumber),
-            tapOutsideBehavior: TapOutsideBehavior.opaqueDismiss,
             child: FormBuilder(
               key: _formKey,
               child: Padding(
@@ -236,6 +231,22 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                                 builder: (context, str, hasFocus) {
                                   return Container(
                                     alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: (hasFocus != null && hasFocus)
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .inverseSurface,
+                                          width: (hasFocus != null && hasFocus)
+                                              ? 2.0
+                                              : 0.7,
+                                        ),
+                                      ),
+                                    ),
                                     child: Text(
                                       str,
                                     ),
@@ -243,20 +254,6 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                                 },
                               ),
                             ),
-                            // SizedBox(
-                            //   width: deviceSize.width / 2.5,
-                            //   child: FormBuilderTextField(
-                            //     focusNode: textNodes[i],
-                            //     name: "player$i",
-                            //     autovalidateMode:
-                            //         AutovalidateMode.onUserInteraction,
-                            //     validator: FormBuilderValidators.compose([
-                            //       FormBuilderValidators.numeric(
-                            //           checkNullOrEmpty: false),
-                            //     ]),
-                            //     keyboardType: TextInputType.datetime,
-                            //   ),
-                            // ),
                           ],
                         ),
                       ],
@@ -271,7 +268,6 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                       ),
 
                       /// スコア入力時にキーボードで隠れないように下に余白を追加
-                      gapH128,
                       gapH128,
                     ],
                   ),

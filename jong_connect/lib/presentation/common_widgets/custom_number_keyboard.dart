@@ -11,7 +11,7 @@ class CustomNumberKeyboard extends StatelessWidget
   CustomNumberKeyboard({super.key, required this.notifier});
 
   @override
-  Size get preferredSize => const Size.fromHeight(200);
+  Size get preferredSize => const Size.fromHeight(210);
 
   @override
   Widget build(BuildContext context) {
