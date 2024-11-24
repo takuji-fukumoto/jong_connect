@@ -172,8 +172,11 @@ class _ResultTable extends ConsumerWidget {
                   return AlertDialog(
                     title: const Text("収支確認"),
                     scrollable: true,
-                    content: CheckSettlementForm(
-                      match: groupMatch,
+                    content: SizedBox(
+                      height: 500,
+                      child: CheckSettlementForm(
+                        match: groupMatch,
+                      ),
                     ),
                     actions: <Widget>[
                       TextButton(
