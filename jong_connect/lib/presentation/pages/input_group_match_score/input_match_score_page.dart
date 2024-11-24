@@ -46,6 +46,8 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
     FocusNode(),
     FocusNode(),
   ];
+  List<TextEditingController> textControllers =
+      List.generate(4, (i) => TextEditingController());
 
   Future<void> register(GroupMatch groupMatch) async {
     if (!_formKey.currentState!.saveAndValidate()) {
@@ -222,22 +224,26 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
                             gapW12,
                             SizedBox(
                               width: deviceSize.width / 2.5,
-                              // child: TextField(
-                              //   decoration:
-                              //       InputDecoration(hintText: 'TextField5'),
-                              //   focusNode: textNodes[i],
-                              // ),
-                              child: FormBuilderTextField(
+                              child: TextField(
+                                controller: textControllers[i],
+                                // decoration:
+                                //     InputDecoration(hintText: 'TextField5'),
                                 focusNode: textNodes[i],
-                                name: "player$i",
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: FormBuilderValidators.compose([
-                                  FormBuilderValidators.numeric(
-                                      checkNullOrEmpty: false),
-                                ]),
-                                keyboardType: TextInputType.number,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        signed: true),
                               ),
+                              // child: FormBuilderTextField(
+                              //   focusNode: textNodes[i],
+                              //   name: "player$i",
+                              //   autovalidateMode:
+                              //       AutovalidateMode.onUserInteraction,
+                              //   validator: FormBuilderValidators.compose([
+                              //     FormBuilderValidators.numeric(
+                              //         checkNullOrEmpty: false),
+                              //   ]),
+                              //   keyboardType: TextInputType.number,
+                              // ),
                             ),
                           ],
                         ),
@@ -277,6 +283,24 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
         for (var i = 0; i < playableNumber; i++) ...[
           KeyboardActionsItem(
             focusNode: textNodes[i],
+            toolbarButtons: [
+              (node) {
+                return TextButton(
+                  onPressed: () {
+                    textControllers[i].text = '${textControllers[i].text}-';
+                  },
+                  child: const Text('マイナス'),
+                );
+              },
+              (node) {
+                return TextButton(
+                  onPressed: () {
+                    node.unfocus();
+                  },
+                  child: const Text('Done'),
+                );
+              }
+            ],
           ),
         ],
       ],
