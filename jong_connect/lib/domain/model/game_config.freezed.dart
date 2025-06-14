@@ -31,6 +31,12 @@ mixin _$GameConfig {
   int get settlementScore => throw _privateConstructorUsedError;
   @JsonKey(name: 'position_points')
   List<int> get positionPoints => throw _privateConstructorUsedError;
+  @JsonKey(name: 'initial_starting_point_for_three')
+  int get initialStartingPointForThree => throw _privateConstructorUsedError;
+  @JsonKey(name: 'settlement_score_for_three')
+  int get settlementScoreForThree => throw _privateConstructorUsedError;
+  @JsonKey(name: 'position_points_for_three')
+  List<int> get positionPointsForThree => throw _privateConstructorUsedError;
 
   /// Serializes this GameConfig to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,7 +60,12 @@ abstract class $GameConfigCopyWith<$Res> {
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'initial_starting_point') int initialStartingPoint,
       @JsonKey(name: 'settlement_score') int settlementScore,
-      @JsonKey(name: 'position_points') List<int> positionPoints});
+      @JsonKey(name: 'position_points') List<int> positionPoints,
+      @JsonKey(name: 'initial_starting_point_for_three')
+      int initialStartingPointForThree,
+      @JsonKey(name: 'settlement_score_for_three') int settlementScoreForThree,
+      @JsonKey(name: 'position_points_for_three')
+      List<int> positionPointsForThree});
 }
 
 /// @nodoc
@@ -78,6 +89,9 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
     Object? initialStartingPoint = null,
     Object? settlementScore = null,
     Object? positionPoints = null,
+    Object? initialStartingPointForThree = null,
+    Object? settlementScoreForThree = null,
+    Object? positionPointsForThree = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -104,6 +118,18 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
           ? _value.positionPoints
           : positionPoints // ignore: cast_nullable_to_non_nullable
               as List<int>,
+      initialStartingPointForThree: null == initialStartingPointForThree
+          ? _value.initialStartingPointForThree
+          : initialStartingPointForThree // ignore: cast_nullable_to_non_nullable
+              as int,
+      settlementScoreForThree: null == settlementScoreForThree
+          ? _value.settlementScoreForThree
+          : settlementScoreForThree // ignore: cast_nullable_to_non_nullable
+              as int,
+      positionPointsForThree: null == positionPointsForThree
+          ? _value.positionPointsForThree
+          : positionPointsForThree // ignore: cast_nullable_to_non_nullable
+              as List<int>,
     ) as $Val);
   }
 }
@@ -122,7 +148,12 @@ abstract class _$$GameConfigImplCopyWith<$Res>
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'initial_starting_point') int initialStartingPoint,
       @JsonKey(name: 'settlement_score') int settlementScore,
-      @JsonKey(name: 'position_points') List<int> positionPoints});
+      @JsonKey(name: 'position_points') List<int> positionPoints,
+      @JsonKey(name: 'initial_starting_point_for_three')
+      int initialStartingPointForThree,
+      @JsonKey(name: 'settlement_score_for_three') int settlementScoreForThree,
+      @JsonKey(name: 'position_points_for_three')
+      List<int> positionPointsForThree});
 }
 
 /// @nodoc
@@ -144,6 +175,9 @@ class __$$GameConfigImplCopyWithImpl<$Res>
     Object? initialStartingPoint = null,
     Object? settlementScore = null,
     Object? positionPoints = null,
+    Object? initialStartingPointForThree = null,
+    Object? settlementScoreForThree = null,
+    Object? positionPointsForThree = null,
   }) {
     return _then(_$GameConfigImpl(
       id: null == id
@@ -170,6 +204,18 @@ class __$$GameConfigImplCopyWithImpl<$Res>
           ? _value._positionPoints
           : positionPoints // ignore: cast_nullable_to_non_nullable
               as List<int>,
+      initialStartingPointForThree: null == initialStartingPointForThree
+          ? _value.initialStartingPointForThree
+          : initialStartingPointForThree // ignore: cast_nullable_to_non_nullable
+              as int,
+      settlementScoreForThree: null == settlementScoreForThree
+          ? _value.settlementScoreForThree
+          : settlementScoreForThree // ignore: cast_nullable_to_non_nullable
+              as int,
+      positionPointsForThree: null == positionPointsForThree
+          ? _value._positionPointsForThree
+          : positionPointsForThree // ignore: cast_nullable_to_non_nullable
+              as List<int>,
     ));
   }
 }
@@ -184,9 +230,15 @@ class _$GameConfigImpl extends _GameConfig {
       @JsonKey(name: 'initial_starting_point')
       required this.initialStartingPoint,
       @JsonKey(name: 'settlement_score') required this.settlementScore,
-      @JsonKey(name: 'position_points')
-      required final List<int> positionPoints})
+      @JsonKey(name: 'position_points') required final List<int> positionPoints,
+      @JsonKey(name: 'initial_starting_point_for_three')
+      required this.initialStartingPointForThree,
+      @JsonKey(name: 'settlement_score_for_three')
+      required this.settlementScoreForThree,
+      @JsonKey(name: 'position_points_for_three')
+      required final List<int> positionPointsForThree})
       : _positionPoints = positionPoints,
+        _positionPointsForThree = positionPointsForThree,
         super._();
 
   factory _$GameConfigImpl.fromJson(Map<String, dynamic> json) =>
@@ -216,8 +268,24 @@ class _$GameConfigImpl extends _GameConfig {
   }
 
   @override
+  @JsonKey(name: 'initial_starting_point_for_three')
+  final int initialStartingPointForThree;
+  @override
+  @JsonKey(name: 'settlement_score_for_three')
+  final int settlementScoreForThree;
+  final List<int> _positionPointsForThree;
+  @override
+  @JsonKey(name: 'position_points_for_three')
+  List<int> get positionPointsForThree {
+    if (_positionPointsForThree is EqualUnmodifiableListView)
+      return _positionPointsForThree;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_positionPointsForThree);
+  }
+
+  @override
   String toString() {
-    return 'GameConfig(id: $id, userId: $userId, createdAt: $createdAt, initialStartingPoint: $initialStartingPoint, settlementScore: $settlementScore, positionPoints: $positionPoints)';
+    return 'GameConfig(id: $id, userId: $userId, createdAt: $createdAt, initialStartingPoint: $initialStartingPoint, settlementScore: $settlementScore, positionPoints: $positionPoints, initialStartingPointForThree: $initialStartingPointForThree, settlementScoreForThree: $settlementScoreForThree, positionPointsForThree: $positionPointsForThree)';
   }
 
   @override
@@ -234,7 +302,16 @@ class _$GameConfigImpl extends _GameConfig {
             (identical(other.settlementScore, settlementScore) ||
                 other.settlementScore == settlementScore) &&
             const DeepCollectionEquality()
-                .equals(other._positionPoints, _positionPoints));
+                .equals(other._positionPoints, _positionPoints) &&
+            (identical(other.initialStartingPointForThree,
+                    initialStartingPointForThree) ||
+                other.initialStartingPointForThree ==
+                    initialStartingPointForThree) &&
+            (identical(
+                    other.settlementScoreForThree, settlementScoreForThree) ||
+                other.settlementScoreForThree == settlementScoreForThree) &&
+            const DeepCollectionEquality().equals(
+                other._positionPointsForThree, _positionPointsForThree));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -246,7 +323,10 @@ class _$GameConfigImpl extends _GameConfig {
       createdAt,
       initialStartingPoint,
       settlementScore,
-      const DeepCollectionEquality().hash(_positionPoints));
+      const DeepCollectionEquality().hash(_positionPoints),
+      initialStartingPointForThree,
+      settlementScoreForThree,
+      const DeepCollectionEquality().hash(_positionPointsForThree));
 
   /// Create a copy of GameConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -272,8 +352,13 @@ abstract class _GameConfig extends GameConfig {
       @JsonKey(name: 'initial_starting_point')
       required final int initialStartingPoint,
       @JsonKey(name: 'settlement_score') required final int settlementScore,
-      @JsonKey(name: 'position_points')
-      required final List<int> positionPoints}) = _$GameConfigImpl;
+      @JsonKey(name: 'position_points') required final List<int> positionPoints,
+      @JsonKey(name: 'initial_starting_point_for_three')
+      required final int initialStartingPointForThree,
+      @JsonKey(name: 'settlement_score_for_three')
+      required final int settlementScoreForThree,
+      @JsonKey(name: 'position_points_for_three')
+      required final List<int> positionPointsForThree}) = _$GameConfigImpl;
   const _GameConfig._() : super._();
 
   factory _GameConfig.fromJson(Map<String, dynamic> json) =
@@ -296,6 +381,15 @@ abstract class _GameConfig extends GameConfig {
   @override
   @JsonKey(name: 'position_points')
   List<int> get positionPoints;
+  @override
+  @JsonKey(name: 'initial_starting_point_for_three')
+  int get initialStartingPointForThree;
+  @override
+  @JsonKey(name: 'settlement_score_for_three')
+  int get settlementScoreForThree;
+  @override
+  @JsonKey(name: 'position_points_for_three')
+  List<int> get positionPointsForThree;
 
   /// Create a copy of GameConfig
   /// with the given fields replaced by the non-null parameter values.

@@ -48,8 +48,11 @@ class _InputScoreFormState extends ConsumerState<InputGroupMatchScorePage> {
     try {
       int blankCount = 0;
       var gameConfig = await ref.read(gameConfigProvider.future);
-      int maxTotalScore = gameConfig!.initialStartingPoint *
-          groupMatch.matchType.playableNumber;
+      var initialStartingPoint = groupMatch.matchType.playableNumber == 4
+          ? gameConfig!.initialStartingPoint
+          : gameConfig!.initialStartingPointForThree;
+      int maxTotalScore =
+          initialStartingPoint * groupMatch.matchType.playableNumber;
       int totalScore = 0;
       for (var i = 0; i < targetPlayers!.length; i++) {
         if (_formKey.currentState!.value["player$i"] == null ||

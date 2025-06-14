@@ -16,6 +16,14 @@ _$GameConfigImpl _$$GameConfigImplFromJson(Map<String, dynamic> json) =>
       positionPoints: (json['position_points'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
+      initialStartingPointForThree:
+          (json['initial_starting_point_for_three'] as num).toInt(),
+      settlementScoreForThree:
+          (json['settlement_score_for_three'] as num).toInt(),
+      positionPointsForThree:
+          (json['position_points_for_three'] as List<dynamic>)
+              .map((e) => (e as num).toInt())
+              .toList(),
     );
 
 Map<String, dynamic> _$$GameConfigImplToJson(_$GameConfigImpl instance) =>
@@ -26,4 +34,7 @@ Map<String, dynamic> _$$GameConfigImplToJson(_$GameConfigImpl instance) =>
       'initial_starting_point': instance.initialStartingPoint,
       'settlement_score': instance.settlementScore,
       'position_points': instance.positionPoints,
+      'initial_starting_point_for_three': instance.initialStartingPointForThree,
+      'settlement_score_for_three': instance.settlementScoreForThree,
+      'position_points_for_three': instance.positionPointsForThree,
     };

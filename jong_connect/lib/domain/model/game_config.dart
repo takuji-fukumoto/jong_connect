@@ -15,6 +15,12 @@ class GameConfig with _$GameConfig {
     @JsonKey(name: 'initial_starting_point') required int initialStartingPoint,
     @JsonKey(name: 'settlement_score') required int settlementScore,
     @JsonKey(name: 'position_points') required List<int> positionPoints,
+    @JsonKey(name: 'initial_starting_point_for_three')
+    required int initialStartingPointForThree,
+    @JsonKey(name: 'settlement_score_for_three')
+    required int settlementScoreForThree,
+    @JsonKey(name: 'position_points_for_three')
+    required List<int> positionPointsForThree,
   }) = _GameConfig;
 
   factory GameConfig.fromJson(Map<String, dynamic> json) =>
@@ -22,5 +28,9 @@ class GameConfig with _$GameConfig {
 
   String get positionPointsString {
     return positionPoints.join(',');
+  }
+
+  String get positionPointsForThreeString {
+    return positionPointsForThree.join(',');
   }
 }
