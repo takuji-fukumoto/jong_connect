@@ -145,17 +145,24 @@ class GroupMatchResultsUseCase {
 
     var totalPointsWithoutTop = 0;
     var outputResults = <GroupMatchResultRaw>[];
+    final gameConfig = await _ref.read(gameConfigProvider.future);
+    var positionPoints = type.playableNumber == 4
+        ? gameConfig!.positionPoints
+        : gameConfig!.positionPointsForThree;
+    var settlementScore = type.playableNumber == 4
+        ? gameConfig!.settlementScore
+        : gameConfig!.settlementScoreForThree;
+
     for (var i = inputScores.length - 1; i > 0; i--) {
       var rank = i + 1;
 
-      final gameConfig = await _ref.read(gameConfigProvider.future);
       // 5捨6入
       var fixedScore = (inputScores[i].score / 1000).round56();
       // 点数のポイント変換
-      var totalPoints = fixedScore - gameConfig!.settlementScore ~/ 1000;
+      var totalPoints = fixedScore - settlementScore ~/ 1000;
 
       // ウマ加点
-      totalPoints += gameConfig.positionPoints[i];
+      totalPoints += positionPoints[i];
       totalPointsWithoutTop += totalPoints;
 
       outputResults.add(GroupMatchResultRaw(
