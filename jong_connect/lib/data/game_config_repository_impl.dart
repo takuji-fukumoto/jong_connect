@@ -25,6 +25,10 @@ class GameConfigRepositoryImpl implements GameConfigRepository {
           'initial_starting_point': input.initialStartingPoint,
           'settlement_score': input.settlementScore,
           'position_points': input.positionPoints,
+          'initial_starting_point_for_three':
+              input.initialStartingPointForThree,
+          'settlement_score_for_three': input.settlementScoreForThree,
+          'position_points_for_three': input.positionPointsForThree,
         })
         .eq('user_id', input.userId)
         .select();

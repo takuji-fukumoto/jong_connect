@@ -19,12 +19,18 @@ class EditGameConfigUseCase {
     required int initialStartingPoint,
     required int settlementScore,
     required List<int> positionPoints,
+    required int initialStartingPointForThree,
+    required int settlementScoreForThree,
+    required List<int> positionPointsForThree,
   }) async {
     final currentConfig = await _ref.read(gameConfigProvider.future);
     final fixedConfig = currentConfig!.copyWith(
       initialStartingPoint: initialStartingPoint,
       settlementScore: settlementScore,
       positionPoints: positionPoints,
+      initialStartingPointForThree: initialStartingPointForThree,
+      settlementScoreForThree: settlementScoreForThree,
+      positionPointsForThree: positionPointsForThree,
     );
 
     await _ref.read(gameConfigRepositoryProvider).update(fixedConfig);

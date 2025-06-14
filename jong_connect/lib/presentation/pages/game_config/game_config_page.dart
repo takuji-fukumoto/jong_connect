@@ -38,12 +38,24 @@ class _EditConfigFormState extends ConsumerState<GameConfigPage> {
           .map<int>((point) => int.parse(point))
           .toList();
 
+      final positionPointsForThree =
+          _formKey.currentState!.value["position_points_for_three"]!.toString();
+      final fixedPositionPointsForThree = positionPointsForThree
+          .split(',')
+          .map<int>((point) => int.parse(point))
+          .toList();
+
       await ref.read(editGameConfigUseCaseProvider).apply(
             initialStartingPoint: int.parse(
                 _formKey.currentState!.value["initial_starting_point"]),
             settlementScore:
                 int.parse(_formKey.currentState!.value["settlement_score"]),
             positionPoints: fixedPositionPoints,
+            initialStartingPointForThree: int.parse(_formKey
+                .currentState!.value["initial_starting_point_for_three"]),
+            settlementScoreForThree: int.parse(
+                _formKey.currentState!.value["settlement_score_for_three"]),
+            positionPointsForThree: fixedPositionPointsForThree,
           );
       _btnController.success();
       context.pop();
@@ -81,6 +93,14 @@ class _EditConfigFormState extends ConsumerState<GameConfigPage> {
             child: ListView(
               padding: formPadding,
               children: [
+                // -------4麻---------
+                const Text(
+                  '4麻',
+                  style: TextStyle(
+                    fontSize: Sizes.p20,
+                  ),
+                ),
+                gapH8,
                 FormBuilderTextField(
                   name: "initial_starting_point",
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -127,6 +147,64 @@ class _EditConfigFormState extends ConsumerState<GameConfigPage> {
                     DropdownMenuItem(
                       value: '30,10,-10,-30',
                       child: Text('30, 10, -10, -30'),
+                    ),
+                  ],
+                ),
+                gapH16,
+                // -------3麻---------
+                const Text(
+                  '3麻',
+                  style: TextStyle(
+                    fontSize: Sizes.p20,
+                  ),
+                ),
+                gapH8,
+                FormBuilderTextField(
+                  name: "initial_starting_point_for_three",
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  initialValue: config.initialStartingPointForThree.toString(),
+                  decoration: const InputDecoration(labelText: '配給原点'),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.numeric(),
+                  ]),
+                ),
+                gapH16,
+                FormBuilderTextField(
+                  name: "settlement_score_for_three",
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  initialValue: config.settlementScoreForThree.toString(),
+                  decoration: const InputDecoration(labelText: '原点'),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.numeric(),
+                  ]),
+                ),
+                gapH16,
+                FormBuilderDropdown(
+                  name: "position_points_for_three",
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  initialValue: config.positionPointsForThreeString,
+                  decoration: const InputDecoration(labelText: 'ウマ'),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                  ]),
+                  items: const [
+                    DropdownMenuItem(
+                      value: '0,0,0',
+                      child: Text('無し'),
+                    ),
+                    DropdownMenuItem(
+                      value: '10,0,-10',
+                      child: Text('10, 0, -10'),
+                    ),
+                    DropdownMenuItem(
+                      value: '20,0,-20',
+                      child: Text('20, 0, -20'),
+                    ),
+                    DropdownMenuItem(
+                      value: '30,0,-30',
+                      child: Text('30, 0, -30'),
                     ),
                   ],
                 ),
