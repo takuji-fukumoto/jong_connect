@@ -25,6 +25,8 @@ mixin _$Group {
   String get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'image_url')
   String get imageUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'seasons')
+  List<Season>? get seasons => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_joinned_groups')
   List<UserJoinedGroup>? get joinedUsers => throw _privateConstructorUsedError;
 
@@ -47,6 +49,7 @@ abstract class $GroupCopyWith<$Res> {
       String name,
       String description,
       @JsonKey(name: 'image_url') String imageUrl,
+      @JsonKey(name: 'seasons') List<Season>? seasons,
       @JsonKey(name: 'user_joinned_groups')
       List<UserJoinedGroup>? joinedUsers});
 }
@@ -70,6 +73,7 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
     Object? name = null,
     Object? description = null,
     Object? imageUrl = null,
+    Object? seasons = freezed,
     Object? joinedUsers = freezed,
   }) {
     return _then(_value.copyWith(
@@ -89,6 +93,10 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      seasons: freezed == seasons
+          ? _value.seasons
+          : seasons // ignore: cast_nullable_to_non_nullable
+              as List<Season>?,
       joinedUsers: freezed == joinedUsers
           ? _value.joinedUsers
           : joinedUsers // ignore: cast_nullable_to_non_nullable
@@ -109,6 +117,7 @@ abstract class _$$GroupImplCopyWith<$Res> implements $GroupCopyWith<$Res> {
       String name,
       String description,
       @JsonKey(name: 'image_url') String imageUrl,
+      @JsonKey(name: 'seasons') List<Season>? seasons,
       @JsonKey(name: 'user_joinned_groups')
       List<UserJoinedGroup>? joinedUsers});
 }
@@ -130,6 +139,7 @@ class __$$GroupImplCopyWithImpl<$Res>
     Object? name = null,
     Object? description = null,
     Object? imageUrl = null,
+    Object? seasons = freezed,
     Object? joinedUsers = freezed,
   }) {
     return _then(_$GroupImpl(
@@ -149,6 +159,10 @@ class __$$GroupImplCopyWithImpl<$Res>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      seasons: freezed == seasons
+          ? _value._seasons
+          : seasons // ignore: cast_nullable_to_non_nullable
+              as List<Season>?,
       joinedUsers: freezed == joinedUsers
           ? _value._joinedUsers
           : joinedUsers // ignore: cast_nullable_to_non_nullable
@@ -166,9 +180,11 @@ class _$GroupImpl implements _Group {
       required this.name,
       required this.description,
       @JsonKey(name: 'image_url') required this.imageUrl,
+      @JsonKey(name: 'seasons') final List<Season>? seasons,
       @JsonKey(name: 'user_joinned_groups')
       final List<UserJoinedGroup>? joinedUsers})
-      : _joinedUsers = joinedUsers;
+      : _seasons = seasons,
+        _joinedUsers = joinedUsers;
 
   factory _$GroupImpl.fromJson(Map<String, dynamic> json) =>
       _$$GroupImplFromJson(json);
@@ -182,6 +198,17 @@ class _$GroupImpl implements _Group {
   @override
   @JsonKey(name: 'image_url')
   final String imageUrl;
+  final List<Season>? _seasons;
+  @override
+  @JsonKey(name: 'seasons')
+  List<Season>? get seasons {
+    final value = _seasons;
+    if (value == null) return null;
+    if (_seasons is EqualUnmodifiableListView) return _seasons;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   final List<UserJoinedGroup>? _joinedUsers;
   @override
   @JsonKey(name: 'user_joinned_groups')
@@ -195,7 +222,7 @@ class _$GroupImpl implements _Group {
 
   @override
   String toString() {
-    return 'Group(id: $id, name: $name, description: $description, imageUrl: $imageUrl, joinedUsers: $joinedUsers)';
+    return 'Group(id: $id, name: $name, description: $description, imageUrl: $imageUrl, seasons: $seasons, joinedUsers: $joinedUsers)';
   }
 
   @override
@@ -209,13 +236,20 @@ class _$GroupImpl implements _Group {
                 other.description == description) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
+            const DeepCollectionEquality().equals(other._seasons, _seasons) &&
             const DeepCollectionEquality()
                 .equals(other._joinedUsers, _joinedUsers));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, description, imageUrl,
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      description,
+      imageUrl,
+      const DeepCollectionEquality().hash(_seasons),
       const DeepCollectionEquality().hash(_joinedUsers));
 
   /// Create a copy of Group
@@ -240,6 +274,7 @@ abstract class _Group implements Group {
       required final String name,
       required final String description,
       @JsonKey(name: 'image_url') required final String imageUrl,
+      @JsonKey(name: 'seasons') final List<Season>? seasons,
       @JsonKey(name: 'user_joinned_groups')
       final List<UserJoinedGroup>? joinedUsers}) = _$GroupImpl;
 
@@ -254,6 +289,9 @@ abstract class _Group implements Group {
   @override
   @JsonKey(name: 'image_url')
   String get imageUrl;
+  @override
+  @JsonKey(name: 'seasons')
+  List<Season>? get seasons;
   @override
   @JsonKey(name: 'user_joinned_groups')
   List<UserJoinedGroup>? get joinedUsers;

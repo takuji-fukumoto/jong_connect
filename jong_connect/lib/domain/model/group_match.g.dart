@@ -21,6 +21,10 @@ _$GroupMatchImpl _$$GroupMatchImplFromJson(Map<String, dynamic> json) =>
       endAt: json['end_at'] == null
           ? null
           : DateTime.parse(json['end_at'] as String),
+      seasonId: (json['season_id'] as num?)?.toInt(),
+      season: json['season'] == null
+          ? null
+          : Season.fromJson(json['season'] as Map<String, dynamic>),
       results: (json['group_match_results'] as List<dynamic>?)
           ?.map((e) => GroupMatchResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -35,6 +39,8 @@ Map<String, dynamic> _$$GroupMatchImplToJson(_$GroupMatchImpl instance) =>
       'groups': instance.group?.toJson(),
       'users': instance.createdBy?.toJson(),
       'end_at': instance.endAt?.toIso8601String(),
+      'season_id': instance.seasonId,
+      'season': instance.season?.toJson(),
       'group_match_results': instance.results?.map((e) => e.toJson()).toList(),
     };
 

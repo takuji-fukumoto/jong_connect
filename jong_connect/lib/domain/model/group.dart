@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jong_connect/domain/model/user_joined_group.dart';
+import 'package:jong_connect/domain/model/season.dart';
 
 part 'group.freezed.dart';
 
@@ -13,6 +14,7 @@ class Group with _$Group {
     required String name,
     required String description,
     @JsonKey(name: 'image_url') required String imageUrl,
+    @JsonKey(name: 'seasons') List<Season>? seasons,
     @JsonKey(name: 'user_joinned_groups') List<UserJoinedGroup>? joinedUsers,
   }) = _Group;
 

@@ -33,6 +33,10 @@ mixin _$GroupMatch {
   AppUser? get createdBy => throw _privateConstructorUsedError;
   @JsonKey(name: 'end_at')
   DateTime? get endAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'season_id')
+  int? get seasonId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'season')
+  Season? get season => throw _privateConstructorUsedError;
   @JsonKey(name: 'group_match_results')
   List<GroupMatchResult>? get results => throw _privateConstructorUsedError;
 
@@ -60,10 +64,13 @@ abstract class $GroupMatchCopyWith<$Res> {
       @JsonKey(name: 'groups') Group? group,
       @JsonKey(name: 'users') AppUser? createdBy,
       @JsonKey(name: 'end_at') DateTime? endAt,
+      @JsonKey(name: 'season_id') int? seasonId,
+      @JsonKey(name: 'season') Season? season,
       @JsonKey(name: 'group_match_results') List<GroupMatchResult>? results});
 
   $GroupCopyWith<$Res>? get group;
   $AppUserCopyWith<$Res>? get createdBy;
+  $SeasonCopyWith<$Res>? get season;
 }
 
 /// @nodoc
@@ -88,6 +95,8 @@ class _$GroupMatchCopyWithImpl<$Res, $Val extends GroupMatch>
     Object? group = freezed,
     Object? createdBy = freezed,
     Object? endAt = freezed,
+    Object? seasonId = freezed,
+    Object? season = freezed,
     Object? results = freezed,
   }) {
     return _then(_value.copyWith(
@@ -119,6 +128,14 @@ class _$GroupMatchCopyWithImpl<$Res, $Val extends GroupMatch>
           ? _value.endAt
           : endAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      seasonId: freezed == seasonId
+          ? _value.seasonId
+          : seasonId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      season: freezed == season
+          ? _value.season
+          : season // ignore: cast_nullable_to_non_nullable
+              as Season?,
       results: freezed == results
           ? _value.results
           : results // ignore: cast_nullable_to_non_nullable
@@ -153,6 +170,20 @@ class _$GroupMatchCopyWithImpl<$Res, $Val extends GroupMatch>
       return _then(_value.copyWith(createdBy: value) as $Val);
     });
   }
+
+  /// Create a copy of GroupMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SeasonCopyWith<$Res>? get season {
+    if (_value.season == null) {
+      return null;
+    }
+
+    return $SeasonCopyWith<$Res>(_value.season!, (value) {
+      return _then(_value.copyWith(season: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -171,12 +202,16 @@ abstract class _$$GroupMatchImplCopyWith<$Res>
       @JsonKey(name: 'groups') Group? group,
       @JsonKey(name: 'users') AppUser? createdBy,
       @JsonKey(name: 'end_at') DateTime? endAt,
+      @JsonKey(name: 'season_id') int? seasonId,
+      @JsonKey(name: 'season') Season? season,
       @JsonKey(name: 'group_match_results') List<GroupMatchResult>? results});
 
   @override
   $GroupCopyWith<$Res>? get group;
   @override
   $AppUserCopyWith<$Res>? get createdBy;
+  @override
+  $SeasonCopyWith<$Res>? get season;
 }
 
 /// @nodoc
@@ -199,6 +234,8 @@ class __$$GroupMatchImplCopyWithImpl<$Res>
     Object? group = freezed,
     Object? createdBy = freezed,
     Object? endAt = freezed,
+    Object? seasonId = freezed,
+    Object? season = freezed,
     Object? results = freezed,
   }) {
     return _then(_$GroupMatchImpl(
@@ -230,6 +267,14 @@ class __$$GroupMatchImplCopyWithImpl<$Res>
           ? _value.endAt
           : endAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      seasonId: freezed == seasonId
+          ? _value.seasonId
+          : seasonId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      season: freezed == season
+          ? _value.season
+          : season // ignore: cast_nullable_to_non_nullable
+              as Season?,
       results: freezed == results
           ? _value._results
           : results // ignore: cast_nullable_to_non_nullable
@@ -250,6 +295,8 @@ class _$GroupMatchImpl extends _GroupMatch {
       @JsonKey(name: 'groups') this.group,
       @JsonKey(name: 'users') this.createdBy,
       @JsonKey(name: 'end_at') this.endAt,
+      @JsonKey(name: 'season_id') this.seasonId,
+      @JsonKey(name: 'season') this.season,
       @JsonKey(name: 'group_match_results')
       final List<GroupMatchResult>? results})
       : _results = results,
@@ -278,6 +325,12 @@ class _$GroupMatchImpl extends _GroupMatch {
   @override
   @JsonKey(name: 'end_at')
   final DateTime? endAt;
+  @override
+  @JsonKey(name: 'season_id')
+  final int? seasonId;
+  @override
+  @JsonKey(name: 'season')
+  final Season? season;
   final List<GroupMatchResult>? _results;
   @override
   @JsonKey(name: 'group_match_results')
@@ -291,7 +344,7 @@ class _$GroupMatchImpl extends _GroupMatch {
 
   @override
   String toString() {
-    return 'GroupMatch(id: $id, matchType: $matchType, createdAt: $createdAt, groupId: $groupId, group: $group, createdBy: $createdBy, endAt: $endAt, results: $results)';
+    return 'GroupMatch(id: $id, matchType: $matchType, createdAt: $createdAt, groupId: $groupId, group: $group, createdBy: $createdBy, endAt: $endAt, seasonId: $seasonId, season: $season, results: $results)';
   }
 
   @override
@@ -309,6 +362,9 @@ class _$GroupMatchImpl extends _GroupMatch {
             (identical(other.createdBy, createdBy) ||
                 other.createdBy == createdBy) &&
             (identical(other.endAt, endAt) || other.endAt == endAt) &&
+            (identical(other.seasonId, seasonId) ||
+                other.seasonId == seasonId) &&
+            (identical(other.season, season) || other.season == season) &&
             const DeepCollectionEquality().equals(other._results, _results));
   }
 
@@ -323,6 +379,8 @@ class _$GroupMatchImpl extends _GroupMatch {
       group,
       createdBy,
       endAt,
+      seasonId,
+      season,
       const DeepCollectionEquality().hash(_results));
 
   /// Create a copy of GroupMatch
@@ -350,6 +408,8 @@ abstract class _GroupMatch extends GroupMatch {
       @JsonKey(name: 'groups') final Group? group,
       @JsonKey(name: 'users') final AppUser? createdBy,
       @JsonKey(name: 'end_at') final DateTime? endAt,
+      @JsonKey(name: 'season_id') final int? seasonId,
+      @JsonKey(name: 'season') final Season? season,
       @JsonKey(name: 'group_match_results')
       final List<GroupMatchResult>? results}) = _$GroupMatchImpl;
   const _GroupMatch._() : super._();
@@ -377,6 +437,12 @@ abstract class _GroupMatch extends GroupMatch {
   @override
   @JsonKey(name: 'end_at')
   DateTime? get endAt;
+  @override
+  @JsonKey(name: 'season_id')
+  int? get seasonId;
+  @override
+  @JsonKey(name: 'season')
+  Season? get season;
   @override
   @JsonKey(name: 'group_match_results')
   List<GroupMatchResult>? get results;

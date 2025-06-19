@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS "public"."seasons" (
     "id" bigint NOT NULL,
-    "group_id" bigint NULL,
+    "group_id" bigint NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "name" "text" DEFAULT ''::"text" NOT NULL CHECK (char_length(name) <= 20),
     "description" "text" DEFAULT ''::"text" NOT NULL CHECK (char_length(name) <= 50)
@@ -14,7 +14,8 @@ ALTER TABLE ONLY "public"."seasons"
     ADD CONSTRAINT "seasons_pkey" PRIMARY KEY ("id");
 
 ALTER TABLE ONLY "public"."seasons"
-    ADD CONSTRAINT "seasons_group_id_fkey" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE SET NULL;
+    ADD CONSTRAINT "seasons_group_id_fkey"
+    FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE CASCADE;
 
 GRANT ALL ON TABLE "public"."seasons" TO "authenticated";
 GRANT ALL ON TABLE "public"."seasons" TO "service_role";
