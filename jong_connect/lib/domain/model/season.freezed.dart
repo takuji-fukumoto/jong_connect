@@ -23,6 +23,8 @@ mixin _$Season {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'group_id')
   int? get groupId => throw _privateConstructorUsedError;
   @JsonKey(name: 'group')
@@ -46,6 +48,7 @@ abstract class $SeasonCopyWith<$Res> {
       {int id,
       String name,
       String description,
+      @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'group_id') int? groupId,
       @JsonKey(name: 'group') Group? group});
 
@@ -70,6 +73,7 @@ class _$SeasonCopyWithImpl<$Res, $Val extends Season>
     Object? id = null,
     Object? name = null,
     Object? description = null,
+    Object? createdAt = null,
     Object? groupId = freezed,
     Object? group = freezed,
   }) {
@@ -86,6 +90,10 @@ class _$SeasonCopyWithImpl<$Res, $Val extends Season>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       groupId: freezed == groupId
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
@@ -123,6 +131,7 @@ abstract class _$$SeasonImplCopyWith<$Res> implements $SeasonCopyWith<$Res> {
       {int id,
       String name,
       String description,
+      @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'group_id') int? groupId,
       @JsonKey(name: 'group') Group? group});
 
@@ -146,6 +155,7 @@ class __$$SeasonImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? description = null,
+    Object? createdAt = null,
     Object? groupId = freezed,
     Object? group = freezed,
   }) {
@@ -162,6 +172,10 @@ class __$$SeasonImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       groupId: freezed == groupId
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
@@ -182,6 +196,7 @@ class _$SeasonImpl implements _Season {
       {required this.id,
       required this.name,
       required this.description,
+      @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'group_id') this.groupId,
       @JsonKey(name: 'group') this.group});
 
@@ -195,6 +210,9 @@ class _$SeasonImpl implements _Season {
   @override
   final String description;
   @override
+  @JsonKey(name: 'created_at')
+  final DateTime createdAt;
+  @override
   @JsonKey(name: 'group_id')
   final int? groupId;
   @override
@@ -203,7 +221,7 @@ class _$SeasonImpl implements _Season {
 
   @override
   String toString() {
-    return 'Season(id: $id, name: $name, description: $description, groupId: $groupId, group: $group)';
+    return 'Season(id: $id, name: $name, description: $description, createdAt: $createdAt, groupId: $groupId, group: $group)';
   }
 
   @override
@@ -215,14 +233,16 @@ class _$SeasonImpl implements _Season {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
             (identical(other.group, group) || other.group == group));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, description, groupId, group);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, description, createdAt, groupId, group);
 
   /// Create a copy of Season
   /// with the given fields replaced by the non-null parameter values.
@@ -245,6 +265,7 @@ abstract class _Season implements Season {
       {required final int id,
       required final String name,
       required final String description,
+      @JsonKey(name: 'created_at') required final DateTime createdAt,
       @JsonKey(name: 'group_id') final int? groupId,
       @JsonKey(name: 'group') final Group? group}) = _$SeasonImpl;
 
@@ -256,6 +277,9 @@ abstract class _Season implements Season {
   String get name;
   @override
   String get description;
+  @override
+  @JsonKey(name: 'created_at')
+  DateTime get createdAt;
   @override
   @JsonKey(name: 'group_id')
   int? get groupId;
