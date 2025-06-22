@@ -120,10 +120,14 @@ VALUES
   ('123e4567-e89b-12d3-a456-426614174003', 101),
   ('123e4567-e89b-12d3-a456-426614174004', 101);
 
-INSERT INTO "public"."group_matches" ("id", "group_id", "match_type", "created_at", "user_id", "end_at") 
+INSERT INTO "public"."seasons" ("id", "group_id", "name", "description", "created_at") 
 VALUES 
-  (101, 101, 'four', '2024-08-20 07:02:20.378184+00', '123e4567-e89b-12d3-a456-426614174000', '2024-08-20 15:02:20.378184+00'),
-  (102, 101, 'four', '2024-08-14 07:02:20.378184+00', '123e4567-e89b-12d3-a456-426614174001', '2024-08-14 20:02:20.378184+00');
+  (101, 101, 'シーズン1', 'シーズンテストです', '2024-08-20 07:02:20.378184+00');
+
+INSERT INTO "public"."group_matches" ("id", "group_id", "season_id", "match_type", "created_at", "user_id", "end_at") 
+VALUES 
+  (101, 101, 101, 'four', '2024-08-20 07:02:20.378184+00', '123e4567-e89b-12d3-a456-426614174000', '2024-08-20 15:02:20.378184+00'),
+  (102, 101, 101, 'four', '2024-08-14 07:02:20.378184+00', '123e4567-e89b-12d3-a456-426614174001', '2024-08-14 20:02:20.378184+00');
 
 INSERT INTO "public"."group_match_results" ("group_match_id", "user_id", "user_name", "score", "rank", "total_points", "match_order", "created_at") 
 VALUES 
