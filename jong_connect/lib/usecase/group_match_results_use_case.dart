@@ -18,6 +18,7 @@ import '../util/exceptions/calc_match_results_exception.dart';
 
 part 'group_match_results_use_case.g.dart';
 
+// FIXME: GroupMatchとGroupMatchResultsでそれぞれUseCase分けてもいいかも
 @riverpod
 GroupMatchResultsUseCase groupMatchResultsUseCase(
         GroupMatchResultsUseCaseRef ref) =>
@@ -37,6 +38,12 @@ class GroupMatchResultsUseCase {
     return await _ref
         .read(groupMatchesRepositoryProvider)
         .create(groupId, user, type);
+  }
+
+  Future<void> updateSeason(int groupId, int? seasonId) async {
+    return await _ref
+        .read(groupMatchesRepositoryProvider)
+        .updateSeason(groupId, seasonId);
   }
 
   Future<void> addRoundResults(GroupMatch groupMatch,
