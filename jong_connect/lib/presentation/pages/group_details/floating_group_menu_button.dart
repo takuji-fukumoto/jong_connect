@@ -76,6 +76,23 @@ class _FloatingGroupMenuState extends ConsumerState<FloatingGroupMenuButton>
           },
         ),
         Bubble(
+          title: "シーズン作成",
+          iconColor: Theme.of(context).colorScheme.surface,
+          bubbleColor: Theme.of(context).colorScheme.primary,
+          icon: Icons.edit_calendar_outlined,
+          titleStyle: TextStyle(
+              fontSize: 16, color: Theme.of(context).colorScheme.surface),
+          onPress: () {
+            _animationController.reverse();
+            context.goNamed(
+              RoutingPath.createSeason,
+              pathParameters: {
+                'groupId': widget.groupId.toString(),
+              },
+            );
+          },
+        ),
+        Bubble(
           title: "グループ退会",
           iconColor: Theme.of(context).colorScheme.surface,
           bubbleColor: Theme.of(context).colorScheme.primary,

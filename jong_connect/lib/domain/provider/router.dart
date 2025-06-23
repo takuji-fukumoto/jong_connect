@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/presentation/pages/create_group/create_group_page.dart';
+import 'package:jong_connect/presentation/pages/create_season/create_season_page.dart';
 import 'package:jong_connect/presentation/pages/edit_group/edit_group_page.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
 import 'package:jong_connect/presentation/pages/friends/friends_page.dart';
@@ -160,6 +161,51 @@ final routerProvider = Provider(
                         },
                         routes: const [],
                       ),
+                      // GoRoute(
+                      //   parentNavigatorKey: _rootNavigatorKey,
+                      //   name: RoutingPath.groupSeasons,
+                      //   path: RoutingPath.groupSeasons,
+                      //   builder: (context, state) {
+                      //     final groupId =
+                      //         int.parse(state.pathParameters['groupId']!);
+                      //     // TODO: シーズン一覧ページに変更
+                      //     return GroupMembersPage(
+                      //       groupId: groupId,
+                      //     );
+                      //   },
+                      //   routes: const [],
+                      // ),
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        name: RoutingPath.createSeason,
+                        path: RoutingPath.createSeason,
+                        builder: (context, state) {
+                          final groupId =
+                              int.parse(state.pathParameters['groupId']!);
+                          return CreateSeasonPage(
+                            groupId: groupId,
+                          );
+                        },
+                        routes: const [],
+                      ),
+                      // GoRoute(
+                      //   parentNavigatorKey: _rootNavigatorKey,
+                      //   name: RoutingPath.editSeason,
+                      //   path: RoutingPath.editSeason,
+                      //   builder: (context, state) {
+                      //     final groupId =
+                      //         int.parse(state.pathParameters['groupId']!);
+                      //     final seasonId =
+                      //         int.parse(state.pathParameters['seasonId']!);
+
+                      //     // TODO: シーズン編集ページに変更
+                      //     return GroupMembersPage(
+                      //       groupId: groupId,
+                      //       seasonId: seasonId,
+                      //     );
+                      //   },
+                      //   routes: const [],
+                      // ),
                     ],
                   ),
                 ],
