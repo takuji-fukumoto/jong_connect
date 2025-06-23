@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -79,6 +80,26 @@ class _EditSeasonFormState extends ConsumerState<EditSeasonPage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('シーズン編集'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final result = await showOkCancelAlertDialog(
+                  context: context, message: 'シーズンを削除しますか？');
+
+              if (result.name != 'ok') {
+                return;
+              }
+
+              ref.read(seasonUseCaseProvider).deleteSeason(widget.seasonId);
+              context.pop();
+              SnackBarService.showSnackBar(content: 'シーズンを削除しました');
+            },
+            icon: Icon(
+              Icons.delete_forever,
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
+        ],
       ),
       body: AsyncValueWidget(
         asyncValue: ref.watch(seasonDetailsProvider(seasonId: widget.seasonId)),
