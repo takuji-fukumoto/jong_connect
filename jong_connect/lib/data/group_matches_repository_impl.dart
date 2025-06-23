@@ -9,6 +9,7 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
   final _columns = '''
       id, 
       group_id,
+      season_id,
       created_at, 
       end_at,
       users (
