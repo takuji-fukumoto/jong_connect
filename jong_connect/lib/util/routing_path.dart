@@ -12,9 +12,9 @@ abstract final class RoutingPath {
   static const String groupDetails = 'groups/:groupId';
   static const String groupMembers = 'members';
   static const String editGroup = 'edit_group';
-  static const String createSeason = 'new_season';
   static const String groupSeasons = 'seasons';
-  static const String editSeason = 'seasons/:seasonId/edit';
+  static const String createSeason = 'new_season';
+  static const String editSeason = ':seasonId/edit';
   static const String groupMatch = 'group_match/:groupMatchId';
   static const String inputGroupMatchScore = 'scores/new';
   static const String editGroupMatchScore = 'scores/:matchOrder/edit';

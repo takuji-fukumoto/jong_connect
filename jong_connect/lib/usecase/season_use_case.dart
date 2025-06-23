@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:jong_connect/data/seasons_repository.dart';
+import 'package:jong_connect/domain/provider/group_seasons.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:jong_connect/domain/model/season.dart';
@@ -19,13 +20,15 @@ class SeasonUseCase {
       {required String name,
       required String description,
       required int groupId}) async {
-    return await _ref
+    await _ref
         .read(seasonsRepositoryProvider)
         .create(name, description, groupId);
+    _ref.invalidate(groupSeasonsProvider(groupId: groupId));
   }
 
   Future<void> updateSeason(Season newSeason) async {
     await _ref.read(seasonsRepositoryProvider).update(newSeason);
+    _ref.invalidate(groupSeasonsProvider(groupId: newSeason.groupId!));
   }
 
   Future<void> deleteSeason(int seasonId) async {

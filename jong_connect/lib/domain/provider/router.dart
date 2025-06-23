@@ -7,6 +7,7 @@ import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.d
 import 'package:jong_connect/presentation/pages/friends/friends_page.dart';
 import 'package:jong_connect/presentation/pages/game_config/game_config_page.dart';
 import 'package:jong_connect/presentation/pages/group_members/group_members_page.dart';
+import 'package:jong_connect/presentation/pages/group_seasons/group_seasons_page.dart';
 import 'package:jong_connect/presentation/pages/input_group_match_score/input_match_score_page.dart';
 import 'package:jong_connect/presentation/pages/invite_friend/invite_friend_page.dart';
 import 'package:jong_connect/presentation/pages/record/record_page.dart';
@@ -161,51 +162,51 @@ final routerProvider = Provider(
                         },
                         routes: const [],
                       ),
-                      // GoRoute(
-                      //   parentNavigatorKey: _rootNavigatorKey,
-                      //   name: RoutingPath.groupSeasons,
-                      //   path: RoutingPath.groupSeasons,
-                      //   builder: (context, state) {
-                      //     final groupId =
-                      //         int.parse(state.pathParameters['groupId']!);
-                      //     // TODO: シーズン一覧ページに変更
-                      //     return GroupMembersPage(
-                      //       groupId: groupId,
-                      //     );
-                      //   },
-                      //   routes: const [],
-                      // ),
                       GoRoute(
                         parentNavigatorKey: _rootNavigatorKey,
-                        name: RoutingPath.createSeason,
-                        path: RoutingPath.createSeason,
+                        name: RoutingPath.groupSeasons,
+                        path: RoutingPath.groupSeasons,
                         builder: (context, state) {
                           final groupId =
                               int.parse(state.pathParameters['groupId']!);
-                          return CreateSeasonPage(
+                          return GroupSeasonsPage(
                             groupId: groupId,
                           );
                         },
-                        routes: const [],
-                      ),
-                      // GoRoute(
-                      //   parentNavigatorKey: _rootNavigatorKey,
-                      //   name: RoutingPath.editSeason,
-                      //   path: RoutingPath.editSeason,
-                      //   builder: (context, state) {
-                      //     final groupId =
-                      //         int.parse(state.pathParameters['groupId']!);
-                      //     final seasonId =
-                      //         int.parse(state.pathParameters['seasonId']!);
+                        routes: [
+                          GoRoute(
+                            parentNavigatorKey: _rootNavigatorKey,
+                            name: RoutingPath.createSeason,
+                            path: RoutingPath.createSeason,
+                            builder: (context, state) {
+                              final groupId =
+                                  int.parse(state.pathParameters['groupId']!);
+                              return CreateSeasonPage(
+                                groupId: groupId,
+                              );
+                            },
+                            routes: const [],
+                          ),
+                          // GoRoute(
+                          //   parentNavigatorKey: _rootNavigatorKey,
+                          //   name: RoutingPath.editSeason,
+                          //   path: RoutingPath.editSeason,
+                          //   builder: (context, state) {
+                          //     final groupId =
+                          //         int.parse(state.pathParameters['groupId']!);
+                          //     final seasonId =
+                          //         int.parse(state.pathParameters['seasonId']!);
 
-                      //     // TODO: シーズン編集ページに変更
-                      //     return GroupMembersPage(
-                      //       groupId: groupId,
-                      //       seasonId: seasonId,
-                      //     );
-                      //   },
-                      //   routes: const [],
-                      // ),
+                          //     // TODO: シーズン編集ページに変更
+                          //     return GroupMembersPage(
+                          //       groupId: groupId,
+                          //       seasonId: seasonId,
+                          //     );
+                          //   },
+                          //   routes: const [],
+                          // ),
+                        ],
+                      ),
                     ],
                   ),
                 ],
