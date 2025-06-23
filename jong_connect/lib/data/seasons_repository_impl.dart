@@ -12,7 +12,7 @@ class SeasonsRepositoryImpl implements SeasonsRepository {
       description,
       group_id,
       created_at
-    ''').eq('group_id', groupId);
+    ''').eq('group_id', groupId).order('created_at', ascending: false);
 
     return seasons.map<Season>((json) => Season.fromJson(json)).toList();
   }
@@ -47,7 +47,10 @@ class SeasonsRepositoryImpl implements SeasonsRepository {
 
   @override
   Future<void> update(Season season) async {
-    await supabase.from('seasons').update(season.toJson());
+    await supabase.from('seasons').update({
+      'name': season.name,
+      'description': season.description,
+    }).eq('id', season.id);
   }
 
   @override

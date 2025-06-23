@@ -33,5 +33,6 @@ class SeasonUseCase {
 
   Future<void> deleteSeason(int seasonId) async {
     await _ref.read(seasonsRepositoryProvider).delete(seasonId);
+    _ref.invalidate(groupSeasonsProvider);
   }
 }

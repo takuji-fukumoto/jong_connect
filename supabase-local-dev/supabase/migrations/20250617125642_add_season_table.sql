@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "public"."seasons" (
     "group_id" bigint NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "name" "text" DEFAULT ''::"text" NOT NULL CHECK (char_length(name) <= 20),
-    "description" "text" DEFAULT ''::"text" NOT NULL CHECK (char_length(name) <= 50)
+    "description" "text" DEFAULT ''::"text" NOT NULL CHECK (char_length(description) <= 50)
 );
 
 ALTER TABLE "public"."seasons" OWNER TO "postgres";

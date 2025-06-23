@@ -4,6 +4,7 @@ import 'package:jong_connect/presentation/pages/create_group/create_group_page.d
 import 'package:jong_connect/presentation/pages/create_season/create_season_page.dart';
 import 'package:jong_connect/presentation/pages/edit_group/edit_group_page.dart';
 import 'package:jong_connect/presentation/pages/edit_profile/edit_profile_page.dart';
+import 'package:jong_connect/presentation/pages/edit_season/edit_season_page.dart';
 import 'package:jong_connect/presentation/pages/friends/friends_page.dart';
 import 'package:jong_connect/presentation/pages/game_config/game_config_page.dart';
 import 'package:jong_connect/presentation/pages/group_members/group_members_page.dart';
@@ -187,24 +188,23 @@ final routerProvider = Provider(
                             },
                             routes: const [],
                           ),
-                          // GoRoute(
-                          //   parentNavigatorKey: _rootNavigatorKey,
-                          //   name: RoutingPath.editSeason,
-                          //   path: RoutingPath.editSeason,
-                          //   builder: (context, state) {
-                          //     final groupId =
-                          //         int.parse(state.pathParameters['groupId']!);
-                          //     final seasonId =
-                          //         int.parse(state.pathParameters['seasonId']!);
+                          GoRoute(
+                            parentNavigatorKey: _rootNavigatorKey,
+                            name: RoutingPath.editSeason,
+                            path: RoutingPath.editSeason,
+                            builder: (context, state) {
+                              final groupId =
+                                  int.parse(state.pathParameters['groupId']!);
+                              final seasonId =
+                                  int.parse(state.pathParameters['seasonId']!);
 
-                          //     // TODO: シーズン編集ページに変更
-                          //     return GroupMembersPage(
-                          //       groupId: groupId,
-                          //       seasonId: seasonId,
-                          //     );
-                          //   },
-                          //   routes: const [],
-                          // ),
+                              return EditSeasonPage(
+                                groupId: groupId,
+                                seasonId: seasonId,
+                              );
+                            },
+                            routes: const [],
+                          ),
                         ],
                       ),
                     ],
