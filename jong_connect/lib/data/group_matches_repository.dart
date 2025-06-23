@@ -40,6 +40,10 @@ class GroupMatchesRepository {
     throw UnimplementedError();
   }
 
+  Future<void> updateSeason(int groupMatchId, int? seasonId) async {
+    throw UnimplementedError();
+  }
+
   Future<void> closeMatch(int groupMatchId) async {
     throw UnimplementedError();
   }

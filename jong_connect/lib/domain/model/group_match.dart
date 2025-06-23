@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jong_connect/domain/model/app_user.dart';
+import 'package:jong_connect/domain/model/season.dart';
 
 import '../../util/constants.dart';
 import '../../util/expect.dart';
@@ -25,6 +26,8 @@ class GroupMatch with _$GroupMatch {
     @JsonKey(name: 'groups') Group? group,
     @JsonKey(name: 'users') AppUser? createdBy,
     @JsonKey(name: 'end_at') DateTime? endAt,
+    @JsonKey(name: 'season_id') int? seasonId,
+    @JsonKey(name: 'season') Season? season,
     @JsonKey(name: 'group_match_results') List<GroupMatchResult>? results,
   }) = _GroupMatch;
 
