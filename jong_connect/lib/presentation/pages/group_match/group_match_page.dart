@@ -9,17 +9,19 @@ import 'package:go_router/go_router.dart';
 import 'package:jong_connect/domain/provider/group_match.dart';
 import 'package:jong_connect/domain/provider/group_match_players.dart';
 import 'package:jong_connect/domain/provider/group_match_results_stream.dart';
+import 'package:jong_connect/domain/provider/group_seasons.dart';
 import 'package:jong_connect/presentation/pages/group_match/check_settlement_form.dart';
-import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/constants.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../domain/model/group_match.dart';
+import '../../../usecase/group_match_use_case.dart';
 import '../../../util/app_icon_urls.dart';
 import '../../../util/app_sizes.dart';
 import '../../../util/format_date.dart';
 import '../../../util/routing_path.dart';
 import '../../../util/score_color.dart';
+import 'group_season_setting_dropdown.dart';
 
 class GroupMatchPage extends ConsumerWidget {
   const GroupMatchPage(
@@ -30,10 +32,11 @@ class GroupMatchPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncValueGroup.group3(
+    return AsyncValueGroup.group4(
       ref.watch(groupMatchPlayersProvider(groupId)),
       ref.watch(groupMatchProvider(groupMatchId: groupMatchId)),
       ref.watch(groupMatchResultsStreamProvider(groupMatchId)),
+      ref.watch(groupSeasonsProvider(groupId: groupId)),
     ).when(
       data: (values) {
         /// リアルタイムに対局結果を監視し、追加・削除あればUI更新
@@ -44,56 +47,67 @@ class GroupMatchPage extends ConsumerWidget {
         final dateFormatter = DateFormatter(values.$2.createdAt);
 
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.surface,
-            title: AutoSizeText('${dateFormatter.formatToMMDD()}の対局'),
-            actions: [
-              if (!values.$2.isFinish)
-                TextButton(
-                  onPressed: () async {
-                    final result = await showOkCancelAlertDialog(
-                        context: context, message: '対局を終了します');
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(150.0), // ここを適切な高さに変更
+            child: Column(
+              children: [
+                AppBar(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.surface,
+                  title: AutoSizeText('${dateFormatter.formatToMMDD()}の対局'),
+                  actions: [
+                    if (!values.$2.isFinish)
+                      TextButton(
+                        onPressed: () async {
+                          final result = await showOkCancelAlertDialog(
+                              context: context, message: '対局を終了します');
 
-                    if (result.name != 'ok') {
-                      return;
-                    }
+                          if (result.name != 'ok') {
+                            return;
+                          }
 
-                    ref
-                        .watch(groupMatchResultsUseCaseProvider)
-                        .closeMatch(values.$2);
-                    context.pop();
-                    SnackBarService.showSnackBar(content: '対局結果を記録しました');
-                  },
-                  child: AutoSizeText(
-                    '対局終了',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.surface,
+                          ref
+                              .watch(groupMatchUseCaseProvider)
+                              .closeMatch(values.$2);
+                          context.pop();
+                          SnackBarService.showSnackBar(content: '対局結果を記録しました');
+                        },
+                        child: AutoSizeText(
+                          '対局終了',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                        ),
+                      ),
+                    IconButton(
+                      onPressed: () async {
+                        final result = await showOkCancelAlertDialog(
+                            context: context,
+                            message: 'グループ対局を削除しますか？\n記録した各対局結果も全て削除されます');
+
+                        if (result.name != 'ok') {
+                          return;
+                        }
+
+                        ref
+                            .read(groupMatchUseCaseProvider)
+                            .deleteMatch(values.$2);
+                        context.pop();
+                        SnackBarService.showSnackBar(content: 'グループ対局を削除しました');
+                      },
+                      icon: Icon(
+                        Icons.delete_forever,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              IconButton(
-                onPressed: () async {
-                  final result = await showOkCancelAlertDialog(
-                      context: context,
-                      message: 'グループ対局を削除しますか？\n記録した各対局結果も全て削除されます');
-
-                  if (result.name != 'ok') {
-                    return;
-                  }
-
-                  ref
-                      .read(groupMatchResultsUseCaseProvider)
-                      .deleteMatch(values.$2);
-                  context.pop();
-                  SnackBarService.showSnackBar(content: 'グループ対局を削除しました');
-                },
-                icon: Icon(
-                  Icons.delete_forever,
-                  color: Theme.of(context).colorScheme.error,
+                GroupSeasonSettingDropdown(
+                  groupMatch: values.$2,
+                  groupSeasons: values.$4,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           body: _ResultTable(
             players: values.$1,
