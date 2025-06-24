@@ -5,7 +5,7 @@ import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../usecase/exit_group_use_case.dart';
-import '../../../usecase/group_match_results_use_case.dart';
+import '../../../usecase/group_match_use_case.dart';
 import '../../../util/constants.dart';
 import '../../../util/routing_path.dart';
 
@@ -151,7 +151,7 @@ class _FloatingGroupMenuState extends ConsumerState<FloatingGroupMenuButton>
 
             // グループ対局レコード作成
             final groupMatch = await ref
-                .read(groupMatchResultsUseCaseProvider)
+                .read(groupMatchUseCaseProvider)
                 .createGroupMatch(
                     widget.groupId, MatchType.values.byName(result));
 

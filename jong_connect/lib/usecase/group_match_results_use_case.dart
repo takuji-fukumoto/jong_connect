@@ -1,8 +1,6 @@
 import 'dart:collection';
 import 'package:jong_connect/data/group_match_results_repository.dart';
-import 'package:jong_connect/data/group_matches_repository.dart';
 import 'package:jong_connect/domain/model/input_user_score.dart';
-import 'package:jong_connect/domain/provider/current_user.dart';
 import 'package:jong_connect/domain/provider/game_config.dart';
 import 'package:jong_connect/util/constants.dart';
 import 'package:jong_connect/util/extensions/round56.dart';
@@ -13,12 +11,10 @@ import '../domain/model/group_match.dart';
 import '../domain/model/group_match_result.dart';
 import '../domain/model/group_match_result_raw.dart';
 import '../domain/provider/group_match.dart';
-import '../domain/provider/group_matches.dart';
 import '../util/exceptions/calc_match_results_exception.dart';
 
 part 'group_match_results_use_case.g.dart';
 
-// FIXME: GroupMatchとGroupMatchResultsでそれぞれUseCase分けてもいいかも
 @riverpod
 GroupMatchResultsUseCase groupMatchResultsUseCase(
         GroupMatchResultsUseCaseRef ref) =>
@@ -28,23 +24,6 @@ class GroupMatchResultsUseCase {
   final GroupMatchResultsUseCaseRef _ref;
 
   GroupMatchResultsUseCase(this._ref);
-
-  Future<GroupMatch> createGroupMatch(int groupId, MatchType type) async {
-    var user = await _ref.read(currentUserProvider.future);
-    if (user == null) {
-      throw Exception('ログインしてください');
-    }
-
-    return await _ref
-        .read(groupMatchesRepositoryProvider)
-        .create(groupId, user, type);
-  }
-
-  Future<void> updateSeason(int groupId, int? seasonId) async {
-    return await _ref
-        .read(groupMatchesRepositoryProvider)
-        .updateSeason(groupId, seasonId);
-  }
 
   Future<void> addRoundResults(GroupMatch groupMatch,
       List<InputUserScore> scores, int matchOrder) async {
@@ -126,16 +105,6 @@ class GroupMatchResultsUseCase {
     _ref.invalidate(groupMatchProvider(groupMatchId: groupMatchId));
   }
 
-  Future<void> closeMatch(GroupMatch match) async {
-    await _ref.read(groupMatchesRepositoryProvider).closeMatch(match.id);
-    _ref.invalidate(groupMatchesProvider(groupId: match.groupId));
-  }
-
-  Future<void> deleteMatch(GroupMatch match) async {
-    await _ref.read(groupMatchesRepositoryProvider).delete(match.id);
-    _ref.invalidate(groupMatchesProvider(groupId: match.groupId));
-  }
-
   Future<List<GroupMatchResultRaw>> _calcTotalPoints(
       List<InputUserScore> inputScores, MatchType type) async {
     // スコアが高い順にトータルスコア算出
@@ -157,8 +126,8 @@ class GroupMatchResultsUseCase {
         ? gameConfig!.positionPoints
         : gameConfig!.positionPointsForThree;
     var settlementScore = type.playableNumber == 4
-        ? gameConfig!.settlementScore
-        : gameConfig!.settlementScoreForThree;
+        ? gameConfig.settlementScore
+        : gameConfig.settlementScoreForThree;
 
     for (var i = inputScores.length - 1; i > 0; i--) {
       var rank = i + 1;

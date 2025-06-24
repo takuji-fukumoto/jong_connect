@@ -11,11 +11,11 @@ import 'package:jong_connect/domain/provider/group_match_players.dart';
 import 'package:jong_connect/domain/provider/group_match_results_stream.dart';
 import 'package:jong_connect/domain/provider/group_seasons.dart';
 import 'package:jong_connect/presentation/pages/group_match/check_settlement_form.dart';
-import 'package:jong_connect/usecase/group_match_results_use_case.dart';
 import 'package:jong_connect/util/constants.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../domain/model/group_match.dart';
+import '../../../usecase/group_match_use_case.dart';
 import '../../../util/app_icon_urls.dart';
 import '../../../util/app_sizes.dart';
 import '../../../util/format_date.dart';
@@ -67,7 +67,7 @@ class GroupMatchPage extends ConsumerWidget {
                           }
 
                           ref
-                              .watch(groupMatchResultsUseCaseProvider)
+                              .watch(groupMatchUseCaseProvider)
                               .closeMatch(values.$2);
                           context.pop();
                           SnackBarService.showSnackBar(content: '対局結果を記録しました');
@@ -90,7 +90,7 @@ class GroupMatchPage extends ConsumerWidget {
                         }
 
                         ref
-                            .read(groupMatchResultsUseCaseProvider)
+                            .read(groupMatchUseCaseProvider)
                             .deleteMatch(values.$2);
                         context.pop();
                         SnackBarService.showSnackBar(content: 'グループ対局を削除しました');
