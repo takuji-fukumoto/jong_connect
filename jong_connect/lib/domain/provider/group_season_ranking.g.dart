@@ -7,7 +7,7 @@ part of 'group_season_ranking.dart';
 // **************************************************************************
 
 String _$groupSeasonRankingHash() =>
-    r'3f5b247f9af620f93a77c1f22497462e4513e591';
+    r'7c3aeedd0fd45268f2753d3fb71c75cde43e5558';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -43,10 +43,12 @@ class GroupSeasonRankingFamily extends Family<AsyncValue<GroupRanking>> {
   GroupSeasonRankingProvider call({
     required int groupId,
     required int seasonId,
+    required MatchType matchType,
   }) {
     return GroupSeasonRankingProvider(
       groupId: groupId,
       seasonId: seasonId,
+      matchType: matchType,
     );
   }
 
@@ -57,6 +59,7 @@ class GroupSeasonRankingFamily extends Family<AsyncValue<GroupRanking>> {
     return call(
       groupId: provider.groupId,
       seasonId: provider.seasonId,
+      matchType: provider.matchType,
     );
   }
 
@@ -82,11 +85,13 @@ class GroupSeasonRankingProvider
   GroupSeasonRankingProvider({
     required int groupId,
     required int seasonId,
+    required MatchType matchType,
   }) : this._internal(
           (ref) => groupSeasonRanking(
             ref as GroupSeasonRankingRef,
             groupId: groupId,
             seasonId: seasonId,
+            matchType: matchType,
           ),
           from: groupSeasonRankingProvider,
           name: r'groupSeasonRankingProvider',
@@ -99,6 +104,7 @@ class GroupSeasonRankingProvider
               GroupSeasonRankingFamily._allTransitiveDependencies,
           groupId: groupId,
           seasonId: seasonId,
+          matchType: matchType,
         );
 
   GroupSeasonRankingProvider._internal(
@@ -110,10 +116,12 @@ class GroupSeasonRankingProvider
     required super.from,
     required this.groupId,
     required this.seasonId,
+    required this.matchType,
   }) : super.internal();
 
   final int groupId;
   final int seasonId;
+  final MatchType matchType;
 
   @override
   Override overrideWith(
@@ -130,6 +138,7 @@ class GroupSeasonRankingProvider
         debugGetCreateSourceHash: null,
         groupId: groupId,
         seasonId: seasonId,
+        matchType: matchType,
       ),
     );
   }
@@ -143,7 +152,8 @@ class GroupSeasonRankingProvider
   bool operator ==(Object other) {
     return other is GroupSeasonRankingProvider &&
         other.groupId == groupId &&
-        other.seasonId == seasonId;
+        other.seasonId == seasonId &&
+        other.matchType == matchType;
   }
 
   @override
@@ -151,6 +161,7 @@ class GroupSeasonRankingProvider
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, groupId.hashCode);
     hash = _SystemHash.combine(hash, seasonId.hashCode);
+    hash = _SystemHash.combine(hash, matchType.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -162,6 +173,9 @@ mixin GroupSeasonRankingRef on AutoDisposeFutureProviderRef<GroupRanking> {
 
   /// The parameter `seasonId` of this provider.
   int get seasonId;
+
+  /// The parameter `matchType` of this provider.
+  MatchType get matchType;
 }
 
 class _GroupSeasonRankingProviderElement
@@ -173,6 +187,8 @@ class _GroupSeasonRankingProviderElement
   int get groupId => (origin as GroupSeasonRankingProvider).groupId;
   @override
   int get seasonId => (origin as GroupSeasonRankingProvider).seasonId;
+  @override
+  MatchType get matchType => (origin as GroupSeasonRankingProvider).matchType;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

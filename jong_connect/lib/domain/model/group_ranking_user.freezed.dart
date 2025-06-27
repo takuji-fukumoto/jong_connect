@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'group_ranking_item.dart';
+part of 'group_ranking_user.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-GroupRankingItem _$GroupRankingItemFromJson(Map<String, dynamic> json) {
-  return _GroupRankingItem.fromJson(json);
+GroupRankingUser _$GroupRankingUserFromJson(Map<String, dynamic> json) {
+  return _GroupRankingUser.fromJson(json);
 }
 
 /// @nodoc
-mixin _$GroupRankingItem {
+mixin _$GroupRankingUser {
   @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_score')
@@ -29,21 +29,21 @@ mixin _$GroupRankingItem {
   @JsonKey(name: 'total_games')
   int get totalGames => throw _privateConstructorUsedError;
 
-  /// Serializes this GroupRankingItem to a JSON map.
+  /// Serializes this GroupRankingUser to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of GroupRankingItem
+  /// Create a copy of GroupRankingUser
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $GroupRankingItemCopyWith<GroupRankingItem> get copyWith =>
+  $GroupRankingUserCopyWith<GroupRankingUser> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GroupRankingItemCopyWith<$Res> {
-  factory $GroupRankingItemCopyWith(
-          GroupRankingItem value, $Res Function(GroupRankingItem) then) =
-      _$GroupRankingItemCopyWithImpl<$Res, GroupRankingItem>;
+abstract class $GroupRankingUserCopyWith<$Res> {
+  factory $GroupRankingUserCopyWith(
+          GroupRankingUser value, $Res Function(GroupRankingUser) then) =
+      _$GroupRankingUserCopyWithImpl<$Res, GroupRankingUser>;
   @useResult
   $Res call(
       {@JsonKey(name: 'user_id') String userId,
@@ -53,16 +53,16 @@ abstract class $GroupRankingItemCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$GroupRankingItemCopyWithImpl<$Res, $Val extends GroupRankingItem>
-    implements $GroupRankingItemCopyWith<$Res> {
-  _$GroupRankingItemCopyWithImpl(this._value, this._then);
+class _$GroupRankingUserCopyWithImpl<$Res, $Val extends GroupRankingUser>
+    implements $GroupRankingUserCopyWith<$Res> {
+  _$GroupRankingUserCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of GroupRankingItem
+  /// Create a copy of GroupRankingUser
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -94,11 +94,11 @@ class _$GroupRankingItemCopyWithImpl<$Res, $Val extends GroupRankingItem>
 }
 
 /// @nodoc
-abstract class _$$GroupRankingItemImplCopyWith<$Res>
-    implements $GroupRankingItemCopyWith<$Res> {
-  factory _$$GroupRankingItemImplCopyWith(_$GroupRankingItemImpl value,
-          $Res Function(_$GroupRankingItemImpl) then) =
-      __$$GroupRankingItemImplCopyWithImpl<$Res>;
+abstract class _$$GroupRankingUserImplCopyWith<$Res>
+    implements $GroupRankingUserCopyWith<$Res> {
+  factory _$$GroupRankingUserImplCopyWith(_$GroupRankingUserImpl value,
+          $Res Function(_$GroupRankingUserImpl) then) =
+      __$$GroupRankingUserImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -109,14 +109,14 @@ abstract class _$$GroupRankingItemImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$GroupRankingItemImplCopyWithImpl<$Res>
-    extends _$GroupRankingItemCopyWithImpl<$Res, _$GroupRankingItemImpl>
-    implements _$$GroupRankingItemImplCopyWith<$Res> {
-  __$$GroupRankingItemImplCopyWithImpl(_$GroupRankingItemImpl _value,
-      $Res Function(_$GroupRankingItemImpl) _then)
+class __$$GroupRankingUserImplCopyWithImpl<$Res>
+    extends _$GroupRankingUserCopyWithImpl<$Res, _$GroupRankingUserImpl>
+    implements _$$GroupRankingUserImplCopyWith<$Res> {
+  __$$GroupRankingUserImplCopyWithImpl(_$GroupRankingUserImpl _value,
+      $Res Function(_$GroupRankingUserImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GroupRankingItem
+  /// Create a copy of GroupRankingUser
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -126,7 +126,7 @@ class __$$GroupRankingItemImplCopyWithImpl<$Res>
     Object? averageRank = null,
     Object? totalGames = null,
   }) {
-    return _then(_$GroupRankingItemImpl(
+    return _then(_$GroupRankingUserImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -150,16 +150,16 @@ class __$$GroupRankingItemImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$GroupRankingItemImpl extends _GroupRankingItem {
-  const _$GroupRankingItemImpl(
+class _$GroupRankingUserImpl extends _GroupRankingUser {
+  const _$GroupRankingUserImpl(
       {@JsonKey(name: 'user_id') required this.userId,
       @JsonKey(name: 'total_score') required this.totalScore,
       @JsonKey(name: 'average_rank') required this.averageRank,
       @JsonKey(name: 'total_games') required this.totalGames})
       : super._();
 
-  factory _$GroupRankingItemImpl.fromJson(Map<String, dynamic> json) =>
-      _$$GroupRankingItemImplFromJson(json);
+  factory _$GroupRankingUserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GroupRankingUserImplFromJson(json);
 
   @override
   @JsonKey(name: 'user_id')
@@ -176,14 +176,14 @@ class _$GroupRankingItemImpl extends _GroupRankingItem {
 
   @override
   String toString() {
-    return 'GroupRankingItem(userId: $userId, totalScore: $totalScore, averageRank: $averageRank, totalGames: $totalGames)';
+    return 'GroupRankingUser(userId: $userId, totalScore: $totalScore, averageRank: $averageRank, totalGames: $totalGames)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GroupRankingItemImpl &&
+            other is _$GroupRankingUserImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.totalScore, totalScore) ||
                 other.totalScore == totalScore) &&
@@ -198,34 +198,34 @@ class _$GroupRankingItemImpl extends _GroupRankingItem {
   int get hashCode =>
       Object.hash(runtimeType, userId, totalScore, averageRank, totalGames);
 
-  /// Create a copy of GroupRankingItem
+  /// Create a copy of GroupRankingUser
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$GroupRankingItemImplCopyWith<_$GroupRankingItemImpl> get copyWith =>
-      __$$GroupRankingItemImplCopyWithImpl<_$GroupRankingItemImpl>(
+  _$$GroupRankingUserImplCopyWith<_$GroupRankingUserImpl> get copyWith =>
+      __$$GroupRankingUserImplCopyWithImpl<_$GroupRankingUserImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GroupRankingItemImplToJson(
+    return _$$GroupRankingUserImplToJson(
       this,
     );
   }
 }
 
-abstract class _GroupRankingItem extends GroupRankingItem {
-  const factory _GroupRankingItem(
+abstract class _GroupRankingUser extends GroupRankingUser {
+  const factory _GroupRankingUser(
           {@JsonKey(name: 'user_id') required final String userId,
           @JsonKey(name: 'total_score') required final int totalScore,
           @JsonKey(name: 'average_rank') required final double averageRank,
           @JsonKey(name: 'total_games') required final int totalGames}) =
-      _$GroupRankingItemImpl;
-  const _GroupRankingItem._() : super._();
+      _$GroupRankingUserImpl;
+  const _GroupRankingUser._() : super._();
 
-  factory _GroupRankingItem.fromJson(Map<String, dynamic> json) =
-      _$GroupRankingItemImpl.fromJson;
+  factory _GroupRankingUser.fromJson(Map<String, dynamic> json) =
+      _$GroupRankingUserImpl.fromJson;
 
   @override
   @JsonKey(name: 'user_id')
@@ -240,10 +240,10 @@ abstract class _GroupRankingItem extends GroupRankingItem {
   @JsonKey(name: 'total_games')
   int get totalGames;
 
-  /// Create a copy of GroupRankingItem
+  /// Create a copy of GroupRankingUser
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GroupRankingItemImplCopyWith<_$GroupRankingItemImpl> get copyWith =>
+  _$$GroupRankingUserImplCopyWith<_$GroupRankingUserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

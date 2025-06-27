@@ -6,7 +6,7 @@ part of 'group_total_ranking.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$groupTotalRankingHash() => r'01230d03bb5bad51363f1e79306363cd55960ab5';
+String _$groupTotalRankingHash() => r'4b7b57579b349a5e4c5103af706899d31bba2522';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -41,9 +41,11 @@ class GroupTotalRankingFamily extends Family<AsyncValue<GroupRanking>> {
   /// See also [groupTotalRanking].
   GroupTotalRankingProvider call({
     required int groupId,
+    required MatchType matchType,
   }) {
     return GroupTotalRankingProvider(
       groupId: groupId,
+      matchType: matchType,
     );
   }
 
@@ -53,6 +55,7 @@ class GroupTotalRankingFamily extends Family<AsyncValue<GroupRanking>> {
   ) {
     return call(
       groupId: provider.groupId,
+      matchType: provider.matchType,
     );
   }
 
@@ -77,10 +80,12 @@ class GroupTotalRankingProvider
   /// See also [groupTotalRanking].
   GroupTotalRankingProvider({
     required int groupId,
+    required MatchType matchType,
   }) : this._internal(
           (ref) => groupTotalRanking(
             ref as GroupTotalRankingRef,
             groupId: groupId,
+            matchType: matchType,
           ),
           from: groupTotalRankingProvider,
           name: r'groupTotalRankingProvider',
@@ -92,6 +97,7 @@ class GroupTotalRankingProvider
           allTransitiveDependencies:
               GroupTotalRankingFamily._allTransitiveDependencies,
           groupId: groupId,
+          matchType: matchType,
         );
 
   GroupTotalRankingProvider._internal(
@@ -102,9 +108,11 @@ class GroupTotalRankingProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.groupId,
+    required this.matchType,
   }) : super.internal();
 
   final int groupId;
+  final MatchType matchType;
 
   @override
   Override overrideWith(
@@ -120,6 +128,7 @@ class GroupTotalRankingProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         groupId: groupId,
+        matchType: matchType,
       ),
     );
   }
@@ -131,13 +140,16 @@ class GroupTotalRankingProvider
 
   @override
   bool operator ==(Object other) {
-    return other is GroupTotalRankingProvider && other.groupId == groupId;
+    return other is GroupTotalRankingProvider &&
+        other.groupId == groupId &&
+        other.matchType == matchType;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, groupId.hashCode);
+    hash = _SystemHash.combine(hash, matchType.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -146,6 +158,9 @@ class GroupTotalRankingProvider
 mixin GroupTotalRankingRef on AutoDisposeFutureProviderRef<GroupRanking> {
   /// The parameter `groupId` of this provider.
   int get groupId;
+
+  /// The parameter `matchType` of this provider.
+  MatchType get matchType;
 }
 
 class _GroupTotalRankingProviderElement
@@ -155,6 +170,8 @@ class _GroupTotalRankingProviderElement
 
   @override
   int get groupId => (origin as GroupTotalRankingProvider).groupId;
+  @override
+  MatchType get matchType => (origin as GroupTotalRankingProvider).matchType;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

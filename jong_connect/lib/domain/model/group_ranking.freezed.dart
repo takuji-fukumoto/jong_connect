@@ -21,7 +21,7 @@ GroupRanking _$GroupRankingFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$GroupRanking {
   @JsonKey(name: 'ranking_items')
-  List<GroupRankingItem> get rankingItems => throw _privateConstructorUsedError;
+  List<GroupRankingUser> get rankingUsers => throw _privateConstructorUsedError;
 
   /// Serializes this GroupRanking to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $GroupRankingCopyWith<$Res> {
       _$GroupRankingCopyWithImpl<$Res, GroupRanking>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'ranking_items') List<GroupRankingItem> rankingItems});
+      {@JsonKey(name: 'ranking_items') List<GroupRankingUser> rankingUsers});
 }
 
 /// @nodoc
@@ -58,13 +58,13 @@ class _$GroupRankingCopyWithImpl<$Res, $Val extends GroupRanking>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rankingItems = null,
+    Object? rankingUsers = null,
   }) {
     return _then(_value.copyWith(
-      rankingItems: null == rankingItems
-          ? _value.rankingItems
-          : rankingItems // ignore: cast_nullable_to_non_nullable
-              as List<GroupRankingItem>,
+      rankingUsers: null == rankingUsers
+          ? _value.rankingUsers
+          : rankingUsers // ignore: cast_nullable_to_non_nullable
+              as List<GroupRankingUser>,
     ) as $Val);
   }
 }
@@ -78,7 +78,7 @@ abstract class _$$GroupRankingImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'ranking_items') List<GroupRankingItem> rankingItems});
+      {@JsonKey(name: 'ranking_items') List<GroupRankingUser> rankingUsers});
 }
 
 /// @nodoc
@@ -94,13 +94,13 @@ class __$$GroupRankingImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rankingItems = null,
+    Object? rankingUsers = null,
   }) {
     return _then(_$GroupRankingImpl(
-      rankingItems: null == rankingItems
-          ? _value._rankingItems
-          : rankingItems // ignore: cast_nullable_to_non_nullable
-              as List<GroupRankingItem>,
+      rankingUsers: null == rankingUsers
+          ? _value._rankingUsers
+          : rankingUsers // ignore: cast_nullable_to_non_nullable
+              as List<GroupRankingUser>,
     ));
   }
 }
@@ -111,25 +111,25 @@ class __$$GroupRankingImplCopyWithImpl<$Res>
 class _$GroupRankingImpl extends _GroupRanking {
   const _$GroupRankingImpl(
       {@JsonKey(name: 'ranking_items')
-      required final List<GroupRankingItem> rankingItems})
-      : _rankingItems = rankingItems,
+      required final List<GroupRankingUser> rankingUsers})
+      : _rankingUsers = rankingUsers,
         super._();
 
   factory _$GroupRankingImpl.fromJson(Map<String, dynamic> json) =>
       _$$GroupRankingImplFromJson(json);
 
-  final List<GroupRankingItem> _rankingItems;
+  final List<GroupRankingUser> _rankingUsers;
   @override
   @JsonKey(name: 'ranking_items')
-  List<GroupRankingItem> get rankingItems {
-    if (_rankingItems is EqualUnmodifiableListView) return _rankingItems;
+  List<GroupRankingUser> get rankingUsers {
+    if (_rankingUsers is EqualUnmodifiableListView) return _rankingUsers;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_rankingItems);
+    return EqualUnmodifiableListView(_rankingUsers);
   }
 
   @override
   String toString() {
-    return 'GroupRanking(rankingItems: $rankingItems)';
+    return 'GroupRanking(rankingUsers: $rankingUsers)';
   }
 
   @override
@@ -138,13 +138,13 @@ class _$GroupRankingImpl extends _GroupRanking {
         (other.runtimeType == runtimeType &&
             other is _$GroupRankingImpl &&
             const DeepCollectionEquality()
-                .equals(other._rankingItems, _rankingItems));
+                .equals(other._rankingUsers, _rankingUsers));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_rankingItems));
+      runtimeType, const DeepCollectionEquality().hash(_rankingUsers));
 
   /// Create a copy of GroupRanking
   /// with the given fields replaced by the non-null parameter values.
@@ -165,7 +165,7 @@ class _$GroupRankingImpl extends _GroupRanking {
 abstract class _GroupRanking extends GroupRanking {
   const factory _GroupRanking(
       {@JsonKey(name: 'ranking_items')
-      required final List<GroupRankingItem> rankingItems}) = _$GroupRankingImpl;
+      required final List<GroupRankingUser> rankingUsers}) = _$GroupRankingImpl;
   const _GroupRanking._() : super._();
 
   factory _GroupRanking.fromJson(Map<String, dynamic> json) =
@@ -173,7 +173,7 @@ abstract class _GroupRanking extends GroupRanking {
 
   @override
   @JsonKey(name: 'ranking_items')
-  List<GroupRankingItem> get rankingItems;
+  List<GroupRankingUser> get rankingUsers;
 
   /// Create a copy of GroupRanking
   /// with the given fields replaced by the non-null parameter values.
