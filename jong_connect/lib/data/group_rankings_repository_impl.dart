@@ -5,9 +5,10 @@ import '../util/constants.dart';
 
 class GroupRankingsRepositoryImpl implements GroupRankingsRepository {
   @override
-  Future<GroupRanking> getTotalRanking(int groupId) async {
+  Future<GroupRanking> getTotalRanking(int groupId, MatchType matchType) async {
     var rankingItems = await supabase.rpc('get_group_ranking', params: {
       'group_id': groupId,
+      'group_match_type': matchType.toString(),
     });
 
     var items = rankingItems
@@ -18,10 +19,12 @@ class GroupRankingsRepositoryImpl implements GroupRankingsRepository {
   }
 
   @override
-  Future<GroupRanking> getSeasonRanking(int groupId, int seasonId) async {
+  Future<GroupRanking> getSeasonRanking(
+      int groupId, int seasonId, MatchType matchType) async {
     var rankingItems = await supabase.rpc('get_group_season_ranking', params: {
       'group_id': groupId,
       'season_id': seasonId,
+      'group_match_type': matchType.toString(),
     });
 
     var items = rankingItems
