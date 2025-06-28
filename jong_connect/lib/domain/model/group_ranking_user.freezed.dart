@@ -22,8 +22,8 @@ GroupRankingUser _$GroupRankingUserFromJson(Map<String, dynamic> json) {
 mixin _$GroupRankingUser {
   @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'total_score')
-  int get totalScore => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_points')
+  int get totalPoints => throw _privateConstructorUsedError;
   @JsonKey(name: 'average_rank')
   double get averageRank => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_games')
@@ -47,7 +47,7 @@ abstract class $GroupRankingUserCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'user_id') String userId,
-      @JsonKey(name: 'total_score') int totalScore,
+      @JsonKey(name: 'total_points') int totalPoints,
       @JsonKey(name: 'average_rank') double averageRank,
       @JsonKey(name: 'total_games') int totalGames});
 }
@@ -68,7 +68,7 @@ class _$GroupRankingUserCopyWithImpl<$Res, $Val extends GroupRankingUser>
   @override
   $Res call({
     Object? userId = null,
-    Object? totalScore = null,
+    Object? totalPoints = null,
     Object? averageRank = null,
     Object? totalGames = null,
   }) {
@@ -77,9 +77,9 @@ class _$GroupRankingUserCopyWithImpl<$Res, $Val extends GroupRankingUser>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      totalScore: null == totalScore
-          ? _value.totalScore
-          : totalScore // ignore: cast_nullable_to_non_nullable
+      totalPoints: null == totalPoints
+          ? _value.totalPoints
+          : totalPoints // ignore: cast_nullable_to_non_nullable
               as int,
       averageRank: null == averageRank
           ? _value.averageRank
@@ -103,7 +103,7 @@ abstract class _$$GroupRankingUserImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'user_id') String userId,
-      @JsonKey(name: 'total_score') int totalScore,
+      @JsonKey(name: 'total_points') int totalPoints,
       @JsonKey(name: 'average_rank') double averageRank,
       @JsonKey(name: 'total_games') int totalGames});
 }
@@ -122,7 +122,7 @@ class __$$GroupRankingUserImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = null,
-    Object? totalScore = null,
+    Object? totalPoints = null,
     Object? averageRank = null,
     Object? totalGames = null,
   }) {
@@ -131,9 +131,9 @@ class __$$GroupRankingUserImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      totalScore: null == totalScore
-          ? _value.totalScore
-          : totalScore // ignore: cast_nullable_to_non_nullable
+      totalPoints: null == totalPoints
+          ? _value.totalPoints
+          : totalPoints // ignore: cast_nullable_to_non_nullable
               as int,
       averageRank: null == averageRank
           ? _value.averageRank
@@ -153,7 +153,7 @@ class __$$GroupRankingUserImplCopyWithImpl<$Res>
 class _$GroupRankingUserImpl extends _GroupRankingUser {
   const _$GroupRankingUserImpl(
       {@JsonKey(name: 'user_id') required this.userId,
-      @JsonKey(name: 'total_score') required this.totalScore,
+      @JsonKey(name: 'total_points') required this.totalPoints,
       @JsonKey(name: 'average_rank') required this.averageRank,
       @JsonKey(name: 'total_games') required this.totalGames})
       : super._();
@@ -165,8 +165,8 @@ class _$GroupRankingUserImpl extends _GroupRankingUser {
   @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'total_score')
-  final int totalScore;
+  @JsonKey(name: 'total_points')
+  final int totalPoints;
   @override
   @JsonKey(name: 'average_rank')
   final double averageRank;
@@ -176,7 +176,7 @@ class _$GroupRankingUserImpl extends _GroupRankingUser {
 
   @override
   String toString() {
-    return 'GroupRankingUser(userId: $userId, totalScore: $totalScore, averageRank: $averageRank, totalGames: $totalGames)';
+    return 'GroupRankingUser(userId: $userId, totalPoints: $totalPoints, averageRank: $averageRank, totalGames: $totalGames)';
   }
 
   @override
@@ -185,8 +185,8 @@ class _$GroupRankingUserImpl extends _GroupRankingUser {
         (other.runtimeType == runtimeType &&
             other is _$GroupRankingUserImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.totalScore, totalScore) ||
-                other.totalScore == totalScore) &&
+            (identical(other.totalPoints, totalPoints) ||
+                other.totalPoints == totalPoints) &&
             (identical(other.averageRank, averageRank) ||
                 other.averageRank == averageRank) &&
             (identical(other.totalGames, totalGames) ||
@@ -196,7 +196,7 @@ class _$GroupRankingUserImpl extends _GroupRankingUser {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, userId, totalScore, averageRank, totalGames);
+      Object.hash(runtimeType, userId, totalPoints, averageRank, totalGames);
 
   /// Create a copy of GroupRankingUser
   /// with the given fields replaced by the non-null parameter values.
@@ -218,7 +218,7 @@ class _$GroupRankingUserImpl extends _GroupRankingUser {
 abstract class _GroupRankingUser extends GroupRankingUser {
   const factory _GroupRankingUser(
           {@JsonKey(name: 'user_id') required final String userId,
-          @JsonKey(name: 'total_score') required final int totalScore,
+          @JsonKey(name: 'total_points') required final int totalPoints,
           @JsonKey(name: 'average_rank') required final double averageRank,
           @JsonKey(name: 'total_games') required final int totalGames}) =
       _$GroupRankingUserImpl;
@@ -231,8 +231,8 @@ abstract class _GroupRankingUser extends GroupRankingUser {
   @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'total_score')
-  int get totalScore;
+  @JsonKey(name: 'total_points')
+  int get totalPoints;
   @override
   @JsonKey(name: 'average_rank')
   double get averageRank;

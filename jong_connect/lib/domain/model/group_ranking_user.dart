@@ -11,11 +11,17 @@ class GroupRankingUser with _$GroupRankingUser {
   @JsonSerializable(explicitToJson: true)
   const factory GroupRankingUser({
     @JsonKey(name: 'user_id') required String userId,
-    @JsonKey(name: 'total_score') required int totalScore,
+    @JsonKey(name: 'total_points') required int totalPoints,
     @JsonKey(name: 'average_rank') required double averageRank,
     @JsonKey(name: 'total_games') required int totalGames,
   }) = _GroupRankingUser;
 
   factory GroupRankingUser.fromJson(Map<String, dynamic> json) =>
       _$GroupRankingUserFromJson(json);
+
+  String get totalPointsString => totalPoints.toString();
+
+  String get totalGamesString => totalGames.toString();
+
+  String get averageRankString => averageRank.toStringAsFixed(2);
 }

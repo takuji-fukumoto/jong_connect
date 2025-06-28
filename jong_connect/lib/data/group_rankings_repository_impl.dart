@@ -8,9 +8,10 @@ class GroupRankingsRepositoryImpl implements GroupRankingsRepository {
   Future<GroupRanking> getTotalRanking(int groupId, MatchType matchType) async {
     var rankingUsers = await supabase.rpc('get_group_ranking', params: {
       'group_id': groupId,
-      'group_match_type': matchType.toString(),
+      'group_match_type': matchType.name,
     });
 
+    print('get total ranking');
     var users = rankingUsers
         .map<GroupRankingUser>((json) => GroupRankingUser.fromJson(json))
         .toList();
@@ -24,9 +25,10 @@ class GroupRankingsRepositoryImpl implements GroupRankingsRepository {
     var rankingUsers = await supabase.rpc('get_group_season_ranking', params: {
       'group_id': groupId,
       'season_id': seasonId,
-      'group_match_type': matchType.toString(),
+      'group_match_type': matchType.name,
     });
 
+    print('get season ranking');
     var users = rankingUsers
         .map<GroupRankingUser>((json) => GroupRankingUser.fromJson(json))
         .toList();

@@ -26,7 +26,7 @@ mixin _$Season {
   @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'group_id')
-  int? get groupId => throw _privateConstructorUsedError;
+  int get groupId => throw _privateConstructorUsedError;
   @JsonKey(name: 'group')
   Group? get group => throw _privateConstructorUsedError;
 
@@ -49,7 +49,7 @@ abstract class $SeasonCopyWith<$Res> {
       String name,
       String description,
       @JsonKey(name: 'created_at') DateTime createdAt,
-      @JsonKey(name: 'group_id') int? groupId,
+      @JsonKey(name: 'group_id') int groupId,
       @JsonKey(name: 'group') Group? group});
 
   $GroupCopyWith<$Res>? get group;
@@ -74,7 +74,7 @@ class _$SeasonCopyWithImpl<$Res, $Val extends Season>
     Object? name = null,
     Object? description = null,
     Object? createdAt = null,
-    Object? groupId = freezed,
+    Object? groupId = null,
     Object? group = freezed,
   }) {
     return _then(_value.copyWith(
@@ -94,10 +94,10 @@ class _$SeasonCopyWithImpl<$Res, $Val extends Season>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      groupId: freezed == groupId
+      groupId: null == groupId
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       group: freezed == group
           ? _value.group
           : group // ignore: cast_nullable_to_non_nullable
@@ -132,7 +132,7 @@ abstract class _$$SeasonImplCopyWith<$Res> implements $SeasonCopyWith<$Res> {
       String name,
       String description,
       @JsonKey(name: 'created_at') DateTime createdAt,
-      @JsonKey(name: 'group_id') int? groupId,
+      @JsonKey(name: 'group_id') int groupId,
       @JsonKey(name: 'group') Group? group});
 
   @override
@@ -156,7 +156,7 @@ class __$$SeasonImplCopyWithImpl<$Res>
     Object? name = null,
     Object? description = null,
     Object? createdAt = null,
-    Object? groupId = freezed,
+    Object? groupId = null,
     Object? group = freezed,
   }) {
     return _then(_$SeasonImpl(
@@ -176,10 +176,10 @@ class __$$SeasonImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      groupId: freezed == groupId
+      groupId: null == groupId
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       group: freezed == group
           ? _value.group
           : group // ignore: cast_nullable_to_non_nullable
@@ -197,7 +197,7 @@ class _$SeasonImpl implements _Season {
       required this.name,
       required this.description,
       @JsonKey(name: 'created_at') required this.createdAt,
-      @JsonKey(name: 'group_id') this.groupId,
+      @JsonKey(name: 'group_id') required this.groupId,
       @JsonKey(name: 'group') this.group});
 
   factory _$SeasonImpl.fromJson(Map<String, dynamic> json) =>
@@ -214,7 +214,7 @@ class _$SeasonImpl implements _Season {
   final DateTime createdAt;
   @override
   @JsonKey(name: 'group_id')
-  final int? groupId;
+  final int groupId;
   @override
   @JsonKey(name: 'group')
   final Group? group;
@@ -266,7 +266,7 @@ abstract class _Season implements Season {
       required final String name,
       required final String description,
       @JsonKey(name: 'created_at') required final DateTime createdAt,
-      @JsonKey(name: 'group_id') final int? groupId,
+      @JsonKey(name: 'group_id') required final int groupId,
       @JsonKey(name: 'group') final Group? group}) = _$SeasonImpl;
 
   factory _Season.fromJson(Map<String, dynamic> json) = _$SeasonImpl.fromJson;
@@ -282,7 +282,7 @@ abstract class _Season implements Season {
   DateTime get createdAt;
   @override
   @JsonKey(name: 'group_id')
-  int? get groupId;
+  int get groupId;
   @override
   @JsonKey(name: 'group')
   Group? get group;

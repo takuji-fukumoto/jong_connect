@@ -1,6 +1,6 @@
 CREATE TYPE public.group_ranking_result AS (
   user_id uuid,
-  total_score int,
+  total_points int,
   average_rank numeric,
   total_games int
 );
@@ -12,7 +12,7 @@ LANGUAGE sql
 AS $$
   SELECT 
     group_match_results.user_id,
-    SUM(group_match_results.score) AS total_score,
+    SUM(group_match_results.total_points) AS total_points,
     AVG(group_match_results.rank) AS average_rank,
     COUNT(group_match_results.id) AS total_games
   FROM group_matches
@@ -29,7 +29,7 @@ LANGUAGE sql
 AS $$
   SELECT 
     group_match_results.user_id,
-    SUM(group_match_results.score) AS total_score,
+    SUM(group_match_results.total_points) AS total_points,
     AVG(group_match_results.rank) AS average_rank,
     COUNT(group_match_results.id) AS total_games
   FROM group_matches
