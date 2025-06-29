@@ -96,7 +96,7 @@ class GroupsRepositoryImpl implements GroupsRepository {
   @override
   Future<void> update(Group group) async {
     final joinedUserIds =
-        group.joinedUsers!.map<String>((joined) => joined.user!.id).toList();
+        group.joinedUsers.map<String>((joined) => joined.user!.id).toList();
     return await supabase.rpc('edit_group', params: {
       'id': group.id,
       'join_user_ids': joinedUserIds,

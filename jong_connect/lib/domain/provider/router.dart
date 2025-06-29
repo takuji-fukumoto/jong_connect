@@ -8,6 +8,7 @@ import 'package:jong_connect/presentation/pages/edit_season/edit_season_page.dar
 import 'package:jong_connect/presentation/pages/friends/friends_page.dart';
 import 'package:jong_connect/presentation/pages/game_config/game_config_page.dart';
 import 'package:jong_connect/presentation/pages/group_members/group_members_page.dart';
+import 'package:jong_connect/presentation/pages/group_ranking/group_ranking_page.dart';
 import 'package:jong_connect/presentation/pages/group_seasons/group_seasons_page.dart';
 import 'package:jong_connect/presentation/pages/input_group_match_score/input_match_score_page.dart';
 import 'package:jong_connect/presentation/pages/invite_friend/invite_friend_page.dart';
@@ -206,6 +207,19 @@ final routerProvider = Provider(
                             routes: const [],
                           ),
                         ],
+                      ),
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        name: RoutingPath.groupRanking,
+                        path: RoutingPath.groupRanking,
+                        builder: (context, state) {
+                          final groupId =
+                              int.parse(state.pathParameters['groupId']!);
+                          return GroupRankingPage(
+                            groupId: groupId,
+                          );
+                        },
+                        routes: const [],
                       ),
                     ],
                   ),

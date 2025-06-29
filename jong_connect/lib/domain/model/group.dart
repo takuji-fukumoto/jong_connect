@@ -15,8 +15,18 @@ class Group with _$Group {
     required String description,
     @JsonKey(name: 'image_url') required String imageUrl,
     @JsonKey(name: 'seasons') List<Season>? seasons,
-    @JsonKey(name: 'user_joinned_groups') List<UserJoinedGroup>? joinedUsers,
+    @JsonKey(name: 'user_joinned_groups')
+    @Default([])
+    List<UserJoinedGroup> joinedUsers,
   }) = _Group;
 
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
+//
+// List<AppUser> joinedAppUsers() {
+//   return joinedUsers
+//           .where((e) => e.user != null)
+//           .map((e) => e.user!)
+//           .toList() ??
+//       [];
+// }
 }

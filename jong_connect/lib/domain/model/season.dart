@@ -13,7 +13,7 @@ class Season with _$Season {
     required String name,
     required String description,
     @JsonKey(name: 'created_at') required DateTime createdAt,
-    @JsonKey(name: 'group_id') int? groupId,
+    @JsonKey(name: 'group_id') required int groupId,
     @JsonKey(name: 'group') Group? group,
   }) = _Season;
 

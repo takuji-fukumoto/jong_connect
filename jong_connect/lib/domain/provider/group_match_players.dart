@@ -10,10 +10,8 @@ class GroupMatchPlayers extends _$GroupMatchPlayers {
   @override
   FutureOr<List<AppUser>> build(int groupId) async {
     var group = await ref.read(groupDetailsProvider(groupId: groupId).future);
-    var players = group.joinedUsers
-            ?.map<AppUser>((joinUser) => joinUser.user!)
-            .toList() ??
-        [];
+    var players =
+        group.joinedUsers.map<AppUser>((joinUser) => joinUser.user!).toList();
     return players;
   }
 

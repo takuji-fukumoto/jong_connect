@@ -11,7 +11,7 @@ _$SeasonImpl _$$SeasonImplFromJson(Map<String, dynamic> json) => _$SeasonImpl(
       name: json['name'] as String,
       description: json['description'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
-      groupId: (json['group_id'] as num?)?.toInt(),
+      groupId: (json['group_id'] as num).toInt(),
       group: json['group'] == null
           ? null
           : Group.fromJson(json['group'] as Map<String, dynamic>),

@@ -93,6 +93,23 @@ class _FloatingGroupMenuState extends ConsumerState<FloatingGroupMenuButton>
           },
         ),
         Bubble(
+          title: "ランキング",
+          iconColor: Theme.of(context).colorScheme.surface,
+          bubbleColor: Theme.of(context).colorScheme.primary,
+          icon: Icons.emoji_flags,
+          titleStyle: TextStyle(
+              fontSize: 16, color: Theme.of(context).colorScheme.surface),
+          onPress: () {
+            _animationController.reverse();
+            context.goNamed(
+              RoutingPath.groupRanking,
+              pathParameters: {
+                'groupId': widget.groupId.toString(),
+              },
+            );
+          },
+        ),
+        Bubble(
           title: "グループ退会",
           iconColor: Theme.of(context).colorScheme.surface,
           bubbleColor: Theme.of(context).colorScheme.primary,

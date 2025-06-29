@@ -28,7 +28,7 @@ mixin _$Group {
   @JsonKey(name: 'seasons')
   List<Season>? get seasons => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_joinned_groups')
-  List<UserJoinedGroup>? get joinedUsers => throw _privateConstructorUsedError;
+  List<UserJoinedGroup> get joinedUsers => throw _privateConstructorUsedError;
 
   /// Serializes this Group to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -50,8 +50,7 @@ abstract class $GroupCopyWith<$Res> {
       String description,
       @JsonKey(name: 'image_url') String imageUrl,
       @JsonKey(name: 'seasons') List<Season>? seasons,
-      @JsonKey(name: 'user_joinned_groups')
-      List<UserJoinedGroup>? joinedUsers});
+      @JsonKey(name: 'user_joinned_groups') List<UserJoinedGroup> joinedUsers});
 }
 
 /// @nodoc
@@ -74,7 +73,7 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
     Object? description = null,
     Object? imageUrl = null,
     Object? seasons = freezed,
-    Object? joinedUsers = freezed,
+    Object? joinedUsers = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -97,10 +96,10 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
           ? _value.seasons
           : seasons // ignore: cast_nullable_to_non_nullable
               as List<Season>?,
-      joinedUsers: freezed == joinedUsers
+      joinedUsers: null == joinedUsers
           ? _value.joinedUsers
           : joinedUsers // ignore: cast_nullable_to_non_nullable
-              as List<UserJoinedGroup>?,
+              as List<UserJoinedGroup>,
     ) as $Val);
   }
 }
@@ -118,8 +117,7 @@ abstract class _$$GroupImplCopyWith<$Res> implements $GroupCopyWith<$Res> {
       String description,
       @JsonKey(name: 'image_url') String imageUrl,
       @JsonKey(name: 'seasons') List<Season>? seasons,
-      @JsonKey(name: 'user_joinned_groups')
-      List<UserJoinedGroup>? joinedUsers});
+      @JsonKey(name: 'user_joinned_groups') List<UserJoinedGroup> joinedUsers});
 }
 
 /// @nodoc
@@ -140,7 +138,7 @@ class __$$GroupImplCopyWithImpl<$Res>
     Object? description = null,
     Object? imageUrl = null,
     Object? seasons = freezed,
-    Object? joinedUsers = freezed,
+    Object? joinedUsers = null,
   }) {
     return _then(_$GroupImpl(
       id: null == id
@@ -163,10 +161,10 @@ class __$$GroupImplCopyWithImpl<$Res>
           ? _value._seasons
           : seasons // ignore: cast_nullable_to_non_nullable
               as List<Season>?,
-      joinedUsers: freezed == joinedUsers
+      joinedUsers: null == joinedUsers
           ? _value._joinedUsers
           : joinedUsers // ignore: cast_nullable_to_non_nullable
-              as List<UserJoinedGroup>?,
+              as List<UserJoinedGroup>,
     ));
   }
 }
@@ -182,7 +180,7 @@ class _$GroupImpl implements _Group {
       @JsonKey(name: 'image_url') required this.imageUrl,
       @JsonKey(name: 'seasons') final List<Season>? seasons,
       @JsonKey(name: 'user_joinned_groups')
-      final List<UserJoinedGroup>? joinedUsers})
+      final List<UserJoinedGroup> joinedUsers = const []})
       : _seasons = seasons,
         _joinedUsers = joinedUsers;
 
@@ -209,15 +207,13 @@ class _$GroupImpl implements _Group {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<UserJoinedGroup>? _joinedUsers;
+  final List<UserJoinedGroup> _joinedUsers;
   @override
   @JsonKey(name: 'user_joinned_groups')
-  List<UserJoinedGroup>? get joinedUsers {
-    final value = _joinedUsers;
-    if (value == null) return null;
+  List<UserJoinedGroup> get joinedUsers {
     if (_joinedUsers is EqualUnmodifiableListView) return _joinedUsers;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_joinedUsers);
   }
 
   @override
@@ -276,7 +272,7 @@ abstract class _Group implements Group {
       @JsonKey(name: 'image_url') required final String imageUrl,
       @JsonKey(name: 'seasons') final List<Season>? seasons,
       @JsonKey(name: 'user_joinned_groups')
-      final List<UserJoinedGroup>? joinedUsers}) = _$GroupImpl;
+      final List<UserJoinedGroup> joinedUsers}) = _$GroupImpl;
 
   factory _Group.fromJson(Map<String, dynamic> json) = _$GroupImpl.fromJson;
 
@@ -294,7 +290,7 @@ abstract class _Group implements Group {
   List<Season>? get seasons;
   @override
   @JsonKey(name: 'user_joinned_groups')
-  List<UserJoinedGroup>? get joinedUsers;
+  List<UserJoinedGroup> get joinedUsers;
 
   /// Create a copy of Group
   /// with the given fields replaced by the non-null parameter values.

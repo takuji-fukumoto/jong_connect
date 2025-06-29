@@ -15,8 +15,9 @@ _$GroupImpl _$$GroupImplFromJson(Map<String, dynamic> json) => _$GroupImpl(
           ?.map((e) => Season.fromJson(e as Map<String, dynamic>))
           .toList(),
       joinedUsers: (json['user_joinned_groups'] as List<dynamic>?)
-          ?.map((e) => UserJoinedGroup.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              ?.map((e) => UserJoinedGroup.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$GroupImplToJson(_$GroupImpl instance) =>
@@ -27,5 +28,5 @@ Map<String, dynamic> _$$GroupImplToJson(_$GroupImpl instance) =>
       'image_url': instance.imageUrl,
       'seasons': instance.seasons?.map((e) => e.toJson()).toList(),
       'user_joinned_groups':
-          instance.joinedUsers?.map((e) => e.toJson()).toList(),
+          instance.joinedUsers.map((e) => e.toJson()).toList(),
     };

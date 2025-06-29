@@ -97,6 +97,16 @@ enum MatchType {
   final int playableNumber;
 }
 
+enum GroupRankingCategory {
+  totalPoints('ポイント'),
+  averageRank('平均順位'),
+  totalGames('対戦数');
+
+  const GroupRankingCategory(this.displayName);
+
+  final String displayName;
+}
+
 /// Set of extension methods to easily display a snackbar
 extension ShowSnackBar on BuildContext {
   /// Displays a basic snackbar
