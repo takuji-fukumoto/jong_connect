@@ -11,7 +11,6 @@ class GroupRankingsRepositoryImpl implements GroupRankingsRepository {
       'group_match_type': matchType.name,
     });
 
-    print('get total ranking');
     var users = rankingUsers
         .map<GroupRankingUser>((json) => GroupRankingUser.fromJson(json))
         .toList();
@@ -28,7 +27,6 @@ class GroupRankingsRepositoryImpl implements GroupRankingsRepository {
       'group_match_type': matchType.name,
     });
 
-    print('get season ranking');
     var users = rankingUsers
         .map<GroupRankingUser>((json) => GroupRankingUser.fromJson(json))
         .toList();

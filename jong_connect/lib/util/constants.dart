@@ -98,9 +98,9 @@ enum MatchType {
 }
 
 enum GroupRankingCategory {
-  totalPoints('総ポイント'),
+  totalPoints('ポイント'),
   averageRank('平均順位'),
-  totalGames('総対戦数');
+  totalGames('対戦数');
 
   const GroupRankingCategory(this.displayName);
 

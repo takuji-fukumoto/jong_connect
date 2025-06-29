@@ -4,9 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jong_connect/domain/provider/group_details.dart';
 import 'package:jong_connect/domain/provider/group_season_ranking.dart';
 import 'package:jong_connect/domain/provider/group_total_ranking.dart';
+import 'package:jong_connect/presentation/pages/group_ranking/ranking_list_tile.dart';
 import 'package:jong_connect/util/app_sizes.dart';
+import 'package:collection/collection.dart';
 
-import '../../../domain/model/app_user.dart';
 import '../../../util/constants.dart';
 
 class RankingSection extends ConsumerStatefulWidget {
@@ -30,45 +31,46 @@ class _RankingSectionState extends ConsumerState<RankingSection> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: paddingV12H12,
-        child: Column(
-          children: [
-            SizedBox(
-              width: deviceSize.width / 2,
-              child: SegmentedButton(
-                onSelectionChanged: _onTypeChanged,
-                showSelectedIcon: false,
-                segments: [
-                  for (var type in MatchType.values)
-                    ButtonSegment(value: type, label: Text(type.displayName)),
-                ],
-                selected: selectedType,
-              ),
+    return Padding(
+      padding: paddingV12H12,
+      child: Column(
+        children: [
+          SizedBox(
+            width: deviceSize.width / 2,
+            child: SegmentedButton(
+              onSelectionChanged: _onTypeChanged,
+              showSelectedIcon: false,
+              segments: [
+                for (var type in MatchType.values)
+                  ButtonSegment(value: type, label: Text(type.displayName)),
+              ],
+              selected: selectedType,
             ),
-            gapH8,
-            SizedBox(
-              width: deviceSize.width / 1.5,
-              child: SegmentedButton(
-                onSelectionChanged: _onCategoryChanged,
-                showSelectedIcon: false,
-                segments: [
-                  for (var type in GroupRankingCategory.values)
-                    ButtonSegment(value: type, label: Text(type.displayName)),
-                ],
-                selected: selectedCategory,
-              ),
+          ),
+          gapH8,
+          SizedBox(
+            width: deviceSize.width / 1.2,
+            child: SegmentedButton(
+              onSelectionChanged: _onCategoryChanged,
+              showSelectedIcon: false,
+              segments: [
+                for (var type in GroupRankingCategory.values)
+                  ButtonSegment(
+                    value: type,
+                    label: Text(type.displayName),
+                  ),
+              ],
+              selected: selectedCategory,
             ),
-            gapH16,
-            _RecordBody(
-              groupId: widget.groupId,
-              seasonId: widget.seasonId,
-              type: selectedType.first,
-              category: selectedCategory.first,
-            ),
-          ],
-        ),
+          ),
+          gapH16,
+          _RecordBody(
+            groupId: widget.groupId,
+            seasonId: widget.seasonId,
+            type: selectedType.first,
+            category: selectedCategory.first,
+          ),
+        ],
       ),
     );
   }
@@ -116,17 +118,27 @@ class _RecordBody extends ConsumerWidget {
             .where((e) => e.user != null)
             .map((e) => e.user!)
             .toList();
-        return Column(
-          children: [
-            for (var rankingItem in targetRanking) ...{
-              RankingListItem(
-                user: groupUsers
-                    .firstWhere((user) => user.id == rankingItem.userId),
-                rank: rankingItem.rank,
-                score: rankingItem.score,
-              )
-            }
-          ],
+
+        if (targetRanking.isEmpty) {
+          return const Center(
+            child: Text('対局結果がありません'),
+          );
+        }
+
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              for (var rankingItem in targetRanking) ...{
+                RankingListTile(
+                  user: groupUsers.firstWhereOrNull(
+                      (user) => user.id == rankingItem.userId),
+                  rank: rankingItem.rank,
+                  score: rankingItem.score,
+                ),
+                gapH4
+              }
+            ],
+          ),
         );
       },
       error: (error, st) {
@@ -134,24 +146,6 @@ class _RecordBody extends ConsumerWidget {
         return const Center(child: Text('Oops, something unexpected happened'));
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-    );
-  }
-}
-
-class RankingListItem extends StatelessWidget {
-  const RankingListItem(
-      {super.key, required this.user, required this.rank, required this.score});
-
-  final AppUser user;
-  final int rank;
-  final String score;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Text(rank.toString()),
-      title: Text(user.name),
-      trailing: Text(score),
     );
   }
 }

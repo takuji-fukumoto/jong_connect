@@ -44,7 +44,7 @@ class _GroupRankingPageState extends ConsumerState<GroupRankingPage> {
                 groupSeasons: values.$1,
                 onChangeSeasonId: onChangeSeasonId,
               ),
-              gapH16,
+              gapH4,
               RankingSection(
                 groupId: widget.groupId,
                 seasonId: selectedSeasonId,

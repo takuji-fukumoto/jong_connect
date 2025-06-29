@@ -64,6 +64,7 @@ dependencies:
   dropdown_button2: ^2.3.9
   floating_action_bubble: ^1.1.4
   badges: ^3.1.2
+  collection: ^1.18.0
 
 dev_dependencies:
   flutter_test:
