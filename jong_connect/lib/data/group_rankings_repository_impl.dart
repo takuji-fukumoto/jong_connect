@@ -7,7 +7,7 @@ class GroupRankingsRepositoryImpl implements GroupRankingsRepository {
   @override
   Future<GroupRanking> getTotalRanking(int groupId, MatchType matchType) async {
     var rankingUsers = await supabase.rpc('get_group_ranking', params: {
-      'group_id': groupId,
+      'target_group_id': groupId,
       'group_match_type': matchType.name,
     });
 
@@ -22,8 +22,8 @@ class GroupRankingsRepositoryImpl implements GroupRankingsRepository {
   Future<GroupRanking> getSeasonRanking(
       int groupId, int seasonId, MatchType matchType) async {
     var rankingUsers = await supabase.rpc('get_group_season_ranking', params: {
-      'group_id': groupId,
-      'season_id': seasonId,
+      'target_group_id': groupId,
+      'target_season_id': seasonId,
       'group_match_type': matchType.name,
     });
 
