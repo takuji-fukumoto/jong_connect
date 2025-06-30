@@ -64,11 +64,13 @@ class _RankingSectionState extends ConsumerState<RankingSection> {
             ),
           ),
           gapH16,
-          _RecordBody(
-            groupId: widget.groupId,
-            seasonId: widget.seasonId,
-            type: selectedType.first,
-            category: selectedCategory.first,
+          Expanded(
+            child: _RecordBody(
+              groupId: widget.groupId,
+              seasonId: widget.seasonId,
+              type: selectedType.first,
+              category: selectedCategory.first,
+            ),
           ),
         ],
       ),
@@ -125,20 +127,18 @@ class _RecordBody extends ConsumerWidget {
           );
         }
 
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              for (var rankingItem in targetRanking) ...{
-                RankingListTile(
-                  user: groupUsers.firstWhereOrNull(
-                      (user) => user.id == rankingItem.userId),
-                  rank: rankingItem.rank,
-                  score: rankingItem.score,
-                ),
-                gapH4
-              }
-            ],
-          ),
+        return ListView(
+          children: [
+            for (var rankingItem in targetRanking) ...{
+              RankingListTile(
+                user: groupUsers
+                    .firstWhereOrNull((user) => user.id == rankingItem.userId),
+                rank: rankingItem.rank,
+                score: rankingItem.score,
+              ),
+              gapH4
+            }
+          ],
         );
       },
       error: (error, st) {
