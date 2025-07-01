@@ -26,6 +26,10 @@ class AppUser with _$AppUser {
 
   bool get isDeactivated => deactivatedAt != null;
 
+  String get goodFaceAvatarUrl => avatarUrl.replaceAll('.png', '_good.png');
+
+  String get badFaceAvatarUrl => avatarUrl.replaceAll('.png', '_bad.png');
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

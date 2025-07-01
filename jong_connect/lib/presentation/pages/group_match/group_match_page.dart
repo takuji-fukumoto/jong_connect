@@ -166,6 +166,7 @@ class _ResultTable extends ConsumerWidget {
         groupMatch.joinUsers.isEmpty ? players : groupMatch.joinUsers;
 
     return DataTable2(
+      headingRowHeight: 100,
       columnSpacing: 0,
       fixedLeftColumns: 1,
       horizontalMargin: Sizes.p12,
@@ -217,6 +218,28 @@ class _ResultTable extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  CachedNetworkImage(
+                    width: Sizes.p48,
+                    height: Sizes.p48,
+                    imageUrl: totalPointsPerUser[player.id] == null
+                        ? player.avatarUrl
+                        : totalPointsPerUser[player.id]! >= 50
+                            ? player.goodFaceAvatarUrl
+                            : totalPointsPerUser[player.id]! <= -50
+                                ? player.badFaceAvatarUrl
+                                : player.avatarUrl,
+                    imageBuilder: (context, imageProvider) => CircleAvatar(
+                      radius: 40,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Text(
                     player.name,
                     style: const TextStyle(
