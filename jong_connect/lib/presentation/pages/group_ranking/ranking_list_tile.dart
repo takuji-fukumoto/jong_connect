@@ -59,7 +59,7 @@ class RankingListTile extends StatelessWidget {
             child: CachedNetworkImage(
               width: Sizes.p48,
               height: Sizes.p48,
-              imageUrl: user!.avatarUrl,
+              imageUrl: rank == 1 ? user!.goodFaceAvatarUrl : user!.avatarUrl,
               imageBuilder: (context, imageProvider) => CircleAvatar(
                 radius: 40,
                 child: Container(
