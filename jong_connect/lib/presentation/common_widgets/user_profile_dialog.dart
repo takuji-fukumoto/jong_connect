@@ -59,9 +59,10 @@ class UserProfileDialog extends Dialog {
             ),
           ],
         ),
+        actionsAlignment: MainAxisAlignment.start,
         actions: [
+          _ViewRecordButton(user: user),
           if (isFriend) ...[
-            _ViewRecordButton(user: user),
             _RemoveFriendButton(user: user),
           ] else
             _RequestFriendButton(user: user),
