@@ -7,7 +7,7 @@ part of 'recently_match_results.dart';
 // **************************************************************************
 
 String _$recentlyMatchResultsHash() =>
-    r'e43e35e22aa7ddd904de0e28634606dc2c550863';
+    r'3ee296cfad224b30ff3b14044a35e56844c4048e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -35,8 +35,7 @@ class _SystemHash {
 const recentlyMatchResultsProvider = RecentlyMatchResultsFamily();
 
 /// See also [recentlyMatchResults].
-class RecentlyMatchResultsFamily
-    extends Family<AsyncValue<List<GroupRoundMatchResult>>> {
+class RecentlyMatchResultsFamily extends Family<AsyncValue<List<GroupMatch>>> {
   /// See also [recentlyMatchResults].
   const RecentlyMatchResultsFamily();
 
@@ -75,7 +74,7 @@ class RecentlyMatchResultsFamily
 
 /// See also [recentlyMatchResults].
 class RecentlyMatchResultsProvider
-    extends AutoDisposeFutureProvider<List<GroupRoundMatchResult>> {
+    extends AutoDisposeFutureProvider<List<GroupMatch>> {
   /// See also [recentlyMatchResults].
   RecentlyMatchResultsProvider({
     int limit = 3,
@@ -110,8 +109,7 @@ class RecentlyMatchResultsProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<GroupRoundMatchResult>> Function(
-            RecentlyMatchResultsRef provider)
+    FutureOr<List<GroupMatch>> Function(RecentlyMatchResultsRef provider)
         create,
   ) {
     return ProviderOverride(
@@ -129,8 +127,7 @@ class RecentlyMatchResultsProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<GroupRoundMatchResult>>
-      createElement() {
+  AutoDisposeFutureProviderElement<List<GroupMatch>> createElement() {
     return _RecentlyMatchResultsProviderElement(this);
   }
 
@@ -149,13 +146,13 @@ class RecentlyMatchResultsProvider
 }
 
 mixin RecentlyMatchResultsRef
-    on AutoDisposeFutureProviderRef<List<GroupRoundMatchResult>> {
+    on AutoDisposeFutureProviderRef<List<GroupMatch>> {
   /// The parameter `limit` of this provider.
   int get limit;
 }
 
 class _RecentlyMatchResultsProviderElement
-    extends AutoDisposeFutureProviderElement<List<GroupRoundMatchResult>>
+    extends AutoDisposeFutureProviderElement<List<GroupMatch>>
     with RecentlyMatchResultsRef {
   _RecentlyMatchResultsProviderElement(super.provider);
 

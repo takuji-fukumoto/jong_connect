@@ -30,6 +30,26 @@ class GroupsRepositoryImpl implements GroupsRepository {
   }
 
   @override
+  Future<List<Group>> getGroups() async {
+    final groups = await supabase.from('groups').select('''
+      id, 
+      name, 
+      description, 
+      image_url,
+      user_joinned_groups (
+        users (
+          id,
+          name, 
+          profile, 
+          avatar_url,
+          friend_id
+        )
+      )
+    ''');
+    return groups.map<Group>((json) => Group.fromJson(json)).toList();
+  }
+
+  @override
   Stream<List<Group>> getGroupsStream() {
     // TODO: グループの更新が新しい順に並べる
     return supabase.from('groups').stream(primaryKey: ['id'])

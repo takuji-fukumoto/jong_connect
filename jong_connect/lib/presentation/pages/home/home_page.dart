@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
           children: [
             MyProfileSection(),
             gapH8,
-            RecentlyMatchResultsSection(),
+            RecentlyGroupMatchesSection(),
           ],
         ),
       ),

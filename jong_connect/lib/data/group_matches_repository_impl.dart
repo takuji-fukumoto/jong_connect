@@ -12,12 +12,18 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
       season_id,
       created_at, 
       end_at,
+      groups (
+         *
+      ),
+      seasons (
+         *
+      ),
       users (
-          id,
-          name, 
-          profile, 
-          avatar_url,
-          friend_id
+        id,
+        name, 
+        profile, 
+        avatar_url,
+        friend_id
       ),
       match_type, 
       group_match_results (
@@ -59,6 +65,19 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
         .from('group_matches')
         .select(_columns)
         .eq('group_id', groupId)
+        .order('created_at', ascending: false)
+        .limit(limit);
+
+    return json.map<GroupMatch>((match) => GroupMatch.fromJson(match)).toList();
+  }
+
+  @override
+  Future<List<GroupMatch>> getRecentlyMatchesInGroups(List<int> groupIds,
+      {int limit = 10}) async {
+    final json = await supabase
+        .from('group_matches')
+        .select(_columns)
+        .filter('group_id', 'in', groupIds)
         .order('created_at', ascending: false)
         .limit(limit);
 
