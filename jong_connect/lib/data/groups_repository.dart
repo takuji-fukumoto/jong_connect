@@ -15,6 +15,10 @@ class GroupsRepository {
     throw UnimplementedError();
   }
 
+  Future<List<Group>> getGroups() async {
+    throw UnimplementedError();
+  }
+
   Stream<List<Group>> getGroupsStream() async* {
     throw UnimplementedError();
   }

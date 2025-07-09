@@ -35,7 +35,7 @@ mixin _$GroupMatch {
   DateTime? get endAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'season_id')
   int? get seasonId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'season')
+  @JsonKey(name: 'seasons')
   Season? get season => throw _privateConstructorUsedError;
   @JsonKey(name: 'group_match_results')
   List<GroupMatchResult>? get results => throw _privateConstructorUsedError;
@@ -65,7 +65,7 @@ abstract class $GroupMatchCopyWith<$Res> {
       @JsonKey(name: 'users') AppUser? createdBy,
       @JsonKey(name: 'end_at') DateTime? endAt,
       @JsonKey(name: 'season_id') int? seasonId,
-      @JsonKey(name: 'season') Season? season,
+      @JsonKey(name: 'seasons') Season? season,
       @JsonKey(name: 'group_match_results') List<GroupMatchResult>? results});
 
   $GroupCopyWith<$Res>? get group;
@@ -203,7 +203,7 @@ abstract class _$$GroupMatchImplCopyWith<$Res>
       @JsonKey(name: 'users') AppUser? createdBy,
       @JsonKey(name: 'end_at') DateTime? endAt,
       @JsonKey(name: 'season_id') int? seasonId,
-      @JsonKey(name: 'season') Season? season,
+      @JsonKey(name: 'seasons') Season? season,
       @JsonKey(name: 'group_match_results') List<GroupMatchResult>? results});
 
   @override
@@ -296,7 +296,7 @@ class _$GroupMatchImpl extends _GroupMatch {
       @JsonKey(name: 'users') this.createdBy,
       @JsonKey(name: 'end_at') this.endAt,
       @JsonKey(name: 'season_id') this.seasonId,
-      @JsonKey(name: 'season') this.season,
+      @JsonKey(name: 'seasons') this.season,
       @JsonKey(name: 'group_match_results')
       final List<GroupMatchResult>? results})
       : _results = results,
@@ -329,7 +329,7 @@ class _$GroupMatchImpl extends _GroupMatch {
   @JsonKey(name: 'season_id')
   final int? seasonId;
   @override
-  @JsonKey(name: 'season')
+  @JsonKey(name: 'seasons')
   final Season? season;
   final List<GroupMatchResult>? _results;
   @override
@@ -409,7 +409,7 @@ abstract class _GroupMatch extends GroupMatch {
       @JsonKey(name: 'users') final AppUser? createdBy,
       @JsonKey(name: 'end_at') final DateTime? endAt,
       @JsonKey(name: 'season_id') final int? seasonId,
-      @JsonKey(name: 'season') final Season? season,
+      @JsonKey(name: 'seasons') final Season? season,
       @JsonKey(name: 'group_match_results')
       final List<GroupMatchResult>? results}) = _$GroupMatchImpl;
   const _GroupMatch._() : super._();
@@ -441,7 +441,7 @@ abstract class _GroupMatch extends GroupMatch {
   @JsonKey(name: 'season_id')
   int? get seasonId;
   @override
-  @JsonKey(name: 'season')
+  @JsonKey(name: 'seasons')
   Season? get season;
   @override
   @JsonKey(name: 'group_match_results')
