@@ -1,12 +1,8 @@
-import 'dart:collection';
-
 import 'package:async_value_group/async_value_group.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal.dart';
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/domain/provider/current_user.dart';
@@ -17,7 +13,7 @@ import 'package:jong_connect/util/constants.dart';
 
 import '../../../domain/model/app_user.dart';
 import '../../../util/format_date.dart';
-import '../../../util/routing_path.dart';
+import '../../common_widgets/group_match_result_summary.dart';
 
 class GroupMatchHistoriesSection extends ConsumerWidget {
   const GroupMatchHistoriesSection({super.key, required this.id});
@@ -154,93 +150,12 @@ class _MatchHistoryItem extends StatelessWidget {
           ),
           tail: false,
         ),
-        _ResultView(match: match),
-      ],
-    );
-  }
-}
-
-class _ResultView extends StatelessWidget {
-  const _ResultView({required this.match});
-
-  final GroupMatch match;
-  final int rowCount = 2;
-
-  @override
-  Widget build(BuildContext context) {
-    var totalResults = match.totalPointsPerUser;
-    var sortedResults = SplayTreeMap<String, int>.from(
-        totalResults, (a, b) => totalResults[b]!.compareTo(totalResults[a]!));
-    var playerIds = sortedResults.keys.toList();
-    var playerMap = Map.fromIterables(
-        match.joinUsers.map<String>((user) => user.id).toList(),
-        match.joinUsers.map<String>((user) => user.name).toList());
-
-    return GestureDetector(
-      onTap: () => {
-        context.goNamed(
-          RoutingPath.groupMatch,
-          pathParameters: {
-            'groupId': match.groupId.toString(),
-            'groupMatchId': match.id.toString(),
-          },
-        )
-      },
-      child: Container(
-        height: 180,
-        padding: paddingV8H8,
-        color: Theme.of(context).colorScheme.surfaceContainerHigh,
-        child: DataTable2(
-          columnSpacing: 12,
-          horizontalMargin: 12,
-          dataRowHeight: 30,
-          headingRowHeight: 30,
-          sortColumnIndex: 1,
-          columns: [
-            DataColumn2(
-              label: Text(
-                '参加ユーザー',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.inverseSurface,
-                ),
-              ),
-              size: ColumnSize.L,
-            ),
-            DataColumn(
-              label: Text(
-                '${match.isFinish ? '最終' : '途中'}スコア',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.inverseSurface,
-                ),
-              ),
-              numeric: true,
-            ),
-          ],
-          rows: List<DataRow>.generate(
-            sortedResults.length,
-            (index) => DataRow(
-              cells: [
-                DataCell(
-                  Text(
-                    playerMap[playerIds[index]]!,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inverseSurface,
-                    ),
-                  ),
-                ),
-                DataCell(
-                  Text(
-                    sortedResults[playerIds[index]].toString(),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inverseSurface,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+        gapH4,
+        GroupMatchResultSummary(
+          match: match,
         ),
-      ),
+        gapH4,
+      ],
     );
   }
 }
