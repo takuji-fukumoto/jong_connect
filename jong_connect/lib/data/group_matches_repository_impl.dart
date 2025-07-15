@@ -142,7 +142,7 @@ class GroupMatchesRepositoryImpl implements GroupMatchesRepository {
   @override
   Future<void> closeMatch(int groupMatchId) async {
     await supabase.from('group_matches').update(
-        {'end_at': DateTime.now().toIso8601String()}).eq('id', groupMatchId);
+        {'end_at': DateTime.now().toUtc().toString()}).eq('id', groupMatchId);
   }
 
   @override
