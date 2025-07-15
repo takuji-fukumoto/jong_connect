@@ -8,6 +8,7 @@ import 'package:jong_connect/domain/model/group_match.dart';
 import 'package:jong_connect/util/app_sizes.dart';
 import '../../../util/routing_path.dart';
 import '../../util/format_date.dart';
+import '../../util/score_color.dart';
 
 class GroupMatchResultSummary extends StatelessWidget {
   const GroupMatchResultSummary({super.key, required this.match});
@@ -50,7 +51,13 @@ class GroupMatchResultSummary extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(match.group!.name),
+                Text(
+                  match.group!.name,
+                  style: const TextStyle(
+                    fontSize: Sizes.p20,
+                    fontWeight: FontWeight.w200,
+                  ),
+                ),
                 Text(match.season?.name ?? ""),
               ],
             ),
@@ -141,8 +148,14 @@ class _UserScoreListItem extends StatelessWidget {
           ),
           gapH4,
           Text(user.name),
-          gapH8,
-          Text(score.toString()),
+          gapH4,
+          Text(
+            score.toString(),
+            style: TextStyle(
+              fontSize: 16,
+              color: scoreColor(context, score),
+            ),
+          ),
         ],
       ),
     );

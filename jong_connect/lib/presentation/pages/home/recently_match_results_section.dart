@@ -40,7 +40,7 @@ class _TitleSection extends StatelessWidget {
 class _ResultsList extends ConsumerWidget {
   const _ResultsList({super.key});
 
-  final int maxDispCount = 3; // 最大表示件数
+  final int maxDispCount = 5; // 最大表示件数
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
