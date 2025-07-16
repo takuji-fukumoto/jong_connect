@@ -88,7 +88,7 @@ class _EditGroupFormState extends ConsumerState<EditGroupPage> {
         ref.watch(groupIconsProvider),
       ).when(
         data: (value) {
-          final targetUsers = value.$1.joinedUsers!
+          final targetUsers = value.$1.joinedUsers
               .map<AppUser>((joined) => joined.user!)
               .toList();
 
@@ -165,7 +165,7 @@ class _EditGroupFormState extends ConsumerState<EditGroupPage> {
                   decoration: const InputDecoration(labelText: '参加者'),
                   name: 'joinUsers',
                   initialValue: value.$1.joinedUsers
-                      ?.map<AppUser>((joined) => joined.user!)
+                      .map<AppUser>((joined) => joined.user!)
                       .toList(),
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),

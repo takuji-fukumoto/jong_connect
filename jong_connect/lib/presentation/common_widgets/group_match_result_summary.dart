@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -51,26 +52,45 @@ class GroupMatchResultSummary extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  match.group!.name,
-                  style: const TextStyle(
-                    fontSize: Sizes.p20,
-                    fontWeight: FontWeight.w200,
+                Flexible(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: AutoSizeText(
+                      match.group!.name,
+                      style: const TextStyle(
+                        fontSize: Sizes.p20,
+                        fontWeight: FontWeight.w200,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
-                Text(match.season?.name ?? ""),
+                Flexible(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: AutoSizeText(
+                      match.season?.name ?? "",
+                      textAlign: TextAlign.end,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
               ],
             ),
             gapH4,
             Row(
               children: [
-                Text(startAt),
-                if (match.isFinish) ...[
-                  gapW8,
-                  const Text("-"),
-                  gapW8,
-                  Text(endAt),
-                ]
+                Expanded(
+                  child: AutoSizeText(
+                    match.isFinish ? "$startAt – $endAt" : startAt,
+                    minFontSize: Sizes.p8,
+                    maxLines: 1,
+                  ),
+                ),
               ],
             ),
             gapH8,
@@ -147,7 +167,13 @@ class _UserScoreListItem extends StatelessWidget {
             ),
           ),
           gapH4,
-          Text(user.name),
+          AutoSizeText(
+            user.name,
+            style: Theme.of(context).textTheme.bodySmall,
+            minFontSize: Sizes.p8,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           gapH4,
           Text(
             score.toString(),

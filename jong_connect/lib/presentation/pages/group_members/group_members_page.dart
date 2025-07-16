@@ -25,7 +25,7 @@ class GroupMembersPage extends ConsumerWidget {
             padding: paddingV8H8,
             child: ListView(
               children: [
-                for (var value in group.joinedUsers!)
+                for (var value in group.joinedUsers)
                   UserListTile(
                     user: value.user!,
                   ),

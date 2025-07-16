@@ -21,7 +21,6 @@ class GroupMatchesRepository {
     throw UnimplementedError();
   }
 
-  @override
   Future<List<GroupMatch>> getRecentlyMatchesInGroups(List<int> groupIds,
       {int limit = 10}) async {
     throw UnimplementedError();
