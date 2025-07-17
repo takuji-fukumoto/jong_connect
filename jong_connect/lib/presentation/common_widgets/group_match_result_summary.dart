@@ -53,14 +53,15 @@ class GroupMatchResultSummary extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  flex: 2,
+                  flex: 1,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: AutoSizeText(
                       match.group!.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: Sizes.p20,
                         fontWeight: FontWeight.w200,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -76,6 +77,9 @@ class GroupMatchResultSummary extends StatelessWidget {
                       textAlign: TextAlign.end,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                 ),
@@ -89,6 +93,9 @@ class GroupMatchResultSummary extends StatelessWidget {
                     match.isFinish ? "$startAt – $endAt" : startAt,
                     minFontSize: Sizes.p8,
                     maxLines: 1,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
               ],
